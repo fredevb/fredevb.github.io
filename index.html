@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Portfolio</title>
+    <style>
+        body {
+            background: #3e3e47;
+        }
+
+        .main-text {
+            color: rgb(255, 255, 255);
+            font-weight: 900;
+            font-family: monospace;
+            letter-spacing: 0.2em;
+            animation: text-animation 1s;
+        }
+
+        .symbol{
+            padding-top: 40%;
+            font-size: 80px;
+            text-align: center;
+            animation: scale-animation 1s ease-in-out;
+        }
+
+        @keyframes scale-animation {
+            0% {
+                transform: scale(0.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .typewriter-div{
+            display: flex;
+            justify-content: center;
+        }
+
+
+        .typewriter h1 {
+            overflow: hidden;
+            border-right: .15em solid rgb(255, 255, 255);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation:
+                typing-animation 2s steps(30, end),
+                cursor-blink-animation .5s step-end infinite;
+        }
+
+        @keyframes typing-animation {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes cursor-blink-animation {
+            from, to { border-color: transparent }
+            50% { border-color: rgb(0, 255, 20) }
+        }
+
+    </style>
+</head>
+<body>
+    <h1 class="symbol">🛠️</h1>
+    <div class="typewriter-div">
+        <div class="typewriter">
+            <h1 class="main-text">Currently Under Construction</h1>
+        </div>
+    </div>
+</body>
+</html>
