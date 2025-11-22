@@ -17,7 +17,6 @@ const copyShareBtn = document.getElementById('copy-share');
 const manualStringInput = document.getElementById('manual-string');
 const manualApplyBtn = document.getElementById('apply-manual');
 const pasteStringBtn = document.getElementById('paste-string');
-const scanQrBtn = document.getElementById('scan-qr');
 const codeTimestamp = document.getElementById('code-timestamp');
 const hostRevealBtn = document.getElementById('host-reveal');
 const viewQrBtn = document.getElementById('view-qr');
@@ -1427,18 +1426,6 @@ function bindClipboardActions() {
 }
 
 function bindScanControls() {
-    addClick(scanQrBtn, async () => {
-        const playerNumber = readPlayerNumber();
-        if (playerNumber === null) {
-            return;
-        }
-        activePlayerNumber = playerNumber;
-        openScanDialog();
-        const started = await startScanner();
-        if (!started) {
-            closeScanDialog();
-        }
-    });
 }
 
 function bindManualEntryControls() {

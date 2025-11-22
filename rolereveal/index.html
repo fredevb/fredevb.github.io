@@ -33,8 +33,8 @@
                     <button class="home-action secondary" data-target="screen-scan">
                         <div class="action-text">
                             <p class="eyebrow">Join</p>
-                            <h2>Scan Game</h2>
-                            <p>Enter your player number, scan the QR or paste the string, and reveal privately.</p>
+                            <h2>Load Game</h2>
+                            <p>Enter your player number, paste the string, and reveal privately.</p>
                         </div>
                         <span class="action-arrow">&rsaquo;</span>
                     </button>
@@ -94,7 +94,7 @@
 
             <section id="screen-scan" class="screen" aria-live="polite">
                 <div class="section-header">
-                    <h2>Scan Game</h2>
+                    <h2>Load Game</h2>
                 </div>
 
                 <div class="panel">
@@ -102,14 +102,13 @@
                         <span>Your player number (host is #1)</span>
                         <input type="number" id="player-number" min="2" max="12" inputmode="numeric" pattern="[0-9]*" required>
                     </label>
-                    <p class="hint" id="scan-hint">Paste the string or tap Scan QR to use your camera once.</p>
+                    <p class="hint" id="scan-hint">Paste the string to load the game.</p>
                     <div id="manual-section" class="manual">
                         <div class="paste-string">
                             <div class="paste-header">
                                 <span>Paste string</span>
                                 <div class="paste-actions">
                                     <button type="button" class="ghost small" id="paste-string">Paste</button>
-                                    <button type="button" class="ghost small" id="scan-qr">Scan QR</button>
                                 </div>
                             </div>
                             <textarea id="manual-string" rows="5" placeholder="spyfall|seed|..."></textarea>
