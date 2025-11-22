@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>RoleReveal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://unpkg.com">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="app-header">
+            <div class="title-stack">
+                <p class="eyebrow">An offline game night helper</p>
+                <h1 id="game-title">Spyfall</h1>
+            </div>
+            <button type="button" class="ghost pill-button home-nav" id="home-nav">Home</button>
+        </header>
+
+        <main>
+            <section id="screen-home" class="screen active" aria-live="polite">
+                <p class="intro">Host or join a quick round with local friends. Generate one QR, then everyone stays offline.</p>
+                <div class="home-actions">
+                    <button class="home-action primary" data-target="screen-create">
+                        <div class="action-text">
+                            <p class="eyebrow">Host</p>
+                            <h2>Create Game</h2>
+                            <p>Choose game, set player count and share the game code.</p>
+                        </div>
+                        <span class="action-arrow">&rsaquo;</span>
+                    </button>
+                    <button class="home-action secondary" data-target="screen-scan">
+                        <div class="action-text">
+                            <p class="eyebrow">Join</p>
+                            <h2>Scan Game</h2>
+                            <p>Enter your player number, scan the QR or paste the string, and reveal privately.</p>
+                        </div>
+                        <span class="action-arrow">&rsaquo;</span>
+                    </button>
+                </div>
+                <div class="home-footer">
+                    <div class="home-meta">
+                        <span>Made by Fredevb</span>
+                        <button type="button" class="info-button" id="open-info">Why this app?</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="screen-create" class="screen" aria-live="polite">
+                <div class="section-header">
+                    <h2>Create Game</h2>
+                </div>
+
+                <div class="panel">
+                    <form id="create-form">
+                        <label class="field select-field">
+                            <span>Game</span>
+                            <select id="game-select">
+                                <option value="spyfall">Spyfall</option>
+                                <option value="chameleon">Chameleon</option>
+                            </select>
+                        </label>
+                        <label class="field">
+                            <span>Number of players</span>
+                            <input type="number" id="player-count" name="players" min="3" max="12" required>
+                        </label>
+                        <div class="button-row">
+                            <button type="button" id="options">Options</button>
+                            <button type="submit" class="primary">Generate Code</button>
+                        </div>
+                    </form>
+
+                    <div class="code-details" id="code-details">
+                        <p class="hint" id="create-hint">Generate a code to share with the table.</p>
+                        <p class="code-timestamp" id="code-timestamp">No code generated yet.</p>
+                    </div>
+
+                    <div class="manual">
+                        <div class="share-string" aria-live="polite">
+                            <div class="share-header">
+                                <span>Share string</span>
+                                <div class="share-actions">
+                                    <button type="button" class="ghost small" id="view-qr" disabled>View QR</button>
+                                    <button type="button" class="ghost small" id="copy-share" disabled>Copy</button>
+                                </div>
+                            </div>
+                            <textarea id="share-string" rows="5" readonly placeholder="Generate a game to get the string"></textarea>
+                        </div>
+                        <button type="button" class="success" id="host-reveal" disabled>Reveal My Role</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="screen-scan" class="screen" aria-live="polite">
+                <div class="section-header">
+                    <h2>Scan Game</h2>
+                </div>
+
+                <div class="panel">
+                    <label class="field">
+                        <span>Your player number (host is #1)</span>
+                        <input type="number" id="player-number" min="2" max="12" inputmode="numeric" pattern="[0-9]*" required>
+                    </label>
+                    <p class="hint" id="scan-hint">Paste the string or tap Scan QR to use your camera once.</p>
+                    <div id="manual-section" class="manual">
+                        <div class="paste-string">
+                            <div class="paste-header">
+                                <span>Paste string</span>
+                                <div class="paste-actions">
+                                    <button type="button" class="ghost small" id="paste-string">Paste</button>
+                                    <button type="button" class="ghost small" id="scan-qr">Scan QR</button>
+                                </div>
+                            </div>
+                            <textarea id="manual-string" rows="5" placeholder="spyfall|seed|..."></textarea>
+                        </div>
+                        <button type="button" class="success" id="apply-manual">Reveal My Role</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="screen-reveal" class="screen" aria-live="polite">
+                <div class="section-header reveal-header">
+                    <h2>Reveal Role</h2>
+                </div>
+                <div class="reveal-card" id="reveal-card">
+                    <div class="reveal-overlay" id="reveal-overlay">
+                        <p id="reveal-overlay-text">Tap anywhere to reveal your role.</p>
+                    </div>
+                    <div class="reveal-role concealed" id="reveal-role">
+                        <p class="eyebrow" id="reveal-type"></p>
+                        <h3 id="reveal-title"></h3>
+                        <div class="reveal-context">
+                            <p id="reveal-location"></p>
+                        </div>
+                        <p class="hint" id="reveal-extra"></p>
+                        <button type="button" class="info-chip reveal-info-btn" id="reveal-info-btn" aria-label="More info" hidden>What's this?</button>
+                        <p class="hint" id="hide-instruction">Tap anywhere to hide your role</p>
+                    </div>
+                </div>
+                <p class="reveal-meta" id="reveal-meta">Player — · Seed — · Game #1</p>
+                <button type="button" class="primary" id="play-again" disabled>Play Again</button>
+                <div class="reveal-actions">
+                    <button type="button" class="ghost sheet-trigger" id="view-reference">View list</button>
+                </div>
+                <div class="reference-sheet" id="reference-sheet" hidden aria-hidden="true">
+                    <div class="sheet-backdrop" id="reference-backdrop"></div>
+                    <div class="sheet-content">
+                        <div class="sheet-header">
+                            <h3 id="sheet-title">Possible Locations</h3>
+                            <button type="button" class="ghost small" id="close-reference">Close</button>
+                        </div>
+                        <p class="sheet-hint" id="sheet-hint">Tap a location to cross it out.</p>
+                        <ul class="reference-list" id="reference-list"></ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="info-dialog" id="info-dialog" hidden aria-hidden="true">
+        <div class="info-backdrop" id="info-backdrop"></div>
+        <div class="info-panel" role="dialog" aria-modal="true" aria-labelledby="info-title">
+            <div class="info-header">
+                <p id="info-title">Why I Built This</p>
+                <button type="button" class="ghost small" id="close-info">Close</button>
+            </div>
+            <p class="info-text">I’m Fred, and I wanted a way to play Spyfall and Chameleon anywhere without buying the physical games, juggling one phone, or relying on online lobbies. Generate a single QR once, stay offline, and let every player reveal their role privately. Have fun!</p>
+        </div>
+    </div>
+
+    <div class="detail-dialog" id="detail-dialog" hidden aria-hidden="true">
+        <div class="detail-backdrop" id="detail-backdrop"></div>
+        <div class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+            <div class="detail-header">
+                <h3 id="detail-title">More info</h3>
+                <button type="button" class="ghost small" id="close-detail">Close</button>
+            </div>
+            <p class="detail-description" id="detail-description" hidden></p>
+            <p class="detail-definition" id="detail-definition"></p>
+            <p class="detail-trivia hint" id="detail-trivia"></p>
+        </div>
+    </div>
+
+    <div class="confirm-dialog" id="confirm-dialog" hidden aria-hidden="true">
+        <div class="confirm-backdrop" id="confirm-backdrop"></div>
+        <div class="confirm-panel" role="dialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-message">
+            <div class="confirm-header">
+                <p id="confirm-title">Are you sure?</p>
+            </div>
+            <p class="confirm-message" id="confirm-message"></p>
+            <div class="confirm-actions">
+                <button type="button" class="ghost pill-button" id="confirm-cancel">Cancel</button>
+                <button type="button" class="ghost danger pill-button" id="confirm-accept">Yes</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="options-sheet" id="options-sheet" hidden aria-hidden="true">
+        <div class="sheet-backdrop" id="options-backdrop"></div>
+        <div class="sheet-content" role="dialog" aria-modal="true" aria-labelledby="options-title">
+            <div class="sheet-header">
+                <h3 id="options-title">Game Options</h3>
+                <button type="button" class="ghost small" id="close-options">Close</button>
+            </div>
+            <p class="sheet-hint" id="options-hint">Adjust the round before sharing.</p>
+            <div class="field select-field">
+                <span id="theme-label">Theme</span>
+                <select id="theme-select"></select>
+            </div>
+        </div>
+    </div>
+
+    <div class="qr-dialog" id="qr-dialog" hidden aria-hidden="true">
+        <div class="qr-backdrop" id="qr-backdrop"></div>
+        <div class="qr-panel" role="dialog" aria-modal="true" aria-labelledby="qr-title">
+            <div class="qr-header">
+                <p id="qr-title">Share QR</p>
+                <button type="button" class="ghost small" id="close-qr">Close</button>
+            </div>
+            <div class="qr-body">
+                <div id="qr-output" aria-live="polite"></div>
+                <p class="hint">Players can scan this once to reveal on their own devices.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="scan-dialog" id="scan-dialog" hidden aria-hidden="true">
+        <div class="scan-backdrop" id="scan-backdrop"></div>
+        <div class="scan-panel" role="dialog" aria-modal="true" aria-labelledby="scan-title">
+            <div class="scan-header">
+                <p id="scan-title">Scan QR</p>
+                <button type="button" class="ghost small" id="close-scan">Close</button>
+            </div>
+            <div class="scan-view">
+                <div id="reader" aria-live="off"></div>
+            </div>
+            <p class="scan-note">Line up the host QR once, then switch back to your reveal screen.</p>
+        </div>
+    </div>
+
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.10/html5-qrcode.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
