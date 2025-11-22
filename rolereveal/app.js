@@ -2548,7 +2548,7 @@ function resolveCameraErrorMessage(error) {
 function encodeGamePayload(payload) {
     const body = JSON.stringify(payload);
     const base64 = base64Encode(body);
-    return `spyfall|${payload.seed}|${base64}`;
+    return `rolereveal|${payload.seed}|${base64}`;
 }
 
 function decodeGamePayload(text) {
@@ -2556,7 +2556,7 @@ function decodeGamePayload(text) {
         throw new Error('Invalid QR data');
     }
 
-    if (text.startsWith('spyfall|')) {
+    if (text.startsWith('rolereveal|')) {
         const [, seed, ...rest] = text.split('|');
         const encodedBody = rest.join('|');
         if (!encodedBody) {
