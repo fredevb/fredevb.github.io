@@ -1,4 +1,4 @@
-const SHARE_BASE_URL = 'https://fredevb.github.io/rolereveal';
+const SHARE_BASE_URL = 'https://fredevb.github.io/rolereveal/';
 const DEFAULT_REVEAL_LINE = 'Blend in, ask smart questions, and stay hidden.';
 
 const screens = document.querySelectorAll('.screen');
