@@ -636,13 +636,13 @@ button.link.center {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 0.75rem;
 }
 
 .reference-list li {
-    border: 1px solid var(--border);
+    border: 1px solid rgba(255, 119, 88, 0.4);
     border-radius: 1rem;
     padding: 0.9rem;
     background: rgba(255, 255, 255, 0.02);
@@ -658,6 +658,7 @@ button.link.center {
 .reference-list li.is-dismissed {
     opacity: 0.55;
     background: rgba(255, 255, 255, 0.05);
+    border-color: var(--border);
 }
 
 .reference-list li.is-dismissed h4,
@@ -1031,4 +1032,8 @@ button.link.center {
 
 #toast.show {
     opacity: 1;
+}
+
+#reveal-extra {
+    display: none;
 }

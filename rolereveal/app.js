@@ -2112,11 +2112,6 @@ function populateReferenceList() {
         infoButton.dataset.referenceName = entry.name;
         header.appendChild(infoButton);
         item.appendChild(header);
-        if (entry.description) {
-            const detail = document.createElement('p');
-            detail.textContent = entry.description;
-            item.appendChild(detail);
-        }
         referenceList.appendChild(item);
     });
 }
