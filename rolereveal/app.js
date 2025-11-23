@@ -1,5 +1,6 @@
 const SHARE_BASE_URL = 'https://fredevb.github.io/rolereveal/';
 const DEFAULT_REVEAL_LINE = 'Blend in and ask smart questions.';
+const DEFAULT_SCAN_HINT = 'Paste the string or scan the QR code using your camera.';
 
 const screens = document.querySelectorAll('.screen');
 const navButtons = document.querySelectorAll('[data-target]');
@@ -1317,10 +1318,6 @@ function showScreen(id) {
     if (id !== 'screen-scan') {
         closeScanDialog();
         resetScanPanel();
-    } else {
-        if (scanHint) {
-            scanHint.textContent = 'Paste the string or tap Scan QR to use your camera once.';
-        }
     }
     if (id !== 'screen-reveal') {
         resetRevealOverlay();
@@ -1726,7 +1723,7 @@ function onScanFailure() {
 
 function resetScanPanel(fullReset = false) {
     if (scanHint) {
-        scanHint.textContent = 'Paste the string or tap Scan QR to use your camera once.';
+        scanHint.textContent = DEFAULT_SCAN_HINT;
     }
     if (manualStringInput) {
         manualStringInput.value = '';
@@ -1921,18 +1918,39 @@ function xmur3(str) {
     };
 }
 
-function mulberry32(a) {
+function rotl32(value, shift) {
+    return ((value << shift) | (value >>> (32 - shift))) >>> 0;
+}
+
+function xoshiro128ss(a, b, c, d) {
     return function rng() {
-        let t = a += 0x6d2b79f5;
-        t = Math.imul(t ^ (t >>> 15), t | 1);
-        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        const result = Math.imul(rotl32(Math.imul(a, 5) >>> 0, 7), 9) >>> 0;
+        const t = (b << 9) >>> 0;
+
+        c ^= a;
+        d ^= b;
+        b ^= c;
+        a ^= d;
+        c ^= t;
+        d = rotl32(d, 11);
+
+        return result / 4294967296;
     };
 }
 
 function createRng(seed) {
     const seedFn = xmur3(seed);
-    return mulberry32(seedFn());
+    let a = seedFn();
+    let b = seedFn();
+    let c = seedFn();
+    let d = seedFn();
+    if ((a | b | c | d) === 0) {
+        a = 0x9e3779b9;
+        b = 0x243f6a88;
+        c = 0xb7e15162;
+        d = 0x8aed2a6b;
+    }
+    return xoshiro128ss(a, b, c, d);
 }
 
 function getRoundSeed(baseSeed, tag) {
@@ -2317,9 +2335,9 @@ function openHowToPlayDialog() {
     const game = currentGameKey;
     let text = '';
     if (game === 'spyfall') {
-        text = 'Spyfall: Everyone is at the same location, except for the Spy who has no idea where they are. The goal is to find the Spy without giving away the location. Players take turns asking questions to prove they know where they are, but they must be vague enough to keep the Spy in the dark. The Spy must listen carefully, fake their answers to blend in, and try to deduce the location before time runs out.';
+        text = 'Everyone is at the same location, except for the Spy who has no idea where they are. The goal is to find the Spy without giving away the location. Players take turns asking questions to prove they know where they are, but they must be vague enough to keep the Spy in the dark. The Spy must listen carefully, fake their answers to blend in, and try to deduce the location before time runs out.';
     } else if (game === 'chameleon') {
-        text = 'Chameleon: Everyone knows the secret word, except for the Chameleon. The goal is to catch the Chameleon without revealing the word. Players take turns giving a short clue related to the secret word—obvious enough to prove they know it, but subtle enough to confuse the Chameleon. The Chameleon must blend in by mimicking the others. If the Chameleon is caught, they get one chance to guess the secret word to steal the win.';
+        text = 'Everyone knows the secret word, except for the Chameleon. The goal is to catch the Chameleon without revealing the word. Players take turns giving a short clue related to the secret word—obvious enough to prove they know it, but subtle enough to confuse the Chameleon. The Chameleon must blend in by mimicking the others. If the Chameleon is caught, they get one chance to guess the secret word to steal the win.';
     } else {
         text = 'Select a game to see instructions.';
     }
@@ -2431,7 +2449,7 @@ function closeScanDialog(options = {}) {
     scanDialog.hidden = true;
     scanDialog.setAttribute('aria-hidden', 'true');
     if (scanHint) {
-        scanHint.textContent = 'Paste the string or tap Scan QR to use your camera once.';
+        scanHint.textContent = DEFAULT_SCAN_HINT;
     }
     if (!skipStop) {
         stopScanner();
