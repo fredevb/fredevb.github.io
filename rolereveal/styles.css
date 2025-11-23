@@ -623,7 +623,7 @@ button.link.center {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .sheet-hint {
@@ -1041,5 +1041,5 @@ button.link.center {
 }
 
 #sheet-hint {
-    display: none;
+    display: block;
 }
