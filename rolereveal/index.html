@@ -12,7 +12,7 @@
     <div class="app-shell">
         <header class="app-header">
             <div class="title-stack">
-                <p class="eyebrow">Fred’s offline games</p>
+                <p class="eyebrow">Fred’s Social Deduction</p>
                 <h1 id="game-title">Spyfall</h1>
             </div>
             <button type="button" class="ghost pill-button home-nav" id="home-nav">Home</button>
@@ -20,7 +20,7 @@
 
         <main>
             <section id="screen-home" class="screen active" aria-live="polite">
-                <p class="intro">Host or join a quick round with local friends. Generate one QR, then everyone stays offline.</p>
+                <p class="intro">Scan one QR code, play offline using multiple phones.</p>
                 <div class="home-actions">
                     <button class="home-action primary" data-target="screen-create">
                         <div class="action-text">
@@ -42,6 +42,7 @@
                 <div class="home-footer">
                     <div class="home-meta">
                         <span>Made by Fredevb</span>
+                        <button type="button" class="info-button" id="open-how">How it works</button>
                         <button type="button" class="info-button" id="open-info">Why this app?</button>
                     </div>
                 </div>
@@ -165,6 +166,17 @@
                 <button type="button" class="ghost small" id="close-info">Close</button>
             </div>
             <p class="info-text">I’m Fred, and I wanted a way to play Spyfall and Chameleon anywhere without buying the physical games, juggling one phone, or relying on online lobbies. Generate a single QR once, stay offline, and let every player reveal their role privately. Have fun!</p>
+        </div>
+    </div>
+
+    <div class="info-dialog" id="how-dialog" hidden aria-hidden="true">
+        <div class="info-backdrop" id="how-backdrop"></div>
+        <div class="info-panel" role="dialog" aria-modal="true" aria-labelledby="how-title">
+            <div class="info-header">
+                <p id="how-title">How It Works</p>
+                <button type="button" class="ghost small" id="close-how">Close</button>
+            </div>
+            <p class="info-text">To play, one person hosts by creating a game: choose Spyfall or Chameleon, set the number of players, and generate a share code. Share the QR code or string with the group. Each player enters their player number (host is #1, others are #2, #3, etc.) and scans the QR or pastes the string to reveal their role privately. No internet needed after setup!</p>
         </div>
     </div>
 

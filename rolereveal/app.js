@@ -44,6 +44,10 @@ const infoDialog = document.getElementById('info-dialog');
 const infoBackdrop = document.getElementById('info-backdrop');
 const openInfoBtn = document.getElementById('open-info');
 const closeInfoBtn = document.getElementById('close-info');
+const howDialog = document.getElementById('how-dialog');
+const howBackdrop = document.getElementById('how-backdrop');
+const openHowBtn = document.getElementById('open-how');
+const closeHowBtn = document.getElementById('close-how');
 const confirmDialog = document.getElementById('confirm-dialog');
 const confirmBackdrop = document.getElementById('confirm-backdrop');
 const confirmTitle = document.getElementById('confirm-title');
@@ -1217,6 +1221,7 @@ function initApp() {
     bindRevealControls();
     bindReferenceSheetControls();
     bindInfoDialogControls();
+    bindHowDialogControls();
     bindDetailDialogControls();
     bindConfirmDialogControls();
     bindQrDialogControls();
@@ -1526,6 +1531,12 @@ function bindInfoDialogControls() {
     addClick(openInfoBtn, () => openInfoDialog());
     addClick(closeInfoBtn, () => closeInfoDialog());
     addClick(infoBackdrop, () => closeInfoDialog());
+}
+
+function bindHowDialogControls() {
+    addClick(openHowBtn, () => openHowDialog());
+    addClick(closeHowBtn, () => closeHowDialog());
+    addClick(howBackdrop, () => closeHowDialog());
 }
 
 function bindDetailDialogControls() {
@@ -2269,6 +2280,22 @@ function closeInfoDialog() {
     }
     infoDialog.hidden = true;
     infoDialog.setAttribute('aria-hidden', 'true');
+}
+
+function openHowDialog() {
+    if (!howDialog) {
+        return;
+    }
+    howDialog.hidden = false;
+    howDialog.setAttribute('aria-hidden', 'false');
+}
+
+function closeHowDialog() {
+    if (!howDialog) {
+        return;
+    }
+    howDialog.hidden = true;
+    howDialog.setAttribute('aria-hidden', 'true');
 }
 
 function openDetailDialog(payload = {}) {
