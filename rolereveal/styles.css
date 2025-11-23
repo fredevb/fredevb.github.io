@@ -668,7 +668,7 @@ button.link.center {
 
 .reference-list h4 {
     margin: 0 0 0.2rem 0;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
 }
 
 .reference-header {
@@ -686,8 +686,8 @@ button.link.center {
 
 .info-chip {
     border-radius: 999px;
-    width: 1.85rem;
-    height: 1.85rem;
+    width: 1.4rem;
+    height: 1.4rem;
     padding: 0;
     display: inline-flex;
     align-items: center;
@@ -695,7 +695,7 @@ button.link.center {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.2);
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     line-height: 1;
 }
 
