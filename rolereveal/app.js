@@ -1077,7 +1077,7 @@ const GAME_CONFIGS = {
         name: 'Spyfall',
         overlayPrompt: 'Tap anywhere to reveal your role.',
         viewButtonLabel: 'View all locations',
-        referenceTitle: 'Possible Locations',
+        referenceTitle: 'Possible Locations 📍',
         referenceHint: 'Tap a location to cross it out.',
         listLabel: 'Location',
         revealLine: DEFAULT_REVEAL_LINE,
@@ -1094,7 +1094,7 @@ const GAME_CONFIGS = {
         name: 'Chameleon',
         overlayPrompt: 'Tap anywhere to reveal your word.',
         viewButtonLabel: 'View word list',
-        referenceTitle: 'Word Grid',
+        referenceTitle: 'Word Grid 🖋️',
         referenceHint: 'Tap a word to mark it off.',
         listLabel: 'Word',
         revealLine: DEFAULT_REVEAL_LINE,
@@ -1254,7 +1254,7 @@ function bindNavigation() {
             return;
         }
         openConfirmDialog({
-            title: 'Go back home?',
+            title: 'Go back home? 🥺',
             message: 'Are you sure you want to return to the main menu?',
             confirmLabel: 'Return Home',
             onConfirm: () => showScreen('screen-home')
@@ -1590,7 +1590,7 @@ function bindPlayAgainControl() {
         }
         const nextGameNumber = roundNumber + 1;
         openConfirmDialog({
-            title: 'Start next round?',
+            title: 'Start next round? 💪',
             message: `Reuse this code for Game #${nextGameNumber}? Make sure the current round is finished first.`,
             confirmLabel: 'Start Round',
             onConfirm: () => {
