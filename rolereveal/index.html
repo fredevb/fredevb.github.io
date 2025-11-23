@@ -139,7 +139,10 @@
                     </div>
                 </div>
                 <p class="reveal-meta" id="reveal-meta">Player — · Seed — · Game #1</p>
-                <button type="button" class="primary" id="play-again" disabled>Play Again</button>
+                <div class="reveal-buttons">
+                    <button type="button" class="primary" id="play-again" disabled>Play Again</button>
+                    <button type="button" class="ghost" id="how-to-play" onclick="openHowToPlayDialog()">How to Play?</button>
+                </div>
                 <div class="reveal-actions">
                     <button type="button" class="ghost sheet-trigger" id="view-reference">View list</button>
                 </div>
@@ -177,6 +180,17 @@
                 <button type="button" class="ghost small" id="close-how" onclick="closeHowDialog()">Close</button>
             </div>
             <p class="info-text">To play, one person hosts by creating a game: choose Spyfall or Chameleon, set the number of players, and generate a share code. Share the QR code or string with the group. Each player enters their player number (host is #1, others are #2, #3, etc.) and scans the QR or pastes the string to reveal their role privately. No internet needed after setup!</p>
+        </div>
+    </div>
+
+    <div class="info-dialog" id="how-to-play-dialog" hidden aria-hidden="true">
+        <div class="info-backdrop" id="how-to-play-backdrop" onclick="closeHowToPlayDialog()"></div>
+        <div class="info-panel" role="dialog" aria-modal="true" aria-labelledby="how-to-play-title">
+            <div class="info-header">
+                <p id="how-to-play-title">How to Play</p>
+                <button type="button" class="ghost small" id="close-how-to-play" onclick="closeHowToPlayDialog()">Close</button>
+            </div>
+            <p class="info-text" id="how-to-play-text">Loading...</p>
         </div>
     </div>
 

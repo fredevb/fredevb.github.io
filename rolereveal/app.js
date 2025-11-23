@@ -48,6 +48,11 @@ const howDialog = document.getElementById('how-dialog');
 const howBackdrop = document.getElementById('how-backdrop');
 const openHowBtn = document.getElementById('open-how');
 const closeHowBtn = document.getElementById('close-how');
+const howToPlayDialog = document.getElementById('how-to-play-dialog');
+const howToPlayBackdrop = document.getElementById('how-to-play-backdrop');
+const howToPlayBtn = document.getElementById('how-to-play');
+const closeHowToPlayBtn = document.getElementById('close-how-to-play');
+const howToPlayText = document.getElementById('how-to-play-text');
 const confirmDialog = document.getElementById('confirm-dialog');
 const confirmBackdrop = document.getElementById('confirm-backdrop');
 const confirmTitle = document.getElementById('confirm-title');
@@ -1222,6 +1227,7 @@ function initApp() {
     bindReferenceSheetControls();
     bindInfoDialogControls();
     bindHowDialogControls();
+    bindHowToPlayDialogControls();
     bindDetailDialogControls();
     bindConfirmDialogControls();
     bindQrDialogControls();
@@ -1537,6 +1543,12 @@ function bindHowDialogControls() {
     addClick(openHowBtn, () => openHowDialog());
     addClick(closeHowBtn, () => closeHowDialog());
     addClick(howBackdrop, () => closeHowDialog());
+}
+
+function bindHowToPlayDialogControls() {
+    addClick(howToPlayBtn, () => openHowToPlayDialog());
+    addClick(closeHowToPlayBtn, () => closeHowToPlayDialog());
+    addClick(howToPlayBackdrop, () => closeHowToPlayDialog());
 }
 
 function bindDetailDialogControls() {
@@ -2296,6 +2308,32 @@ function closeHowDialog() {
     }
     howDialog.hidden = true;
     howDialog.setAttribute('aria-hidden', 'true');
+}
+
+function openHowToPlayDialog() {
+    if (!howToPlayDialog || !howToPlayText) {
+        return;
+    }
+    const game = currentGameKey;
+    let text = '';
+    if (game === 'spyfall') {
+        text = 'Spyfall: Everyone is at the same location, except for the Spy who has no idea where they are. The goal is to find the Spy without giving away the location. Players take turns asking questions to prove they know where they are, but they must be vague enough to keep the Spy in the dark. The Spy must listen carefully, fake their answers to blend in, and try to deduce the location before time runs out.';
+    } else if (game === 'chameleon') {
+        text = 'Chameleon: Everyone knows the secret word, except for the Chameleon. The goal is to catch the Chameleon without revealing the word. Players take turns giving a short clue related to the secret word—obvious enough to prove they know it, but subtle enough to confuse the Chameleon. The Chameleon must blend in by mimicking the others. If the Chameleon is caught, they get one chance to guess the secret word to steal the win.';
+    } else {
+        text = 'Select a game to see instructions.';
+    }
+    howToPlayText.textContent = text;
+    howToPlayDialog.hidden = false;
+    howToPlayDialog.setAttribute('aria-hidden', 'false');
+}
+
+function closeHowToPlayDialog() {
+    if (!howToPlayDialog) {
+        return;
+    }
+    howToPlayDialog.hidden = true;
+    howToPlayDialog.setAttribute('aria-hidden', 'true');
 }
 
 function openDetailDialog(payload = {}) {

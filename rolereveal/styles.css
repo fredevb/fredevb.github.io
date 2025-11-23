@@ -558,16 +558,18 @@ button.link.center {
     font-weight: 600;
 }
 
-#play-again {
-    margin: 0.85rem auto 0;
-    align-self: center;
-}
-
 .reveal-meta {
     margin: 0.75rem 0 0;
     font-size: 0.9rem;
     color: var(--muted);
     text-align: center;
+}
+
+.reveal-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin: 0.85rem auto 0;
 }
 
 .reveal-actions {
@@ -716,6 +718,13 @@ button.link.center {
     font-size: 1rem;
 }
 
+#how-to-play {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 6px 18px rgba(5, 6, 10, 0.3);
+    font-weight: 600;
+}
+
 .reveal-info-btn:focus-visible {
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
 }
@@ -725,7 +734,7 @@ button.link.center {
     bottom: 1.5rem;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     opacity: 0.8;
 }
 
