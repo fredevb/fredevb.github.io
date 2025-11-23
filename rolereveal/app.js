@@ -1255,7 +1255,7 @@ function bindNavigation() {
         }
         openConfirmDialog({
             title: 'Go back home?',
-            message: 'Return to the main menu? Make sure every player is done before leaving this screen.',
+            message: 'Return to the main menu? Without the game string you will not be able to rejoin this game.',
             confirmLabel: 'Return Home',
             onConfirm: () => showScreen('screen-home')
         });
