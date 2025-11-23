@@ -22,7 +22,7 @@
             <section id="screen-home" class="screen active" aria-live="polite">
                 <p class="intro">Scan one QR code, play offline using multiple phones.</p>
                 <div class="home-actions">
-                    <button class="home-action primary" data-target="screen-create">
+                    <button class="home-action secondary" data-target="screen-create">
                         <div class="action-text">
                             <p class="eyebrow">Host</p>
                             <h2>Create Game</h2>
@@ -100,7 +100,7 @@
 
                 <div class="panel">
                     <label class="field">
-                        <span>Your player number (host is #1)</span>
+                        <span>Your unique player number (host is #1)</span>
                         <input type="number" id="player-number" min="2" max="12" inputmode="numeric" pattern="[0-9]*" required>
                     </label>
                     <p class="hint" id="scan-hint">Paste the string to load the game.</p>
@@ -245,7 +245,7 @@
             </div>
             <div class="qr-body">
                 <div id="qr-output" aria-live="polite"></div>
-                <p class="hint">Players can scan this once to reveal on their own devices.</p>
+                <p class="hint">Have your friends scan this QR code on their own devices and ask them to select a unique player number.</p>
             </div>
         </div>
     </div>
