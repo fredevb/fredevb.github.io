@@ -668,6 +668,7 @@ button.link.center {
 
 .reference-list h4 {
     margin: 0 0 0.2rem 0;
+    font-size: 0.85rem;
 }
 
 .reference-header {
@@ -1035,5 +1036,9 @@ button.link.center {
 }
 
 #reveal-extra {
+    display: none;
+}
+
+#sheet-hint {
     display: none;
 }

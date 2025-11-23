@@ -1,5 +1,5 @@
 const SHARE_BASE_URL = 'https://fredevb.github.io/rolereveal/';
-const DEFAULT_REVEAL_LINE = 'Blend in, ask smart questions, and stay hidden.';
+const DEFAULT_REVEAL_LINE = 'Blend in and ask smart questions.';
 
 const screens = document.querySelectorAll('.screen');
 const navButtons = document.querySelectorAll('[data-target]');
