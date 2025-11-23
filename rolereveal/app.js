@@ -1591,7 +1591,7 @@ function bindPlayAgainControl() {
         const nextGameNumber = roundNumber + 1;
         openConfirmDialog({
             title: 'Start next round? 💪',
-            message: `Ready for Game #${nextGameNumber}? Make sure the current round is finished, everyone is ready to continue, and the player count is still the same.`,
+            message: `Ready for Game #${nextGameNumber}? Make sure the current round is finished, everyone is ready to continue, and that the player count is the same.`,
             confirmLabel: 'Start Round',
             onConfirm: () => {
                 roundNumber = nextGameNumber;
