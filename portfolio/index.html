@@ -478,7 +478,11 @@
            5. MEDIA QUERIES (MOBILE)
            ========================================================================== */
         @media (max-width: 900px) {
-            :root { --side-pad: 24px; }
+            :root { 
+                --side-pad: 24px; 
+                --space-xl: 4rem;
+                --space-l: 3rem;
+            }
             .master-sidebar { 
                 position: fixed; top: 0; left: 0; bottom: 0;
                 width: 90%; transform: translateX(-100%);
@@ -489,9 +493,9 @@
             .resize-handle { display: none; }
             .detail-view { width: 100%; }
             .detail-bg { left: 0; }
-            .detail-content { padding: 100px 24px 60px; }
+            .detail-content { padding: 100px 24px env(safe-area-inset-bottom); }
             .header-section h1 { font-size: 3rem; }
-            .star-grid { padding-left: 24px; }
+            .star-grid { padding-left: 24px; margin-bottom: 0; }
             .star-card { padding: 24px; }
             .btn { width: 100%; justify-content: center; }
             .banner-image { height: 320px; }
@@ -832,18 +836,25 @@
                 this._initSidebarSwipe();
                 this.refreshList();
                 
-                // PERFORMANCE: Preload background images after initial render.
-                // This ensures project switching is instant without heavy initial load.
-                setTimeout(() => this._preloadAllBackgrounds(), 500);
+                // PERFORMANCE: Silent preloading of background images.
+                // We wait for the window 'load' event to avoid triggering browser loading indicators.
+                window.addEventListener('load', () => {
+                    const scheduler = window.requestIdleCallback || (cb => setTimeout(cb, 1000));
+                    scheduler(() => this._preloadAllBackgrounds());
+                });
             }
 
             _preloadAllBackgrounds() {
-                this.store.allProjects.forEach(project => {
-                    const bgRes = project.resources.find(r => r.type === CONFIG.RESOURCE_TYPES.BACKGROUND);
-                    if (bgRes && bgRes.uri) {
+                const backgrounds = this.store.allProjects
+                    .map(p => p.resources.find(r => r.type === CONFIG.RESOURCE_TYPES.BACKGROUND))
+                    .filter(r => r && r.uri);
+
+                // Space out preloads to keep the main thread and network clean
+                backgrounds.forEach((res, index) => {
+                    setTimeout(() => {
                         const img = new Image();
-                        img.src = bgRes.uri;
-                    }
+                        img.src = res.uri;
+                    }, index * 200);
                 });
             }
 
