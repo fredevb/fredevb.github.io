@@ -914,10 +914,10 @@
                     this.els.backdrop.style.opacity = '';
 
                     if (isOpen) {
-                        if (deltaX < -sidebarWidth / 3) this.toggleSidebar(false);
+                        if (deltaX < -sidebarWidth / 5) this.toggleSidebar(false);
                         else this.toggleSidebar(true);
                     } else {
-                        if (deltaX > sidebarWidth / 3) this.toggleSidebar(true);
+                        if (deltaX > sidebarWidth / 5) this.toggleSidebar(true);
                         else this.toggleSidebar(false);
                     }
                 };
