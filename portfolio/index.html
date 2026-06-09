@@ -58,6 +58,7 @@
             /* Animation & Layout */
             --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
             --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            --duration-focus: 1.0s;
             
             --z-bg: 0;
             --z-content: 10;
@@ -217,37 +218,48 @@
             will-change: height; transform: translateZ(0);
         }
         
-        .c-timeline__node { position: relative; }
+        .c-timeline__node { position: relative; transition: opacity var(--duration-focus) var(--ease-smooth); }
+        /* Dim text when the bulb is not focused */
+        .c-timeline__node.u-reveal--active:not(.c-timeline__node--active) { opacity: 0.4; }
+
         .c-timeline__node::before { 
             content: ''; position: absolute; left: calc(-1.5rem - 0.35rem + 1px); top: 0.3rem; width: 0.7rem; height: 0.7rem; border-radius: var(--radius-full); 
-            background: var(--color-bg-base); border: 2px solid var(--color-border-focus); z-index: 2; transition: all 0.4s var(--ease-smooth);
-            will-change: transform, border-color, background;
+            background: var(--color-bg-base); border: 2px solid var(--color-border-focus); z-index: 2; transition: all var(--duration-focus) var(--ease-smooth);
+            will-change: transform, border-color, background, opacity;
+            opacity: 0; /* Hidden by default */
+            backface-visibility: hidden; -webkit-backface-visibility: hidden;
+            transform: scale(0.5); /* Start slightly smaller for organic feel */
         }
-        .c-timeline__node--active::before { background: #fff; border-color: #fff; transform: scale(1.3); box-shadow: 0 0 1.5rem rgba(255,255,255,0.6); }
+        .c-timeline__node--active::before { 
+            opacity: 1; /* Only visible when lit up */
+            background: #fff; border-color: #fff; transform: scale(1.3); box-shadow: 0 0 1.5rem rgba(255,255,255,0.6); 
+        }
         
         .c-timeline__label { margin-bottom: var(--space-xs); color: var(--color-text-dim); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.25em; font-weight: 800; }
         .c-timeline__text { color: #f4f4f5; line-height: 1.8; font-size: 1.1rem; font-weight: 400; max-width: 48rem; }
 
         .c-btn { 
             background: var(--color-glass-bg); color: var(--color-text-main); padding: 0.75rem 1.5rem; 
-            border-radius: var(--radius-md); border: 1px solid var(--color-border-focus);
+            border-radius: var(--radius-full); border: 1px solid var(--color-border-focus);
             font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; 
             transition: all 0.3s var(--ease-smooth); cursor: pointer;
             will-change: transform, background, color; transform: translateZ(0); /* Prevent flicker */
+            backface-visibility: hidden; -webkit-backface-visibility: hidden;
         }
         .c-btn:hover { background: #fff; color: #000; transform: translateY(-2px) translateZ(0); }
+        .c-btn:active { transform: translateY(0) scale(0.95) translateZ(0); }
         .c-btn svg { width: 1.1rem; height: 1.1rem; }
-        .c-btn--icon { width: 3rem; height: 3rem; padding: 0; border-radius: var(--radius-full); }
+        .c-btn--icon { width: 3rem; height: 3rem; padding: 0; flex-shrink: 0; }
 
         .c-fab { 
-            display: none; position: fixed; bottom: calc(2rem + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%) translateZ(0); z-index: var(--z-fab); 
+            display: none; position: fixed; bottom: calc(1.25rem + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%) translateZ(0); z-index: var(--z-fab); 
             background: rgba(20, 20, 24, 0.95); backdrop-filter: blur(20px); padding: 1rem 2rem; 
             border-radius: var(--radius-full); border: 1px solid var(--color-border-focus); color: #fff; 
             font-weight: 700; font-size: 0.9rem; box-shadow: 0 1rem 3rem rgba(0,0,0,0.8); 
-            align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.4s var(--ease-spring);
+            align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.3s var(--ease-smooth);
             will-change: transform, background;
         }
-        .c-fab:active { transform: translateX(-50%) scale(0.9); }
+        .c-fab:active { transform: translateX(-50%) scale(0.9) translateZ(0); }
         .c-fab--active { background: #fff; color: #000; border-color: #fff; }
 
         .c-lightbox {
@@ -257,12 +269,8 @@
         }
         .c-lightbox--active { display: flex; opacity: 1; }
         .c-lightbox__close { 
-            position: absolute; top: 1.5rem; right: 1.5rem; font-size: 3rem; 
-            width: 4rem; height: 4rem; display: flex; align-items: center; justify-content: center;
-            color: #fff; z-index: 10; pointer-events: auto; opacity: 0.6; transition: opacity 0.3s;
-            cursor: pointer;
+            position: absolute; top: 1.5rem; right: 1.5rem; z-index: 10;
         }
-        .c-lightbox__close:hover { opacity: 1; }
         .c-lightbox__content { width: 95vw; height: 85vh; position: relative; pointer-events: none; }
         .c-lightbox__content > * { pointer-events: auto; } /* Allow interaction with media but not container */
         
@@ -348,7 +356,7 @@
                 </header>
 
                 <section>
-                    <div class="c-label u-reveal">Narrative</div>
+                    <div class="c-label u-reveal">Details</div>
                     <div class="c-timeline">
                         <div class="c-timeline__track"><div class="c-timeline__progress js-timeline-progress"></div></div>
                         <article class="c-timeline__node u-reveal js-timeline-node">
@@ -364,7 +372,7 @@
                             <p class="c-timeline__text js-a"></p>
                         </article>
                         <article class="c-timeline__node u-reveal js-timeline-node">
-                            <h4 class="c-timeline__label">Impact</h4>
+                            <h4 class="c-timeline__label">Result</h4>
                             <p class="c-timeline__text js-r"></p>
                         </article>
                     </div>
@@ -377,12 +385,12 @@
                             <div class="js-gallery-media"></div>
                         </div>
                         <div class="c-gallery__controls">
-                            <button class="c-btn c-btn--icon js-gallery-prev">‹</button>
+                            <button class="c-btn c-btn--icon js-gallery-prev"></button>
                             <div class="c-gallery__center">
                                 <div class="c-gallery__dots js-gallery-dots"></div>
                                 <div class="c-gallery__caption js-gallery-caption"></div>
                             </div>
-                            <button class="c-btn c-btn--icon js-gallery-next">›</button>
+                            <button class="c-btn c-btn--icon js-gallery-next"></button>
                         </div>
                     </div>
                 </section>
@@ -396,7 +404,7 @@
 
         <!-- Lightbox -->
         <div class="c-lightbox js-lightbox">
-            <button class="c-lightbox__close js-lightbox-close">×</button>
+            <button class="c-lightbox__close c-btn c-btn--icon js-lightbox-close"></button>
             <div class="c-lightbox__content js-lightbox-content"></div>
         </div>
     </div>
@@ -404,7 +412,10 @@
     <script>
         const ICONS = {
             LINK: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`,
-            FILE: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>`
+            FILE: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>`,
+            CHEV_LEFT: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>`,
+            CHEV_RIGHT: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>`,
+            CLOSE: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`
         };
 
         const EVENTS = {
@@ -615,11 +626,31 @@
                 this.dots = document.querySelector('.js-gallery-dots');
                 this.images = []; this.idx = 0; this.project = null;
 
-                document.querySelector('.js-gallery-prev').addEventListener('click', () => this.navigate(-1));
-                document.querySelector('.js-gallery-next').addEventListener('click', () => this.navigate(1));
-                this.frame.addEventListener('click', () => this.bus.emit(EVENTS.OPEN_LIGHTBOX, { uri: this.images[this.idx] }));
+                const prevBtn = document.querySelector('.js-gallery-prev');
+                const nextBtn = document.querySelector('.js-gallery-next');
+                prevBtn.innerHTML = ICONS.CHEV_LEFT;
+                nextBtn.innerHTML = ICONS.CHEV_RIGHT;
+
+                prevBtn.addEventListener('click', () => this.navigate(-1));
+                nextBtn.addEventListener('click', () => this.navigate(1));
+                this.frame.addEventListener('click', () => this.bus.emit(EVENTS.OPEN_LIGHTBOX, { 
+                    images: this.images, 
+                    idx: this.idx 
+                }));
                 this.bus.on(EVENTS.PROJECT_SELECTED, (p) => this.load(p));
+
+                this._initSwipe();
             }
+
+            _initSwipe() {
+                let startX = 0;
+                this.frame.addEventListener('touchstart', (e) => startX = e.touches[0].clientX, { passive: true });
+                this.frame.addEventListener('touchend', (e) => {
+                    const diff = e.changedTouches[0].clientX - startX;
+                    if (Math.abs(diff) > 50) this.navigate(diff > 0 ? -1 : 1);
+                }, { passive: true });
+            }
+
             load(p) {
                 this.project = p;
                 this.images = p.resources.filter(r => r.type === 'gallery').map(r => r.uri);
@@ -659,10 +690,44 @@
                 this.bus = bus;
                 this.el = document.querySelector('.js-lightbox');
                 this.content = document.querySelector('.js-lightbox-content');
-                document.querySelector('.js-lightbox-close').addEventListener('click', () => this.close());
-                this.bus.on(EVENTS.OPEN_LIGHTBOX, (data) => this.open(data.uri));
+                this.images = [];
+                this.idx = 0;
+
+                const closeBtn = document.querySelector('.js-lightbox-close');
+                closeBtn.innerHTML = ICONS.CLOSE;
+                closeBtn.addEventListener('click', () => this.close());
+                
+                this.bus.on(EVENTS.OPEN_LIGHTBOX, (data) => {
+                    this.images = data.images || [data.uri];
+                    this.idx = data.idx || 0;
+                    this.open();
+                });
+
+                this._initSwipe();
             }
-            open(uri) {
+
+            _initSwipe() {
+                let startX = 0;
+                this.el.addEventListener('touchstart', (e) => startX = e.touches[0].clientX, { passive: true });
+                this.el.addEventListener('touchend', (e) => {
+                    const diff = e.changedTouches[0].clientX - startX;
+                    if (Math.abs(diff) > 50) this.navigate(diff > 0 ? -1 : 1);
+                }, { passive: true });
+            }
+
+            navigate(dir) {
+                if (this.images.length <= 1) return;
+                this.idx = (this.idx + dir + this.images.length) % this.images.length;
+                this.render();
+            }
+
+            open() {
+                this.render();
+                this.el.style.display = 'flex'; void this.el.offsetWidth; this.el.classList.add('c-lightbox--active');
+            }
+
+            render() {
+                const uri = this.images[this.idx];
                 this.content.innerHTML = '';
                 const node = document.createElement('div'); node.className = 'c-gallery__layer c-gallery__layer--loaded';
                 const isVideo = uri.match(/\.(mp4|webm)$/i), isYT = uri.includes('youtube.com') || uri.includes('youtu.be');
@@ -672,8 +737,8 @@
                 } else if (isVideo) { node.innerHTML = `<video class="c-gallery__media" src="${uri}" autoplay muted loop playsinline></video>`; } 
                 else { node.style.backgroundImage = `url('${uri}')`; }
                 this.content.appendChild(node);
-                this.el.style.display = 'flex'; void this.el.offsetWidth; this.el.classList.add('c-lightbox--active');
             }
+
             close() { this.el.classList.remove('c-lightbox--active'); setTimeout(() => { this.el.style.display = 'none'; }, 400); }
         }
 
@@ -688,6 +753,23 @@
                 this.gallery = new GalleryController(this.bus);
                 this.lightbox = new LightboxController(this.bus);
                 this.list.render();
+                
+                // Silent preloading of backgrounds
+                if (window.requestIdleCallback) {
+                    requestIdleCallback(() => this.preloadBackgrounds());
+                } else {
+                    setTimeout(() => this.preloadBackgrounds(), 2000);
+                }
+            }
+
+            preloadBackgrounds() {
+                this.store.projects.forEach(p => {
+                    const bg = p.resources.find(r => r.type === 'background');
+                    if (bg && bg.uri) {
+                        const img = new Image();
+                        img.src = bg.uri;
+                    }
+                });
             }
         }
 
@@ -706,13 +788,13 @@
     "featured": true,
     "favourite": false,
     "content": {
+      "teaser": "Can a language model learn to schedule cloud workloads? I designed an AI-driven scheduler that uses evolutionary search and LLM-generated policies to discover efficient resource allocation strategies automatically.",
       "star": {
-        "situation": "Managing cloud workloads is complex: servers have varying capacities, and batch jobs differ vastly not only in their CPU and memory demands, but in how parallelizable they are. Preventing resource interference is critical to guarantee sub-millisecond response times for vital applications like Memcached.",
-        "task": "The objective was to discover optimal resource allocation strategies automatically\u2014packing jobs as tightly as possible to minimize execution time without violating the strict application SLO of Memcached.",
-        "action": "I deployed an evolutionary loop using OpenEvolve and Llama-3. Each AI-generated schedule was tested against a custom fitness formula designed to maximize job density and execution speed, while heavily penalizing interference, hardware waste, and latency spikes.",
-        "result": "The algorithm successfully evolved job-packing strategies that reduced the total makespan by 23%, achieving a 258-second runtime that matched our best hand-crafted policies."
-      },
-      "teaser": "What happens when you let a language model design cloud infrastructure? In this project, we explore whether machine learning can outsmart human scheduling."
+        "situation": "Cloud schedulers must balance workloads with very different CPU, memory, and parallelization requirements. At the same time, latency-sensitive services also require strict performance guarantees.",
+        "task": "The goal was to find resource allocation strategies that packed jobs as efficiently as possible while meeting Memcached's latency target (p95 < 1 ms).",
+        "action": "I built an evolutionary optimization loop using OpenEvolve and Llama 3. Candidate schedules were generated, executed on a cluster, and scored using a fitness function that rewarded throughput while penalizing interference, wasted resources, and latency violations.",
+        "result": "The system evolved scheduling strategies that reduced total makespan by 23% while meeting Memcached's SLO, achieving a runtime of 258 seconds and matching the best hand-crafted baseline policies."
+      }
     },
     "resources": [
       {
@@ -723,13 +805,25 @@
       {
         "name": "Baseline Policy",
         "uri": "resources/projects/openevolve/baseline-policy.png",
-        "caption": "The timeline for the baseline policy. The visualization shows how jobs were packed onto server cores and the p95 latency of Memcached, the latency critical application.",
+        "caption": "The baseline scheduling policy. The timeline shows how jobs are placed across CPU cores and the resulting p95 latency of Memcached.",
         "type": "gallery"
       },
       {
         "name": "AI Policy",
         "uri": "resources/projects/openevolve/ai-policy.png",
-        "caption": "The timeline for the AI-generated policy obtained after 20 evolutions. The AI-generated policy runs for less time than the baseline while still adhering to the SLO requirement.",
+        "caption": "The policy discovered after 20 evolutionary iterations. Jobs are packed more efficiently, reducing runtime while maintaining Memcached's latency target.",
+        "type": "gallery"
+      },
+      {
+        "name": "Job Interference",
+        "uri": "resources/projects/openevolve/benchmark-interference.png",
+        "caption": "How co-located workloads affect performance. Each benchmark measures the slowdown caused by different sources of interference.",
+        "type": "gallery"
+      },
+      {
+        "name": "Job Speedup",
+        "uri": "resources/projects/openevolve/benchmark-threads.png",
+        "caption": "Thread-scaling behavior of the batch workloads. Some jobs benefit more from additional CPU cores than others.",
         "type": "gallery"
       }
     ]
@@ -748,13 +842,13 @@
     "featured": true,
     "favourite": false,
     "content": {
+      "teaser": "Clifford algebra helps neural networks model physical systems, but the math is expensive. We built a high-performance C++ inference engine for Clifford Neural Network layers that runs up to 18\u00d7 faster than the baseline implementation.",
       "star": {
-        "situation": "Physics-based neural networks like Clifford neural networks are great for modeling weather and fluid dynamics, but their mathematical complexity makes them slow on everyday hardware.",
-        "task": "By rebuilding the layer inference from Python into C++, the goal is to strip away performance overhead without losing any accuracy.",
-        "action": "To do this, we examined bottlenecks at the hardware level \u2014 restructuring memory access, fusing loops for better cache use, and applying AVX2 vector instructions to process multiple values simultaneously.",
-        "result": "The optimization efforts yielded speed-ups across all layers, with the linear implementation performing 18x faster than the baseline."
-      },
-      "teaser": "Clifford algebra lets neural networks speak the language of physics \u2014 but the math is expensive. In this project, we create a highly optimized C++ inference engine for Clifford Neural Networks with AVX2 vectorization and cache-aware memory access to achieve up to 18x speedup."
+        "situation": "Clifford Neural Networks are well suited for problems such as weather prediction and fluid simulation, but their computational cost makes inference slow on standard hardware.",
+        "task": "The goal was to speed up inference by replacing the Python implementation with a more efficient C++ version while preserving identical outputs.",
+        "action": "We profiled the code, identified performance bottlenecks, and redesigned the implementation around efficient memory access. We fused loops, improved cache utilization, and used AVX2 vectorization to process multiple values at once.",
+        "result": "The optimized implementation sped up every layer, with the linear layer running 18\u00d7 faster than the baseline."
+      }
     },
     "resources": [
       {
@@ -776,13 +870,13 @@
     "featured": true,
     "favourite": true,
     "content": {
+      "teaser": "How do you efficiently calculate the paths of billions of particles inside the world's largest particle accelerator? CERN's answer is Traccc\u2014an experimental, hardware-accelerated pipeline for heterogeneous architectures. I integrated it into ACTS, their standard tracking software, and benchmarked its accuracy across 50+ metrics.",
       "star": {
-        "situation": "Particle tracking involves sifting through collision events to reconstruct the 3D paths of subatomic particles. However, surging collision data from upcoming detector upgrades at CERN threatens to overwhelm the standard particle tracking software.",
-        "task": "While an experimental GPU pipeline, traccc, is currently being designed to bypass this bottleneck, it lacks integration with the established particle tracking framework to be evaluated.",
-        "action": "I built efficient two-way C++ data interfaces to embed the hardware-accelerated libraries directly into the core architecture across multiple pipeline stages, including 2D pixel hit conversion, 3D spacepoint seeding, and Kalman filtering.",
-        "result": "Researchers can now automatically benchmark the GPU pipeline against legacy code using 50+ metrics, ensuring that computational speedups do not compromise physics accuracy."
-      },
-      "teaser": "How do you efficiently trace the paths of billions of particles colliding at the world's largest particle accelerator? The answer lies in hardware acceleration using heterogeneous hardware."
+        "situation": "Particle tracking reconstructs the paths of subatomic particles from detector measurements. An experimental GPU-based tracking pipeline, Traccc, promises faster reconstruction, but it cannot be evaluated within CERN's standard software framework, ACTS.",
+        "task": "The goal is to integrate the new pipeline into the existing framework and compare its reconstruction quality against established algorithms.",
+        "action": "I built low-level C++ interfaces that integrated the hardware-accelerated pipeline into the tracking framework. This included data conversion and integration across multiple stages, from hit processing and track seeding to Kalman filtering.",
+        "result": "Researchers can now use the GPU pipeline and compare it against existing reconstruction algorithms across 50+ physics metrics."
+      }
     },
     "resources": [
       {
@@ -791,15 +885,15 @@
         "type": "background"
       },
       {
-        "name": "reconstruction-pipeline",
+        "name": "Reconstruction Pipeline",
         "uri": "resources/projects/track-reconstruction/reconstruction-pipeline.svg",
-        "caption": "The ACTS Particle Tracking Pipeline: The step-by-step process used to turn raw detector data into a complete, high-precision map of a particle's path.",
+        "caption": "Stages of the tracking pipeline used to reconstruct particle trajectories from raw detector measurements.",
         "type": "gallery"
       },
       {
         "name": "Physmon",
         "uri": "resources/projects/track-reconstruction/physmon.png",
-        "caption": "ACTS baseline (blue) versus the new traccc implementation (orange), highlighting metrics of agreement and disagreement.",
+        "caption": "Reconstruction quality metrics for the ACTS baseline (blue) and Traccc (orange).",
         "type": "gallery"
       },
       {
@@ -811,7 +905,7 @@
   },
   {
     "id": "cern-detray-visualizer",
-    "title": "Visualizing Particle Tracking Geometry",
+    "title": "Visualizing Detector Geometry",
     "date": "2023-09",
     "tags": [
       "CERN",
@@ -821,13 +915,13 @@
     "featured": true,
     "favourite": true,
     "content": {
+      "teaser": "Debugging a physics engine is difficult when all you can see are numbers. I built visualization tools to expose the hidden flaws in CERN's next-generation tracking software.",
       "star": {
-        "situation": "CERN is developing Detray, a hardware-accelerated physics engine, to handle massive data volumes from upgraded accelerators. However, diagnosing structural flaws within the complex 3D detector geometry using only numerical logs is highly inefficient.",
-        "task": "Researchers need a diagnostic tool capable of extracting data from heavily optimized hardware structures to visually map the detector geometry and algorithms.",
-        "action": "I built a C++ plugin to pull detector geometry and particle tracks directly from the R&D project, converting the models into clean, 2D SVG cross-sections.",
-        "result": "By rendering the math visually, the tool immediately exposed critical hidden bugs, including flipped sensors that caused physical overlaps and incorrectly sized acceleration grids."
-      },
-      "teaser": "Writing physics engines for parallel hardware introduces a major challenge: when the math breaks, how do you figure out what went wrong? If a particle trajectory is miscalculated, or a sensor is misaligned by a fraction of a millimeter, debugging it through raw numerical logs is incredibly challenging. We need visual diagnostic tools to expose the hidden flaws in CERN's next-generation tracking software."
+        "situation": "CERN is developing hardware-accelerated tracking geometry description, Detray, to process increasing amounts of detector data. Diagnosing problems within complex detector geometries is difficult when debugging relies primarily on numerical output.",
+        "task": "Researchers need a way to inspect detector geometry and tracking algorithms visually rather than through logs alone.",
+        "action": "I developed a C++ plugin that extracted detector geometry and particle trajectories directly from the tracking software and converted them into clean 2D SVG visualizations.",
+        "result": "The tool exposed several critical issues, including flipped sensors and incorrectly sized acceleration grids, significantly simplifying debugging."
+      }
     },
     "resources": [
       {
@@ -856,13 +950,13 @@
     "featured": true,
     "favourite": false,
     "content": {
+      "teaser": "Every heartbeat slightly changes the color of your skin \u2014 too subtle to see, but not too subtle to measure. By applying machine learning, heart rate data can be extracted directly from webcam video for contactless heart rate estimation.",
       "star": {
-        "situation": "Skin color fluctuates slightly with each heartbeat, and a camera can theoretically pick this up \u2014 but shadows, lighting changes, and natural movement all bury the signal.",
-        "task": "The goal was to build a pipeline that cuts through that noise, isolates the pulse, and compares classical signal processing \u2014 specifically Independent Component Analysis \u2014 against RNN-CNN models.",
-        "action": "A face mesh tracked skin regions across frames to keep the color signal clean despite movement. That signal then fed two parallel pipelines: an ICA algorithm extracting pulse frequency the classical way, and RNN-CNN models treating the signal as a 2D image. Transfer learning and synthetic heartbeat data helped offset the limited training set.",
-        "result": "The pipeline successfully extracted heart rate from raw video, giving a direct, side-by-side comparison of how classical signal processing and deep learning stack up at reading vitals from a camera."
-      },
-      "teaser": "Every heartbeat shifts your skin color \u2014 too subtle to see, but not too subtle to measure. This project tracks those changes through a webcam to read your pulse, no physical contact required."
+        "situation": "Heartbeats produce small color changes in the skin, but movement, occlusion, and lighting variations often bury the signal.",
+        "task": "The goal is to recover the pulse signal from video and use classical and deep learning methods to estimate heart rate.",
+        "action": "I tracked facial skin regions across video frames and extracted color signals to build a spatiotemporal map. These signals were processed using classical signal-processing methods and deep learning models, with additional training data generated synthetically.",
+        "result": "The system successfully estimated heart rate from raw video and enabled a direct comparison between classical and learning-based approaches."
+      }
     },
     "resources": [
       {
@@ -873,13 +967,13 @@
       {
         "name": "Triangulation",
         "uri": "resources/projects/rppg/triangulation.png",
-        "caption": "Extracting skin color fluctuations. Facial triangulation ensures accurate tracking despite movement or changing light.",
+        "caption": "Facial triangulation uses landmarks to track skin regions over time, allowing stable measurement of subtle color changes despite motion and lighting variation.",
         "type": "gallery"
       },
       {
         "name": "Signal",
         "uri": "resources/projects/rppg/extracted-data.png",
-        "caption": "The figure above shows the RGB signal extracted from a single facial region. In the figure below, signals from multiple regions are then combined and processed into a single spatiotemporal image, serving as an input for the RNN-CNN architectures. The heartbeat corresponds to the green lines in the spatiotemporal image.",
+        "caption": "Top: RGB signal from a single facial region. Bottom: signals from multiple regions processed into a spatiotemporal representation for heart rate estimation. The green bands indicate the heartbeat.",
         "type": "gallery"
       }
     ]
@@ -898,13 +992,13 @@
     "featured": true,
     "favourite": true,
     "content": {
+      "teaser": "Palms are sweaty, knees weak, arms are heavy. You're lying on the floor already, wondering: is there a way to get the gains from your pushups without the agony? Meet The Pushup Robot\u00ae. It won't magically transfer the gains to your biceps, but it will crank out the reps while you sip your protein shake in peace.",
       "star": {
-        "situation": "Programming a humanoid robot like ATLAS to do a pushup is surprisingly tricky. With dozens of redundant joints, the math gets messy fast. The hands and feet must stay glued to the floor, while the elbows need to bend naturally without snapping backward or triggering a mathematical singularity when the arms fully extend.",
-        "task": "The goal was to build a motion pipeline capable of anchoring the robot's extremities while orchestrating the rest of its body into smooth, human-like pushups, including asymmetric and jumping variations.",
-        "action": "We implemented a custom Inverse Kinematics algorithm, using a weighted pseudo-inverse to prevent issues when the robot's arms locked out straight. To ensure the movement looked human, we added secondary tasks into the system's null space, forcing the elbows into natural angles rather than awkward mechanical poses. Finally, cyclic pelvis trajectories were programmed to dynamically drive the core motion.",
-        "result": "The resulting pipeline delivered fluid, realistic mechanics. Whether grinding through standard reps, balancing on uneven terrain, or launching into jumping pushups, the robot maintained perfect stability\u2014proving that even machines can master a solid gym routine."
-      },
-      "teaser": "Palms are sweaty, knees weak, arms are heavy. You're lying on the floor already, wondering... How can I get the gains from my push-ups without the agony?! Meet The Pushup Robot\u00ae. It won't magically transfer the gains to your biceps, but it will crank out flawless reps while you sip your protein shake in peace."
+        "situation": "Humanoid robots have many redundant joints, making stable motion generation difficult. During a pushup, the hands and feet must stay fixed while the rest of the body moves naturally without entering unstable configurations.",
+        "task": "The goal is to generate realistic pushup motions while maintaining stability and respecting physical constraints.",
+        "action": "We implemented a custom inverse-kinematics solver based on a weighted pseudoinverse to handle singularities when the arms approached full extension. Additional constraints in the null space guided the elbows into natural poses, while cyclic pelvis trajectories drove the overall motion.",
+        "result": "The robot performed stable and realistic pushups across a range of motions, including asymmetric and jumping variations."
+      }
     },
     "resources": [
       {
@@ -921,7 +1015,7 @@
       {
         "name": "Human Pushup",
         "uri": "resources/projects/pushup-robot/human.mp4",
-        "caption": "A more natural looking pushup.",
+        "caption": "A more natural-looking pushup.",
         "type": "gallery"
       },
       {
