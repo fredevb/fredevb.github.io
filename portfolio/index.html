@@ -315,7 +315,7 @@
         <aside class="l-sidebar js-sidebar">
             <div class="l-sidebar__header">
                 <div class="c-profile js-reset-view">
-                    <div class="c-profile__avatar"><img src="resources/profile/portrait.png" alt="Profile" class="c-profile__img"></div>
+                    <div class="c-profile__avatar"><img src="resources/profile/portrait.webp" alt="Profile" class="c-profile__img"></div>
                     <div>
                         <h1 class="c-profile__name">I'm Fred.</h1>
                         <p class="c-profile__title">MSc Computer Science</p>
@@ -769,6 +769,10 @@
                     if (bg && bg.uri) {
                         const img = new Image();
                         img.src = bg.uri;
+                        // Ensures the image is fully decoded in the background before use
+                        if (img.decode) {
+                            img.decode().catch(err => console.warn(`Failed to decode preloaded image: ${bg.uri}`, err));
+                        }
                     }
                 });
             }
@@ -800,30 +804,30 @@
     "resources": [
       {
         "name": "Main Banner",
-        "uri": "resources/projects/openevolve/openevolve-bg.png",
+        "uri": "resources/projects/openevolve/openevolve-bg.webp",
         "type": "background"
       },
       {
         "name": "Baseline Policy",
-        "uri": "resources/projects/openevolve/baseline-policy.png",
+        "uri": "resources/projects/openevolve/baseline-policy.webp",
         "caption": "The baseline scheduling policy. The timeline shows how jobs are placed across CPU cores and the resulting p95 latency of Memcached.",
         "type": "gallery"
       },
       {
         "name": "AI Policy",
-        "uri": "resources/projects/openevolve/ai-policy.png",
+        "uri": "resources/projects/openevolve/ai-policy.webp",
         "caption": "The policy discovered after 20 evolutionary iterations. Jobs are packed more efficiently, reducing runtime while maintaining Memcached's latency target.",
         "type": "gallery"
       },
       {
         "name": "Job Interference",
-        "uri": "resources/projects/openevolve/benchmark-interference.png",
+        "uri": "resources/projects/openevolve/benchmark-interference.webp",
         "caption": "How co-located workloads affect performance. Each benchmark measures the slowdown caused by different sources of interference.",
         "type": "gallery"
       },
       {
         "name": "Job Speedup",
-        "uri": "resources/projects/openevolve/benchmark-threads.png",
+        "uri": "resources/projects/openevolve/benchmark-threads.webp",
         "caption": "Thread-scaling behavior of the batch workloads. Some jobs benefit more from additional CPU cores than others.",
         "type": "gallery"
       }
@@ -854,7 +858,7 @@
     "resources": [
       {
         "name": "Main Banner",
-        "uri": "resources/projects/clifford-asl/clifford-asl-bg.png",
+        "uri": "resources/projects/clifford-asl/clifford-asl-bg.webp",
         "type": "background"
       }
     ]
@@ -882,7 +886,7 @@
     "resources": [
       {
         "name": "Main Banner",
-        "uri": "resources/projects/track-reconstruction/track-reconstruction-bg.png",
+        "uri": "resources/projects/track-reconstruction/track-reconstruction-bg.webp",
         "type": "background"
       },
       {
@@ -893,7 +897,7 @@
       },
       {
         "name": "Physmon",
-        "uri": "resources/projects/track-reconstruction/physmon.png",
+        "uri": "resources/projects/track-reconstruction/physmon.webp",
         "caption": "Reconstruction quality metrics for the ACTS baseline (blue) and Traccc (orange).",
         "type": "gallery"
       },
@@ -927,7 +931,7 @@
     "resources": [
       {
         "name": "Main Banner",
-        "uri": "resources/projects/detray-visualization/detray-visualization-bg.png",
+        "uri": "resources/projects/detray-visualization/detray-visualization-bg.webp",
         "type": "background"
       },
       {
@@ -963,18 +967,18 @@
     "resources": [
       {
         "name": "Main Banner",
-        "uri": "resources/projects/rppg/rppg-bg.png",
+        "uri": "resources/projects/rppg/rppg-bg.webp",
         "type": "background"
       },
       {
         "name": "Triangulation",
-        "uri": "resources/projects/rppg/triangulation.png",
+        "uri": "resources/projects/rppg/triangulation.webp",
         "caption": "Facial triangulation uses landmarks to track skin regions over time, allowing stable measurement of subtle color changes despite motion and lighting variation.",
         "type": "gallery"
       },
       {
         "name": "Signal",
-        "uri": "resources/projects/rppg/extracted-data.png",
+        "uri": "resources/projects/rppg/extracted-data.webp",
         "caption": "Top: RGB signal from a single facial region. Bottom: signals from multiple regions processed into a spatiotemporal representation for heart rate estimation. The green bands indicate the heartbeat.",
         "type": "gallery"
       }
@@ -1005,42 +1009,42 @@
     "resources": [
       {
         "name": "Main Banner",
-        "uri": "resources/projects/pushup-robot/pushup-robot-bg.png",
+        "uri": "resources/projects/pushup-robot/pushup-robot-bg.webp",
         "type": "background"
       },
       {
         "name": "Classic Pushup",
-        "uri": "resources/projects/pushup-robot/classic.mp4",
+        "uri": "resources/projects/pushup-robot/classic.webm",
         "caption": "A classic pushup.",
         "type": "gallery"
       },
       {
         "name": "Human Pushup",
-        "uri": "resources/projects/pushup-robot/human.mp4",
+        "uri": "resources/projects/pushup-robot/human.webm",
         "caption": "A more natural-looking pushup.",
         "type": "gallery"
       },
       {
         "name": "Jumping Pushup",
-        "uri": "resources/projects/pushup-robot/jumping.mp4",
+        "uri": "resources/projects/pushup-robot/jumping.webm",
         "caption": "A jumping pushup!",
         "type": "gallery"
       },
       {
         "name": "Asymmetric Pushup",
-        "uri": "resources/projects/pushup-robot/asymmetric.mp4",
+        "uri": "resources/projects/pushup-robot/asymmetric.webm",
         "caption": "An asymmetric pushup.",
         "type": "gallery"
       },
       {
         "name": "Joint Values and Velocities 1",
-        "uri": "resources/projects/pushup-robot/joint-plot1.png",
+        "uri": "resources/projects/pushup-robot/joint-plot1.webp",
         "caption": "Joint values and velocities for the classic and human-like pushups.",
         "type": "gallery"
       },
       {
         "name": "Joint Values and Velocities 2",
-        "uri": "resources/projects/pushup-robot/joint-plot2.png",
+        "uri": "resources/projects/pushup-robot/joint-plot2.webp",
         "caption": "Joint values and velocities for the asymmetric and jumping pushups.",
         "type": "gallery"
       }
