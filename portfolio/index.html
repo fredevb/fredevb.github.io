@@ -798,7 +798,7 @@
         "situation": "Cloud schedulers must balance workloads with very different CPU, memory, and parallelization requirements. At the same time, latency-sensitive services also require strict performance guarantees.",
         "task": "The goal was to find resource allocation strategies that packed jobs as efficiently as possible while meeting Memcached's latency target (p95 < 1 ms).",
         "action": "I built an evolutionary optimization loop using OpenEvolve and Llama 3. Candidate schedules were generated, executed on a cluster, and scored using a fitness function that rewarded throughput while penalizing interference, wasted resources, and latency violations.",
-        "result": "The system evolved scheduling strategies that reduced total makespan by 23% while meeting Memcached's SLO, achieving a runtime of 258 seconds and matching the best hand-crafted baseline policies."
+        "result": "The system evolved scheduling strategies that reduced total makespan by 23% while meeting Memcached's SLO, achieving a runtime of 258 seconds and matching the best hand-crafted policies."
       }
     },
     "resources": [
@@ -878,7 +878,7 @@
       "teaser": "How do you efficiently calculate the paths of billions of particles inside the world's largest particle accelerator? CERN's answer is Traccc\u2014an experimental, hardware-accelerated pipeline for heterogeneous architectures. I integrated it into ACTS, their standard tracking software, and benchmarked its accuracy across 50+ metrics.",
       "star": {
         "situation": "Particle tracking reconstructs the paths of subatomic particles from detector measurements. An experimental GPU-based tracking pipeline, Traccc, promises faster reconstruction, but it cannot be evaluated within CERN's standard software framework, ACTS.",
-        "task": "The goal is to integrate the new pipeline into the existing framework and compare its reconstruction quality against established algorithms.",
+        "task": "The goal was to integrate the new pipeline into the existing framework and compare its reconstruction quality against established algorithms.",
         "action": "I built low-level C++ interfaces that integrated the hardware-accelerated pipeline into the tracking framework. This included data conversion and integration across multiple stages, from hit processing and track seeding to Kalman filtering.",
         "result": "Researchers can now use the GPU pipeline and compare it against existing reconstruction algorithms across 50+ physics metrics."
       }
@@ -996,7 +996,7 @@
       "Python"
     ],
     "featured": true,
-    "favourite": true,
+    "favourite": false,
     "content": {
       "teaser": "Palms are sweaty, knees weak, arms are heavy. You're lying on the floor already, wondering: is there a way to get the gains from your pushups without the agony? Meet The Pushup Robot\u00ae. It won't magically transfer the gains to your biceps, but it will crank out the reps while you sip your protein shake in peace.",
       "star": {
@@ -1052,10 +1052,6 @@
   }
 ];
             window.portfolioApp = new App(data);
-        });
-    </script>
-</body>
-</html>ortfolioApp = new App(data);
         });
     </script>
 </body>
