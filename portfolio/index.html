@@ -642,7 +642,7 @@
                 <div class="c-sort-row">
                     <span class="c-sort-label">Sort by:</span>
                     <select class="c-input c-input--select js-sort">
-                        <option value="favourite" selected>Featured</option>
+                        <option value="featured" selected>Featured</option>
                         <option value="date-desc">Recent</option>
                         <option value="alpha">A-Z</option>
                     </select>
@@ -792,11 +792,11 @@
 
         class ProjectStore {
             constructor(data) { this.projects = data; this.activeId = null; }
-            get(query = '', sort = 'favourite') {
+            get(query = '', sort = 'featured') {
                 const q = query.toLowerCase();
-                const filtered = this.projects.filter(p => p.title.toLowerCase().includes(q) || p.tags.some(t => t.toLowerCase().includes(q)));
+                const filtered = this.projects.filter(p => !p.hidden && (p.title.toLowerCase().includes(q) || p.tags.some(t => t.toLowerCase().includes(q))));
                 return filtered.sort((a, b) => {
-                    if (sort === 'favourite') return (b.favourite - a.favourite) || a.title.localeCompare(b.title);
+                    if (sort === 'featured') return (b.featured - a.featured) || a.title.localeCompare(b.title);
                     if (sort === 'alpha') return a.title.localeCompare(b.title);
                     return new Date(b.date) - new Date(a.date);
                 });
@@ -908,7 +908,7 @@
                 cards.forEach(card => card.classList.toggle('c-card--focused', card === closestCard));
             }
 
-            render(query = '', sort = 'favourite') {
+            render(query = '', sort = 'featured') {
                 const projects = this.store.get(query, sort);
                 const activeId = this.store.getActiveId();
                 const today = new Date();
@@ -922,7 +922,7 @@
                     const pDate = new Date(p.date + "-01");
                     const isNew = pDate >= sixMonthsAgo;
                     let badge = '';
-                    if (p.favourite) badge = '<div class="c-badge c-badge--featured">Featured</div>';
+                    if (p.featured) badge = '<div class="c-badge c-badge--featured">Featured</div>';
                     else if (isNew) badge = '<div class="c-badge c-badge--new">New</div>';
 
                     return `
@@ -1251,59 +1251,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             const data = [
   {
-    "id": "openevolve-cluster-scheduler",
-    "title": "OpenEvolve LLM Cluster Scheduler",
-    "date": "2026-05",
-    "tags": [
-      "ETH Z\u00fcrich",
-      "Cloud Computing",
-      "LLM",
-      "Python"
-    ],
-    "featured": true,
-    "favourite": false,
-    "content": {
-      "teaser": "Can a language model learn to schedule cloud workloads? I designed an AI-driven scheduler that uses evolutionary search and LLM-generated policies to discover efficient resource allocation strategies automatically, reducing the makespan by 23%.",
-      "star": {
-        "situation": "Cloud schedulers must balance workloads with very different CPU, memory, and parallelization requirements. At the same time, latency-sensitive services also require strict performance guarantees.",
-        "task": "The goal was to find resource allocation strategies that packed jobs as efficiently as possible while meeting Memcached's latency target (p95 < 1 ms).",
-        "action": "I built an evolutionary optimization loop using OpenEvolve and Llama 3. Candidate schedules were generated, executed on a cluster, and scored using a fitness function that rewarded throughput while penalizing interference, wasted resources, and latency violations.",
-        "result": "The system evolved scheduling strategies that reduced total makespan by 23% while meeting Memcached's SLO, achieving a runtime of 258 seconds and matching the best hand-crafted policies."
-      }
-    },
-    "resources": [
-      {
-        "name": "Main Banner",
-        "uri": "resources/projects/openevolve/openevolve-bg.webp",
-        "type": "background"
-      },
-      {
-        "name": "Baseline Policy",
-        "uri": "resources/projects/openevolve/baseline-policy.webp",
-        "caption": "The baseline scheduling policy. The timeline shows how jobs are placed across CPU cores and the resulting p95 latency of Memcached.",
-        "type": "gallery"
-      },
-      {
-        "name": "AI Policy",
-        "uri": "resources/projects/openevolve/ai-policy.webp",
-        "caption": "The policy discovered after 20 evolutionary iterations. Jobs are packed more efficiently, reducing runtime while maintaining Memcached's latency target.",
-        "type": "gallery"
-      },
-      {
-        "name": "Job Interference",
-        "uri": "resources/projects/openevolve/benchmark-interference.webp",
-        "caption": "How co-located workloads affect performance. Each benchmark measures the slowdown caused by different sources of interference.",
-        "type": "gallery"
-      },
-      {
-        "name": "Job Speedup",
-        "uri": "resources/projects/openevolve/benchmark-threads.webp",
-        "caption": "Thread-scaling behavior of the batch workloads. Some jobs benefit more from additional CPU cores than others.",
-        "type": "gallery"
-      }
-    ]
-  },
-  {
     "id": "clifford-neural-optimization",
     "title": "Optimizing Clifford Neural Layers",
     "date": "2025-05",
@@ -1314,13 +1261,13 @@
       "AVX2",
       "C++"
     ],
-    "featured": true,
-    "favourite": false,
+    "hidden": false,
+    "featured": false,
     "content": {
       "teaser": "Clifford algebra helps neural networks model physical systems, but the math is expensive. We built a high-performance C++ inference engine for Clifford Neural Network layers that runs up to 18\u00d7 faster than the baseline implementation.",
       "star": {
         "situation": "Clifford Neural Networks are well suited for problems such as weather prediction and fluid simulation, but their computational cost makes inference slow on standard hardware.",
-        "task": "The goal was to speed up inference by replacing the Python implementation with a more efficient C++ version while preserving identical outputs.",
+        "task": "Speed up inference by replacing the Python implementation with a more efficient C++ version while preserving identical outputs.",
         "action": "We profiled the code, identified performance bottlenecks, and redesigned the implementation around efficient memory access. We fused loops, improved cache utilization, and used AVX2 vectorization to process multiple values at once.",
         "result": "The optimized implementation sped up every layer, with the linear layer running 18\u00d7 faster than the baseline."
       }
@@ -1342,15 +1289,15 @@
       "C++",
       "High Performance Computing"
     ],
+    "hidden": false,
     "featured": true,
-    "favourite": true,
     "content": {
-      "teaser": "How do you efficiently calculate the paths of billions of particles inside the world's largest particle accelerator? CERN's answer is Traccc\u2014an experimental, hardware-accelerated pipeline for heterogeneous architectures. I integrated it into ACTS, their standard tracking software, and benchmarked its accuracy across 50+ metrics.",
+      "teaser": "How do you efficiently reconstruct the paths of billions of particles inside the world's largest particle accelerator? CERN's answer is Traccc\u2014an experimental, hardware-accelerated pipeline for heterogeneous architectures. I integrated it into ACTS, their standard tracking software, and benchmarked its reconstruction quality across 50+ physics metrics.",
       "star": {
-        "situation": "Particle tracking reconstructs the paths of subatomic particles from detector measurements. An experimental GPU-based tracking pipeline, Traccc, promises faster reconstruction, but it cannot be evaluated within CERN's standard software framework, ACTS.",
-        "task": "The goal was to integrate the new pipeline into the existing framework and compare its reconstruction quality against established algorithms.",
-        "action": "I built low-level C++ interfaces that integrated the hardware-accelerated pipeline into the tracking framework. This included data conversion and integration across multiple stages, from hit processing and track seeding to Kalman filtering.",
-        "result": "Researchers can now use the GPU pipeline and compare it against existing reconstruction algorithms across 50+ physics metrics."
+        "situation": "Particle tracking reconstructs the paths of subatomic particles from detector measurements. An experimental GPU-based pipeline, Traccc, promises faster reconstruction, but it could not be evaluated within CERN's standard software framework, ACTS.",
+        "task": "Integrate Traccc into ACTS and produce a rigorous comparison of its reconstruction quality against the established baseline.",
+        "action": "I built low-level C++ interfaces across the full tracking pipeline \u2014 from hit processing and track seeding to Kalman filtering \u2014 handling data conversion at each stage boundary to bridge the two frameworks.",
+        "result": "The benchmark showed Traccc produces physically reasonable track distributions across 50+ metrics \u2014 deviating from the ACTS reference as expected for an early-stage experimental pipeline, but within interpretable bounds. The integration and results were well-received by the ACTS development team."
       }
     },
     "resources": [
@@ -1387,15 +1334,15 @@
       "C++",
       "Visualization"
     ],
+    "hidden": false,
     "featured": true,
-    "favourite": true,
     "content": {
-      "teaser": "Debugging a physics engine is difficult when all you can see are numbers. I built visualization tools to expose the hidden flaws in CERN's next-generation tracking software.",
+      "teaser": "Debugging a physics engine is difficult when all you can see are numbers. I built visualization tools for CERN's next-generation tracking software \u2014 and they immediately caught bugs that numerical output had missed.",
       "star": {
-        "situation": "CERN is developing hardware-accelerated tracking geometry description, Detray, to process increasing amounts of detector data. Diagnosing problems within complex detector geometries is difficult when debugging relies primarily on numerical output.",
-        "task": "Researchers need a way to inspect detector geometry and tracking algorithms visually rather than through logs alone.",
-        "action": "I developed a C++ plugin that extracted detector geometry and particle trajectories directly from the tracking software and converted them into clean 2D SVG visualizations.",
-        "result": "The tool exposed several critical issues, including flipped sensors and incorrectly sized acceleration grids, significantly simplifying debugging."
+        "situation": "CERN is developing Detray, a hardware-accelerated geometry engine for particle tracking. Diagnosing problems in complex detector geometries is hard when debugging relies entirely on numerical output.",
+        "task": "Give the Detray development team a way to inspect detector geometry and particle trajectories visually, directly from the live codebase.",
+        "action": "I developed a C++ plugin that extracted detector geometry and particle trajectories directly from Detray and rendered them as clean 2D SVG visualizations, integrated into the existing framework without modifying core code.",
+        "result": "The tool exposed two critical bugs immediately upon deployment \u2014 flipped sensors and incorrectly sized acceleration grids \u2014 significantly simplifying debugging for the Detray development team."
       }
     },
     "resources": [
@@ -1413,48 +1360,6 @@
     ]
   },
   {
-    "id": "rppg",
-    "title": "Camera-Based Vital Sign Monitoring",
-    "date": "2023-05",
-    "tags": [
-      "Deep Learning",
-      "Computer Vision",
-      "Signal Processing",
-      "PyTorch",
-      "Python"
-    ],
-    "featured": true,
-    "favourite": false,
-    "content": {
-      "teaser": "Every heartbeat slightly changes the color of your skin \u2014 too subtle to see, but not too subtle to measure. By applying machine learning, heart rate data can be extracted directly from webcam video for contactless heart rate estimation.",
-      "star": {
-        "situation": "Heartbeats produce small color changes in the skin, but movement, occlusion, and lighting variations often bury the signal.",
-        "task": "The goal is to recover the pulse signal from video and use classical and deep learning methods to estimate heart rate.",
-        "action": "I tracked facial skin regions across video frames and extracted color signals to build a spatiotemporal map. These signals were processed using classical signal-processing methods and deep learning models, with additional training data generated synthetically.",
-        "result": "The system successfully estimated heart rate from raw video and enabled a direct comparison between classical and learning-based approaches."
-      }
-    },
-    "resources": [
-      {
-        "name": "Main Banner",
-        "uri": "resources/projects/rppg/rppg-bg.webp",
-        "type": "background"
-      },
-      {
-        "name": "Triangulation",
-        "uri": "resources/projects/rppg/triangulation.webp",
-        "caption": "Facial triangulation uses landmarks to track skin regions over time, allowing stable measurement of subtle color changes despite motion and lighting variation.",
-        "type": "gallery"
-      },
-      {
-        "name": "Signal",
-        "uri": "resources/projects/rppg/extracted-data.webp",
-        "caption": "Top: RGB signal from a single facial region. Bottom: signals from multiple regions processed into a spatiotemporal representation for heart rate estimation. The green bands indicate the heartbeat.",
-        "type": "gallery"
-      }
-    ]
-  },
-  {
     "id": "pushup-robot",
     "title": "The Pushup Robot",
     "date": "2022-11",
@@ -1465,15 +1370,15 @@
       "RVIZ",
       "Python"
     ],
-    "featured": true,
-    "favourite": false,
+    "hidden": false,
+    "featured": false,
     "content": {
       "teaser": "Palms are sweaty, knees weak, arms are heavy. You're lying on the floor already, wondering: is there a way to get the gains from your pushups without the agony? Meet The Pushup Robot\u00ae. It won't magically transfer the gains to your biceps, but it will crank out the reps while you sip your protein shake in peace. Warranty not included.",
       "star": {
-        "situation": "Humanoid robots have many redundant joints, making stable motion generation difficult. During a pushup, the hands and feet must stay fixed while the rest of the body moves naturally without entering unstable configurations.",
-        "task": "The goal is to generate realistic pushup motions while maintaining stability and respecting physical constraints.",
-        "action": "We implemented a custom inverse-kinematics solver based on a weighted pseudoinverse to handle singularities when the arms approached full extension. Additional constraints in the null space guided the elbows into natural poses, while cyclic pelvis trajectories drove the overall motion.",
-        "result": "The robot performed stable and realistic pushups across a range of motions, including asymmetric and jumping variations."
+        "situation": "Humanoid robots have many redundant joints, making stable motion generation difficult. During a pushup, the hands and feet must stay fixed while the rest of the body moves naturally \u2014 without entering unstable configurations as the arms pass through full extension.",
+        "task": "Generate realistic pushup motions while maintaining stability and respecting the physical constraints of a humanoid robot.",
+        "action": "We implemented a custom inverse-kinematics solver using a weighted pseudoinverse to prevent joint velocities from diverging as the arms pass through singularities. Secondary null-space tasks guided the elbows toward 90\u00b0 for smooth traversal, while cyclic pelvis trajectories drove the overall motion.",
+        "result": "The robot performed stable pushups across classic, asymmetric, and jumping variations \u2014 including full passage through arm singularities that would cause uncontrollable joint velocities in a standard solver."
       }
     },
     "resources": [
@@ -1529,59 +1434,6 @@
 ment.addEventListener('DOMContentLoaded', () => {
             const data = [
   {
-    "id": "openevolve-cluster-scheduler",
-    "title": "OpenEvolve LLM Cluster Scheduler",
-    "date": "2026-05",
-    "tags": [
-      "ETH Z\u00fcrich",
-      "Cloud Computing",
-      "LLM",
-      "Python"
-    ],
-    "featured": true,
-    "favourite": false,
-    "content": {
-      "teaser": "Can a language model learn to schedule cloud workloads? I designed an AI-driven scheduler that uses evolutionary search and LLM-generated policies to discover efficient resource allocation strategies automatically, reducing the makespan by 23%.",
-      "star": {
-        "situation": "Cloud schedulers must balance workloads with very different CPU, memory, and parallelization requirements. At the same time, latency-sensitive services also require strict performance guarantees.",
-        "task": "The goal was to find resource allocation strategies that packed jobs as efficiently as possible while meeting Memcached's latency target (p95 < 1 ms).",
-        "action": "I built an evolutionary optimization loop using OpenEvolve and Llama 3. Candidate schedules were generated, executed on a cluster, and scored using a fitness function that rewarded throughput while penalizing interference, wasted resources, and latency violations.",
-        "result": "The system evolved scheduling strategies that reduced total makespan by 23% while meeting Memcached's SLO, achieving a runtime of 258 seconds and matching the best hand-crafted policies."
-      }
-    },
-    "resources": [
-      {
-        "name": "Main Banner",
-        "uri": "resources/projects/openevolve/openevolve-bg.webp",
-        "type": "background"
-      },
-      {
-        "name": "Baseline Policy",
-        "uri": "resources/projects/openevolve/baseline-policy.webp",
-        "caption": "The baseline scheduling policy. The timeline shows how jobs are placed across CPU cores and the resulting p95 latency of Memcached.",
-        "type": "gallery"
-      },
-      {
-        "name": "AI Policy",
-        "uri": "resources/projects/openevolve/ai-policy.webp",
-        "caption": "The policy discovered after 20 evolutionary iterations. Jobs are packed more efficiently, reducing runtime while maintaining Memcached's latency target.",
-        "type": "gallery"
-      },
-      {
-        "name": "Job Interference",
-        "uri": "resources/projects/openevolve/benchmark-interference.webp",
-        "caption": "How co-located workloads affect performance. Each benchmark measures the slowdown caused by different sources of interference.",
-        "type": "gallery"
-      },
-      {
-        "name": "Job Speedup",
-        "uri": "resources/projects/openevolve/benchmark-threads.webp",
-        "caption": "Thread-scaling behavior of the batch workloads. Some jobs benefit more from additional CPU cores than others.",
-        "type": "gallery"
-      }
-    ]
-  },
-  {
     "id": "clifford-neural-optimization",
     "title": "Optimizing Clifford Neural Layers",
     "date": "2025-05",
@@ -1592,13 +1444,13 @@ ment.addEventListener('DOMContentLoaded', () => {
       "AVX2",
       "C++"
     ],
-    "featured": true,
-    "favourite": false,
+    "hidden": false,
+    "featured": false,
     "content": {
       "teaser": "Clifford algebra helps neural networks model physical systems, but the math is expensive. We built a high-performance C++ inference engine for Clifford Neural Network layers that runs up to 18\u00d7 faster than the baseline implementation.",
       "star": {
         "situation": "Clifford Neural Networks are well suited for problems such as weather prediction and fluid simulation, but their computational cost makes inference slow on standard hardware.",
-        "task": "The goal was to speed up inference by replacing the Python implementation with a more efficient C++ version while preserving identical outputs.",
+        "task": "Speed up inference by replacing the Python implementation with a more efficient C++ version while preserving identical outputs.",
         "action": "We profiled the code, identified performance bottlenecks, and redesigned the implementation around efficient memory access. We fused loops, improved cache utilization, and used AVX2 vectorization to process multiple values at once.",
         "result": "The optimized implementation sped up every layer, with the linear layer running 18\u00d7 faster than the baseline."
       }
@@ -1620,15 +1472,15 @@ ment.addEventListener('DOMContentLoaded', () => {
       "C++",
       "High Performance Computing"
     ],
+    "hidden": false,
     "featured": true,
-    "favourite": true,
     "content": {
-      "teaser": "How do you efficiently calculate the paths of billions of particles inside the world's largest particle accelerator? CERN's answer is Traccc\u2014an experimental, hardware-accelerated pipeline for heterogeneous architectures. I integrated it into ACTS, their standard tracking software, and benchmarked its accuracy across 50+ metrics.",
+      "teaser": "How do you efficiently reconstruct the paths of billions of particles inside the world's largest particle accelerator? CERN's answer is Traccc\u2014an experimental, hardware-accelerated pipeline for heterogeneous architectures. I integrated it into ACTS, their standard tracking software, and benchmarked its reconstruction quality across 50+ physics metrics.",
       "star": {
-        "situation": "Particle tracking reconstructs the paths of subatomic particles from detector measurements. An experimental GPU-based tracking pipeline, Traccc, promises faster reconstruction, but it cannot be evaluated within CERN's standard software framework, ACTS.",
-        "task": "The goal was to integrate the new pipeline into the existing framework and compare its reconstruction quality against established algorithms.",
-        "action": "I built low-level C++ interfaces that integrated the hardware-accelerated pipeline into the tracking framework. This included data conversion and integration across multiple stages, from hit processing and track seeding to Kalman filtering.",
-        "result": "Researchers can now use the GPU pipeline and compare it against existing reconstruction algorithms across 50+ physics metrics."
+        "situation": "Particle tracking reconstructs the paths of subatomic particles from detector measurements. An experimental GPU-based pipeline, Traccc, promises faster reconstruction, but it could not be evaluated within CERN's standard software framework, ACTS.",
+        "task": "Integrate Traccc into ACTS and produce a rigorous comparison of its reconstruction quality against the established baseline.",
+        "action": "I built low-level C++ interfaces across the full tracking pipeline \u2014 from hit processing and track seeding to Kalman filtering \u2014 handling data conversion at each stage boundary to bridge the two frameworks.",
+        "result": "The benchmark showed Traccc produces physically reasonable track distributions across 50+ metrics \u2014 deviating from the ACTS reference as expected for an early-stage experimental pipeline, but within interpretable bounds. The integration and results were well-received by the ACTS development team."
       }
     },
     "resources": [
@@ -1665,15 +1517,15 @@ ment.addEventListener('DOMContentLoaded', () => {
       "C++",
       "Visualization"
     ],
+    "hidden": false,
     "featured": true,
-    "favourite": true,
     "content": {
-      "teaser": "Debugging a physics engine is difficult when all you can see are numbers. I built visualization tools to expose the hidden flaws in CERN's next-generation tracking software.",
+      "teaser": "Debugging a physics engine is difficult when all you can see are numbers. I built visualization tools for CERN's next-generation tracking software \u2014 and they immediately caught bugs that numerical output had missed.",
       "star": {
-        "situation": "CERN is developing hardware-accelerated tracking geometry description, Detray, to process increasing amounts of detector data. Diagnosing problems within complex detector geometries is difficult when debugging relies primarily on numerical output.",
-        "task": "Researchers need a way to inspect detector geometry and tracking algorithms visually rather than through logs alone.",
-        "action": "I developed a C++ plugin that extracted detector geometry and particle trajectories directly from the tracking software and converted them into clean 2D SVG visualizations.",
-        "result": "The tool exposed several critical issues, including flipped sensors and incorrectly sized acceleration grids, significantly simplifying debugging."
+        "situation": "CERN is developing Detray, a hardware-accelerated geometry engine for particle tracking. Diagnosing problems in complex detector geometries is hard when debugging relies entirely on numerical output.",
+        "task": "Give the Detray development team a way to inspect detector geometry and particle trajectories visually, directly from the live codebase.",
+        "action": "I developed a C++ plugin that extracted detector geometry and particle trajectories directly from Detray and rendered them as clean 2D SVG visualizations, integrated into the existing framework without modifying core code.",
+        "result": "The tool exposed two critical bugs immediately upon deployment \u2014 flipped sensors and incorrectly sized acceleration grids \u2014 significantly simplifying debugging for the Detray development team."
       }
     },
     "resources": [
@@ -1691,48 +1543,6 @@ ment.addEventListener('DOMContentLoaded', () => {
     ]
   },
   {
-    "id": "rppg",
-    "title": "Camera-Based Vital Sign Monitoring",
-    "date": "2023-05",
-    "tags": [
-      "Deep Learning",
-      "Computer Vision",
-      "Signal Processing",
-      "PyTorch",
-      "Python"
-    ],
-    "featured": true,
-    "favourite": false,
-    "content": {
-      "teaser": "Every heartbeat slightly changes the color of your skin \u2014 too subtle to see, but not too subtle to measure. By applying machine learning, heart rate data can be extracted directly from webcam video for contactless heart rate estimation.",
-      "star": {
-        "situation": "Heartbeats produce small color changes in the skin, but movement, occlusion, and lighting variations often bury the signal.",
-        "task": "The goal is to recover the pulse signal from video and use classical and deep learning methods to estimate heart rate.",
-        "action": "I tracked facial skin regions across video frames and extracted color signals to build a spatiotemporal map. These signals were processed using classical signal-processing methods and deep learning models, with additional training data generated synthetically.",
-        "result": "The system successfully estimated heart rate from raw video and enabled a direct comparison between classical and learning-based approaches."
-      }
-    },
-    "resources": [
-      {
-        "name": "Main Banner",
-        "uri": "resources/projects/rppg/rppg-bg.webp",
-        "type": "background"
-      },
-      {
-        "name": "Triangulation",
-        "uri": "resources/projects/rppg/triangulation.webp",
-        "caption": "Facial triangulation uses landmarks to track skin regions over time, allowing stable measurement of subtle color changes despite motion and lighting variation.",
-        "type": "gallery"
-      },
-      {
-        "name": "Signal",
-        "uri": "resources/projects/rppg/extracted-data.webp",
-        "caption": "Top: RGB signal from a single facial region. Bottom: signals from multiple regions processed into a spatiotemporal representation for heart rate estimation. The green bands indicate the heartbeat.",
-        "type": "gallery"
-      }
-    ]
-  },
-  {
     "id": "pushup-robot",
     "title": "The Pushup Robot",
     "date": "2022-11",
@@ -1743,15 +1553,15 @@ ment.addEventListener('DOMContentLoaded', () => {
       "RVIZ",
       "Python"
     ],
-    "featured": true,
-    "favourite": false,
+    "hidden": false,
+    "featured": false,
     "content": {
       "teaser": "Palms are sweaty, knees weak, arms are heavy. You're lying on the floor already, wondering: is there a way to get the gains from your pushups without the agony? Meet The Pushup Robot\u00ae. It won't magically transfer the gains to your biceps, but it will crank out the reps while you sip your protein shake in peace. Warranty not included.",
       "star": {
-        "situation": "Humanoid robots have many redundant joints, making stable motion generation difficult. During a pushup, the hands and feet must stay fixed while the rest of the body moves naturally without entering unstable configurations.",
-        "task": "The goal is to generate realistic pushup motions while maintaining stability and respecting physical constraints.",
-        "action": "We implemented a custom inverse-kinematics solver based on a weighted pseudoinverse to handle singularities when the arms approached full extension. Additional constraints in the null space guided the elbows into natural poses, while cyclic pelvis trajectories drove the overall motion.",
-        "result": "The robot performed stable and realistic pushups across a range of motions, including asymmetric and jumping variations."
+        "situation": "Humanoid robots have many redundant joints, making stable motion generation difficult. During a pushup, the hands and feet must stay fixed while the rest of the body moves naturally \u2014 without entering unstable configurations as the arms pass through full extension.",
+        "task": "Generate realistic pushup motions while maintaining stability and respecting the physical constraints of a humanoid robot.",
+        "action": "We implemented a custom inverse-kinematics solver using a weighted pseudoinverse to prevent joint velocities from diverging as the arms pass through singularities. Secondary null-space tasks guided the elbows toward 90\u00b0 for smooth traversal, while cyclic pelvis trajectories drove the overall motion.",
+        "result": "The robot performed stable pushups across classic, asymmetric, and jumping variations \u2014 including full passage through arm singularities that would cause uncontrollable joint velocities in a standard solver."
       }
     },
     "resources": [
