@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Fred's Portfolio</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,754 +15,342 @@
            1. DESIGN TOKENS
            ========================================================================== */
         :root {
-            /* Colors: Refined Dark Editorial */
-            --color-bg: #0d0d0e;
-            --color-surface: #151516;
+            --color-bg: #050505;
+            --color-surface: #0f0f0f;
             --color-text: #ffffff;
-            --color-text-muted: #ffffff;
-            --color-text-dim: #606063;
+            --color-text-muted: rgba(255, 255, 255, 0.7);
+            --color-text-dim: rgba(255, 255, 255, 0.4);
             --color-accent: #ffffff;
+            --color-border: rgba(255, 255, 255, 0.1);
+            --color-border-strong: rgba(255, 255, 255, 0.3);
             
-            --color-border: #1e1e21;
-            --color-border-strong: #ffffff;
-            --color-new: #50c878; /* Premium Green */
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Inter', sans-serif;
             
-            /* Gradients & Shadows */
-            --grad-text: linear-gradient(to bottom, #ffffff 40%, #a1a1aa 100%);
-            --shadow-lg: 0 32px 64px -16px rgba(0,0,0,0.9);
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 4rem;
+            --space-xl: 8rem;
+            --side-pad: clamp(1.5rem, 5vw, 6rem);
             
-            /* Typography: Modular Scale & Best Practices */
-            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-size-base: clamp(15px, 0.3vw + 12px, 17px);
-            
-            --fs-xs: 0.75rem;
-            --fs-sm: 0.875rem;
-            --fs-base: 1rem;
-            --fs-md: 1.125rem;
-            --fs-lg: 1.5rem;
-            --fs-xl: 2.25rem;
-            --fs-2xl: 3.5rem;
-            --fs-3xl: 5rem;
-            
-            --lh-tight: 1.1;
-            --lh-base: 1.5;
-            --lh-loose: 1.7;
-            
-            /* Spacing: Precise & Large */
-            --space-2xs: 0.5rem;
-            --space-xs: 1rem;
-            --space-sm: 1.5rem;
-            --space-md: 2.5rem;
-            --space-lg: 5rem;
-            --space-xl: 10rem;
-            --side-pad: clamp(2.5rem, 8vw, 6.5rem);
-            
-            /* Radii: Absolute Sharpness */
-            --radius-sm: 0px;
-            --radius-md: 0px;
-            --radius-lg: 0px;
-            --radius-xl: 0px;
-            --radius-full: 0px;
-            
-            /* Animation: Fast & Aggressive */
             --ease-dramatic: cubic-bezier(0.19, 1, 0.22, 1);
-            --ease-smooth: cubic-bezier(0.19, 1, 0.22, 1);
-            --duration-md: 0.3s;
-            --duration-lg: 0.6s;
+            --duration-md: 0.4s;
+            --duration-lg: 0.8s;
             
-            --z-bg: 0;
-            --z-content: 10;
-            --z-backdrop: 400;
-            --z-sidebar: 500;
-            --z-fab: 600;
-            --z-lightbox: 1000;
-            
-            --sidebar-width: 35rem;
-            --content-max-width: 68rem;
-            --header-width: 100%;
-            --header-height: 5.25rem;
-
-            /* Background Fade Settings */
-            --bg-fade-start: 0.80;
-            --bg-fade-distance: 15000;
+            --z-overlay: 1000;
+            --z-lightbox: 2000;
         }
 
         /* ==========================================================================
-           2. BASE & RESETS
+           2. RESET & BASE
            ========================================================================== */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        html { font-size: var(--font-size-base); background: var(--color-bg); }
+        html { scroll-behavior: smooth; background: var(--color-bg); }
         body { 
             margin: 0; font-family: var(--font-main); 
             background: var(--color-bg); color: var(--color-text); 
-            -webkit-font-smoothing: antialiased; overflow: hidden; 
+            -webkit-font-smoothing: antialiased; line-height: 1.5;
         }
         h1, h2, h3, h4, p { margin: 0; }
         button { font-family: inherit; border: none; background: none; cursor: pointer; color: inherit; padding: 0; }
         a { text-decoration: none; color: inherit; }
-        ::-webkit-scrollbar { width: 0.5rem; }
-        ::-webkit-scrollbar-thumb { background: var(--color-text); }
-
-        /* ==========================================================================
-           3. SHARED COMPONENTS
-           ========================================================================== */
-        .c-btn { 
-            display: inline-flex; align-items: center; justify-content: center; gap: var(--space-xs); 
-            padding: 0.75rem 1.5rem; border-radius: var(--radius-full); 
-            font-weight: 600; font-size: 0.85rem; transition: all var(--duration-md) var(--ease-smooth); 
-            cursor: pointer; transform: translateZ(0); backface-visibility: hidden;
-            background: rgba(255, 255, 255, 0.05); color: var(--color-text); border: 1px solid var(--color-border-strong);
-            will-change: transform, background, color;
-        }
-        .c-btn:hover { background: var(--color-text); color: var(--color-bg); transform: translateY(-2px); }
-        .c-btn:active { transform: translateY(0) scale(0.95); }
-        .c-btn--icon { width: 3rem; height: 3rem; padding: 0; flex-shrink: 0; }
-        .c-btn svg { width: 1.1rem; height: 1.1rem; stroke-width: 2.5; }
-
-        .c-tag {
-            font-size: 0.7rem; font-weight: 400; padding: 0.25rem 0.6rem;
-            border-radius: var(--radius-full); border: 1px solid rgba(255, 255, 255, 0.4);
-            background: var(--color-surface); color: var(--color-text); white-space: nowrap;
-            transition: all var(--duration-md);
-        }
-
-        .c-input {
-            background-color: rgba(0,0,0,0.4); border: 1px solid var(--color-border); color: var(--color-text);
-            padding: 0.75rem 1rem; border-radius: var(--radius-full); font-size: 0.85rem; transition: all var(--duration-md);
-            font-family: inherit; outline: none;
-        }
-        .c-input:focus { border-color: var(--color-border-strong); background-color: rgba(255, 255, 255, 0.1); box-shadow: 0 0 0 2px rgba(255,255,255,0.05); }
-
-        /* ==========================================================================
-           4. LAYOUTS (l-)
-           ========================================================================== */
-        .l-app { display: flex; height: 100vh; height: 100dvh; width: 100%; position: relative; overflow: hidden; }
-
-        .l-sidebar {
-            width: var(--sidebar-width); flex-shrink: 0; display: flex; flex-direction: column;
-            border-right: 1px solid var(--color-border);
-            background: var(--color-bg);
-            z-index: var(--z-sidebar); transition: transform var(--duration-lg) var(--ease-dramatic); overflow: hidden;
-            position: relative;
-        }
-        .l-sidebar__controls { 
-            padding: 0 var(--space-md); 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            background: var(--color-bg);
-            position: sticky; top: 0; z-index: 10;
-            height: var(--header-height);
-            display: flex;
-            align-items: center;
-        }
-        .l-sidebar__list { 
-            flex: 1; overflow-y: auto; padding: var(--space-sm); display: flex; flex-direction: column; 
-            gap: var(--space-sm); background: var(--color-bg); 
-        }
-        .l-sidebar__list::-webkit-scrollbar { width: 0.2rem; }
-        .l-sidebar__list::-webkit-scrollbar-thumb { background: var(--color-text); }
-
-        .l-main {
-            flex-grow: 1; height: 100%; overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth;
-            position: relative; background: var(--color-bg);
-            display: flex; flex-direction: column;
-        }
-        .l-main__topbar {
-            position: sticky; top: 0; z-index: 100;
-            background: var(--color-bg);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 0 var(--side-pad);
-            height: var(--header-height);
-            display: flex; align-items: center; justify-content: flex-end;
-            gap: var(--space-md);
-            flex-shrink: 0;
-        }
-        .l-main__content {
-            max-width: var(--content-max-width); margin: 0 auto;
-            padding: var(--space-xl) var(--side-pad) 40vh var(--side-pad); position: relative; z-index: var(--z-content);
-            width: 100%;
-        }
-
-        /* ==========================================================================
-           5. COMPONENTS (c-)
-           ========================================================================== */
-        .c-backdrop {
-            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95);
-            z-index: var(--z-backdrop); opacity: 0; pointer-events: none; transition: opacity var(--duration-md) var(--ease-smooth);
-        }
-        .c-backdrop--active { opacity: 1; pointer-events: auto; }
-
-        .c-bg {
-            position: fixed; top: 0; bottom: -20vh; left: var(--sidebar-width); right: 0;
-            background-size: cover; background-position: top center; opacity: 0; pointer-events: none;
-            transform: translateY(var(--scroll-y, 0px)) translateZ(0);
-            transition: opacity 1.2s var(--ease-dramatic); z-index: var(--z-bg);
-            will-change: transform, opacity;
-        }
-        .c-bg--visible { opacity: 1; }
-        .c-bg__gradient {
-            position: absolute; inset: 0;
-            background: linear-gradient(to bottom, transparent 0%, transparent 20%, var(--color-bg) 100%);
-            z-index: 1;
-        }
-        .c-bg__fade {
-            position: absolute; inset: 0;
-            background: var(--color-bg);
-            opacity: 0; z-index: 2; will-change: opacity;
-        }
-
-        .c-home-btn { 
-            display: flex; align-items: center; gap: 0.5rem; 
-            cursor: pointer; transition: all var(--duration-md) var(--ease-smooth); 
-            padding: 0.5rem 1rem; border: 1px solid transparent; border-radius: var(--radius-full);
-            font-weight: 700; font-size: 0.85rem; color: var(--color-text);
-        }
-        .c-home-btn:hover { 
-            background: var(--color-text); color: var(--color-bg);
-            transform: translateY(-2px); 
-        }
-        .c-home-btn--active {
-            border-color: var(--color-accent); 
-            box-shadow: inset 0 0 0 1px var(--color-accent); 
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .c-tag-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .c-card .c-tag-group {
-            flex-wrap: nowrap; overflow: hidden; position: absolute; bottom: 0; left: 0; right: 0;
-            -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
-            mask-image: linear-gradient(to right, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
-        }
-
-        .c-input-group { display: flex; flex-direction: row; width: 100%; gap: 0.5rem; align-items: center; }
-        .c-input { border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-sm); background: rgba(0, 0, 0, 0.3); color: var(--color-text); font-family: inherit; outline: none; transition: all var(--duration-md); }
-        .c-input--search { 
-            padding: 0.6rem 0.75rem; font-size: 0.85rem; font-weight: 500; letter-spacing: -0.01em; flex: 1;
-        }
-        .c-input--search::placeholder { color: rgba(255, 255, 255, 0.3); }
-        .c-input--search:focus { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.2); }
         
-        .c-sort-row { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
-        .c-sort-label { display: none; }
-        .c-input--select {
-            appearance: none; padding: 0.6rem 2rem 0.6rem 0.75rem; font-size: 0.75rem; font-weight: 600; cursor: pointer;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23606063' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: right 0.65rem center;
-            border: 1px solid rgba(255, 255, 255, 0.1); background-color: rgba(0, 0, 0, 0.3); border-radius: var(--radius-sm); color: var(--color-text);
-        }
-        .c-input--select:hover, .c-input--select:focus { border-color: rgba(255, 255, 255, 0.2); background-color: rgba(255, 255, 255, 0.03); }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--color-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 3px; }
 
-        .c-card {
-            height: 18rem; border: 1px solid var(--color-border);
-            padding: var(--space-md);
-            display: flex; flex-direction: column; cursor: pointer;
-            background: var(--color-surface); transition: all var(--duration-md) var(--ease-smooth);
-            position: relative; overflow: hidden; flex-shrink: 0; width: 100%;
-        }
-        .c-card__bg {
-            position: absolute; right: 0; top: 0; bottom: 0; width: 60%;
-            z-index: 0; pointer-events: none;
-            background-size: cover; background-position: center;
-            opacity: 0.08; transition: all var(--duration-lg) var(--ease-smooth);
-            filter: grayscale(100%) brightness(0.8);
-            -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
-            mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
-        }
-        /* 3. Highlighted State (Hover or Mobile Focus) - Overrides both Base and Active */
-        .c-card:hover, .c-card--focused { 
-            border-color: var(--color-border-strong); 
-            transform: translateY(-3px) scale(1.02); 
-            background: #1a1a1c; 
-            z-index: 2; 
-        }
-        .c-card:hover .c-card__bg, .c-card--focused .c-card__bg { 
-            opacity: 0.45; 
-            filter: grayscale(0%) brightness(1.1); 
-        }
+        /* ==========================================================================
+           3. LAYOUT COMPONENTS
+           ========================================================================== */
+        .l-container { max-width: 1400px; margin: 0 auto; padding: 0 var(--side-pad); }
         
-        /* 4. Active State (Selected) */
-        .c-card--active { 
-            border-color: var(--color-accent); 
-            background: #1c1c1e; 
-            box-shadow: inset 0 0 0 1px var(--color-accent); 
-        }
-        /* Active + Not Highlighted: Keep it muted to maintain focus on center/hover */
-        .c-card--active:not(:hover):not(.c-card--focused) .c-card__bg { 
-            opacity: 0.15; 
-            filter: grayscale(100%); 
+        .l-hero { 
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: center; 
+            padding-top: var(--space-xl); padding-bottom: var(--space-lg);
         }
 
-        .c-card__content { 
-            position: relative; z-index: 1; height: 100%; 
-            display: flex; flex-direction: column; justify-content: center;
-        }
-        .c-card__header { position: relative; }
-        .c-card__title { 
-            font-size: 1.35rem; font-weight: 800; color: var(--color-text); 
-            letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 0.5rem;
-            max-width: 85%;
-            display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
-        }
-        .c-card__teaser { 
-            font-size: 0.8rem; color: rgba(255, 255, 255, 0.65); line-height: 1.5; 
-            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; 
-            overflow: hidden; font-weight: 400;
-            max-width: 90%;
-        }
+        .l-section { padding: var(--space-lg) 0; }
 
+        .l-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+        }
+        @media (min-width: 768px) { .l-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1200px) { .l-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        /* ==========================================================================
+           4. UI COMPONENTS
+           ========================================================================== */
+        
+        /* Hero Component */
+        .c-hero__tagline { 
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.4em; 
+            color: var(--color-text-dim); font-weight: 700; margin-bottom: var(--space-sm); 
+        }
+        .c-hero__title { 
+            font-size: clamp(3rem, 10vw, 7rem); font-weight: 900; letter-spacing: -0.05em; 
+            line-height: 0.95; margin-bottom: var(--space-md); 
+        }
+        .c-hero__layout { display: grid; gap: 2rem; border-top: 1px solid var(--color-border); padding-top: 2rem; }
+        @media (min-width: 768px) { .c-hero__layout { grid-template-columns: 1.5fr 1fr; } }
+        
+        .c-hero__highlight { font-size: 1.2rem; font-weight: 600; color: var(--color-text); margin-bottom: 0.5rem; }
+        .c-hero__bio { font-size: 1.1rem; color: var(--color-text-muted); line-height: 1.6; max-width: 40rem; }
+        
+        .c-hero__details { display: flex; flex-direction: column; gap: 1.5rem; justify-content: space-between; }
+        .c-hero__tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .c-hero__links { display: flex; flex-wrap: wrap; gap: 1rem; }
+        
+        .c-tag { font-size: 0.7rem; padding: 0.3rem 0.8rem; border: 1px solid var(--color-border-strong); border-radius: 2rem; color: var(--color-text-muted); }
+
+        /* Badge */
         .c-badge { 
-            position: absolute; bottom: 100%; left: 0; z-index: 2; margin-bottom: var(--space-2xs);
-            font-size: 0.55rem; font-weight: 900; letter-spacing: 0.25em; text-transform: uppercase; 
-            display: flex; align-items: center; gap: 0.4rem; opacity: 1;
+            font-size: 0.6rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+            margin-bottom: 0.5rem; display: block;
         }
         .c-badge--featured { color: #d4af37; }
-        .c-badge--new { color: var(--color-new); }
-        .c-badge::before { content: ''; width: 4px; height: 4px; background: currentColor; border-radius: 50%; }
+        .c-badge--new { color: #50c878; }
 
-        .c-empty { 
-            width: 100%;
-            padding-bottom: 40vh; /* Purely for scroll space below the centered content */
+        /* Section Header */
+        .c-section-header { 
+            display: flex; align-items: flex-end; justify-content: space-between; 
+            margin-bottom: var(--space-md); border-bottom: 1px solid var(--color-border);
+            padding-bottom: var(--space-sm);
         }
-        .c-empty__viewport {
-            min-height: calc(100vh - var(--header-height));
-            display: flex; flex-direction: column; align-items: center; 
-            color: var(--color-text-dim); text-align: center; 
-            padding: var(--space-xl) var(--side-pad); 
-            max-width: 48rem; margin: 0 auto;
+        .c-section-header__title { 
+            font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -0.02em; 
         }
-        .c-empty__avatar { 
-            width: clamp(12rem, 25vw, 16rem); aspect-ratio: 1 / 1; 
-            border-radius: var(--radius-sm); overflow: hidden; 
-            border: 2px solid rgba(255, 255, 255, 0.1); margin-bottom: var(--space-md);
-            box-shadow: 0 2rem 4rem rgba(0,0,0,0.6); flex-shrink: 0;
-            margin-top: auto; /* Pushes everything below it down, centering the block */
+        .c-section-header__index { 
+            font-size: 0.8rem; font-family: monospace; color: var(--color-text-dim); 
+            margin-bottom: 0.4rem;
         }
-        .c-empty__avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .c-empty__name { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; color: var(--color-text); letter-spacing: -0.04em; line-height: 1; margin-bottom: var(--space-sm); }
-        .c-empty__title { font-size: clamp(1rem, 2vw, 1.25rem); color: rgba(255, 255, 255, 0.7); line-height: 1.5; margin-bottom: var(--space-lg); }
-        .c-empty__contact { display: flex; gap: var(--space-xs); margin-bottom: auto; flex-wrap: wrap; justify-content: center; }
+
+        /* Project Card */
+        .c-card {
+            position: relative; aspect-ratio: 4/5; background: var(--color-surface);
+            border: 1px solid var(--color-border); overflow: hidden; cursor: pointer;
+            transition: transform var(--duration-md) var(--ease-dramatic), border-color var(--duration-md);
+        }
+        .c-card:hover { transform: translateY(-8px); border-color: var(--color-border-strong); }
         
-        .c-empty__bottom {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding-top: var(--space-xl);
+        .c-card__bg {
+            position: absolute; inset: 0; background-size: cover; background-position: center;
+            filter: grayscale(100%) brightness(0.4); transition: transform 1s var(--ease-dramatic), filter 0.6s;
+            z-index: 0;
         }
-        .c-empty__bottom-text {
-            display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-            position: relative;
-        }
-        .c-doodle__text {
-            font-family: 'Caveat', cursive; font-size: 2rem; font-weight: 600;
-            transform: rotate(-3deg); color: rgba(255, 255, 255, 0.7);
-            white-space: nowrap;
-        }
-        .c-doodle__arrow {
-            color: var(--color-accent); opacity: 0.8;
-            position: absolute; right: 100%; top: 10px; margin-right: 1rem;
-        }
-        .c-empty__footer { font-size: 0.85rem; opacity: 0.5; }
+        .c-card:hover .c-card__bg { transform: scale(1.05); filter: grayscale(0%) brightness(0.7); }
 
-        .c-header {
-            min-height: 75vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-bottom: var(--space-xl);
+        .c-card__content {
+            position: absolute; inset: 0; padding: 2.5rem; display: flex; flex-direction: column;
+            justify-content: flex-start; z-index: 1; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
         }
-        .c-header__title {
-            font-size: clamp(3rem, 10vw, 5.5rem); font-weight: 900; letter-spacing: -0.05em; line-height: 1.05;
-            margin-bottom: var(--space-md);
-            background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            width: var(--header-width);
-            padding-bottom: 0.1em; /* Ensure descenders like 'y' and 'g' are not clipped */
+        .c-card__details-wrap { margin-top: auto; }
+        .c-card__title { font-size: 1.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 0.75rem; }
+        .c-card__teaser { 
+            font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; 
+            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+            margin-bottom: 1rem;
         }
-        .c-header__teaser { 
-            font-size: clamp(1.2rem, 2vw, 1.5rem); font-weight: 400; color: rgba(255, 255, 255, 0.7); line-height: 1.5; letter-spacing: -0.01em; 
-            width: var(--header-width);
-            max-width: 54rem;
-        }
+        .c-card__tags { display: flex; flex-wrap: nowrap; gap: 0.5rem; overflow: hidden; }
+        .c-card__tag { font-size: 0.65rem; padding: 0.2rem 0.5rem; border: 1px solid rgba(255,255,255,0.2); border-radius: 2px; white-space: nowrap; }
 
-        .c-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.6em;
-            color: rgba(255, 255, 255, 0.5);
-            font-weight: 900;
-            margin-bottom: var(--space-xl);
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-            line-height: 1;
+        /* Buttons */
+        .c-btn {
+            display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.8rem 1.5rem;
+            border: 1px solid var(--color-border-strong); font-size: 0.85rem; font-weight: 600;
+            transition: all var(--duration-md); background: var(--color-bg);
         }
-        .c-label::after {
-            content: '';
-            flex: 1;
-            height: 2px;
-            background: linear-gradient(to right, rgba(255, 255, 255, 0.25), transparent);
-        }
+        .c-btn:hover { background: var(--color-text); color: var(--color-bg); }
+        .c-btn--icon { padding: 0.8rem; }
+        .c-btn svg { width: 1.2rem; height: 1.2rem; }
 
-        .c-gallery { margin-bottom: var(--space-xl); padding-top: var(--space-sm); }
+        /* Overlay System */
+        .c-overlay {
+            position: fixed; inset: 0; background: var(--color-bg); z-index: var(--z-overlay);
+            display: flex; flex-direction: column; transform: translateY(100%);
+            transition: transform var(--duration-lg) var(--ease-dramatic); overflow-y: auto;
+        }
+        .c-overlay--active { transform: translateY(0); }
+        
+        .c-overlay__bg {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background-size: cover; background-position: center;
+            opacity: 0.15; filter: grayscale(100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
+            mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
+        }
+        
+        .c-overlay__header {
+            position: sticky; top: 0; z-index: 10; padding: 1.5rem var(--side-pad);
+            display: flex; align-items: center; justify-content: flex-start;
+            pointer-events: none;
+        }
+        .c-overlay__header > * { pointer-events: auto; }
+        
+        .c-overlay__content { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 4rem var(--side-pad) 10rem var(--side-pad); }
+
+        /* STAR Section */
+        .c-star { margin-top: 4rem; display: grid; gap: 3rem; counter-reset: star-counter; }
+        @media (min-width: 768px) { .c-star { grid-template-columns: repeat(2, 1fr); } }
+        
+        .c-star-node { position: relative; padding-left: 2rem; border-left: 1px solid var(--color-border); counter-increment: star-counter; }
+        .c-star-node__label { 
+            font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.3em; 
+            color: var(--color-text-dim); margin-bottom: 0.5rem; font-weight: 700;
+        }
+        .c-star-node__label::before { content: '0' counter(star-counter) ' / '; }
+        .c-star-node__text { font-size: 1.1rem; color: var(--color-text-muted); line-height: 1.6; }
+
+        /* Gallery Overlay */
+        .c-gallery-overlay {
+            position: fixed; inset: 0; background: #000; z-index: var(--z-lightbox);
+            display: flex; flex-direction: column; transform: translateY(100%);
+            transition: transform var(--duration-lg) var(--ease-dramatic);
+        }
+        .c-gallery-overlay--active { transform: translateY(0); }
+        
         .c-gallery__frame { 
-            width: 100%; aspect-ratio: 16 / 10; border: 1px solid var(--color-border); 
-            overflow: hidden; position: relative; cursor: zoom-in; background: #fff; 
-            box-shadow: 0 50px 100px -30px rgba(0,0,0,0.7);
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            overflow: hidden; position: relative; cursor: zoom-in;
         }
-        .c-gallery__layer { position: absolute; inset: 0; background-size: contain; background-position: center; background-repeat: no-repeat; opacity: 0; transition: all var(--duration-lg) var(--ease-smooth); transform: scale(1.02); }
-        .c-gallery__layer--loaded { opacity: 1; transform: scale(1); }
-        .c-gallery__media { width: 100%; height: 100%; border: none; object-fit: contain; }
+        .c-gallery__media { max-width: 100%; max-height: 80vh; object-fit: contain; }
         
-        .c-gallery__controls { 
-            display: flex; align-items: center; justify-content: space-between;
-            margin-top: var(--space-md);
+        .c-gallery__footer {
+            padding: 2rem var(--side-pad) 4rem var(--side-pad);
+            display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
         }
-        .c-gallery__center { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
-        .c-gallery__caption { color: var(--color-text-dim); font-size: 0.85rem; font-weight: 400; text-align: center; line-height: 1.5; max-width: 32rem; }
-        .c-gallery__dots { display: flex; gap: 0.35rem; }
-        .c-gallery__dot { width: 1.5rem; height: 1px; background: var(--color-border-strong); opacity: 0.3; transition: all var(--duration-md) var(--ease-smooth); }
-        .c-gallery__dot--active { opacity: 1; width: 2.5rem; }
+        .c-gallery__caption { 
+            font-size: 1rem; color: var(--color-text-muted); text-align: center; 
+            max-width: 40rem; line-height: 1.5;
+        }
+        .c-gallery__controls { display: flex; align-items: center; gap: 2rem; }
+        .c-gallery__counter { font-size: 0.8rem; font-family: monospace; color: var(--color-text-dim); letter-spacing: 0.1em; }
 
-        /* Timeline - Refined High-Contrast STAR Section */
-        .c-timeline {
-            --timeline-pad: 3rem;
-            --active-shift: 1.5rem;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            margin-top: clamp(6rem, 15vh, 10rem);
-            margin-bottom: var(--space-xl);
-            padding-left: var(--timeline-pad);
-            gap: var(--space-xl); /* Increased spacing using existing variable */
-        }
-
-        @media (min-width: 900px) {
-            .c-timeline { --timeline-pad: 5rem; --active-shift: 2rem; gap: 15rem; }
-        }
-        
-        .c-timeline__track { 
-            display: block; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; 
-            background: rgba(255, 255, 255, 0.08); 
-            z-index: 1;
-        }
-
-        .c-timeline__progress {
-            position: absolute; top: 0; left: 0; width: 100%; height: 0px;
-            background: var(--color-accent);
-            transition: height 0.1s linear;
-            z-index: 2;
-        }
-
-        /* The glowing indicator - Geometric Square Knob */
-        .c-timeline__progress::after {
-            content: '';
-            position: absolute;
-            bottom: -6px; left: 50%; transform: translateX(-50%);
-            width: 12px; height: 12px;
-            background: #ffffff;
-            border-radius: 0px; /* Square knob */
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
-        }
-
-        .c-timeline__node {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            transition: opacity 1.2s var(--ease-smooth), transform 0.8s var(--ease-smooth);
-            opacity: 0; /* Hidden until proximity triggers it */
-            will-change: opacity, transform;
-            max-width: 42rem;
-            transform: translateY(1.5rem); /* Subtle rise-up entrance */
-        }
-
-        .c-timeline__node.c-timeline__node--visible {
-            opacity: 0.3;
-            transform: translateY(0);
-        }
-
-        .c-timeline__node.c-timeline__node--active {
-            opacity: 1;
-            transform: translateX(var(--active-shift)) translateY(0);
-        }
-
-        .c-timeline__node.c-timeline__node--past {
-            opacity: 0.7;
-            transform: translateY(0);
-        }
-
-        .c-timeline__node.c-timeline__node--future {
-            opacity: 0.3;
-            /* Future state is synonymous with visible but not yet active */
-        }
-
-        .c-timeline__header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            position: relative;
-        }
-
-        .c-timeline__number {
-            font-size: 0.65rem;
-            font-weight: 800;
-            color: rgba(255, 255, 255, 0.4);
-            font-family: monospace;
-            letter-spacing: 0.1em;
-        }
-
-        .c-timeline__node--active .c-timeline__number {
-            color: var(--color-accent);
-        }
-
-        .c-timeline__label {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.4em;
-            font-weight: 900;
-            transition: all 0.6s var(--ease-smooth);
-        }
-
-        /* Connection Line - Dotted and Floating */
-        .c-timeline__header::before {
-            content: '';
-            position: absolute;
-            /* Floating effect: Starts 8px from track, ends 12px before number */
-            right: calc(100% + 12px);
-            top: 50%;
-            width: calc(var(--timeline-pad) - 20px);
-            height: 2px;
-            margin-top: -1px;
-            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.3) 1.5px, transparent 1.5px);
-            background-size: 8px 100%;
-            background-repeat: repeat-x;
-            transition: all 0.8s var(--ease-smooth);
-        }
-
-        .c-timeline__node--active .c-timeline__label { 
-            color: var(--color-accent); 
-            letter-spacing: 0.5em; 
-        }
-        
-        .c-timeline__node--active .c-timeline__header::before { 
-            width: calc(var(--timeline-pad) + var(--active-shift) - 20px);
-            background-image: radial-gradient(circle, var(--color-accent) 1.5px, transparent 1.5px);
-        }
-
-        .c-timeline__text {
-            color: rgba(255, 255, 255, 0.5);
-            line-height: 1.6;
-            font-size: clamp(1.1rem, 2vw, 1.25rem);
-            font-weight: 400;
-            letter-spacing: -0.01em;
-            transition: all 0.8s var(--ease-smooth);
-            max-width: 38rem;
-        }
-
-        .c-timeline__node--active .c-timeline__text {
-            color: rgba(255, 255, 255, 0.95);
-        }
-
-        .c-timeline__node--past .c-timeline__text {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .c-fab { 
-            display: none; position: fixed; bottom: calc(1.25rem + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%) translateZ(0); z-index: var(--z-fab); 
-            background: rgba(20, 20, 24, 0.95); backdrop-filter: blur(20px); padding: 1rem 2rem; 
-            border-radius: var(--radius-full); border: 1px solid var(--color-border-strong); color: var(--color-text); 
-            font-weight: 700; font-size: 0.9rem; box-shadow: 0 1rem 3rem rgba(0,0,0,0.8); 
-            align-items: center; justify-content: center; gap: 0.5rem; transition: all var(--duration-md) var(--ease-smooth);
-            will-change: transform, background; min-width: 8rem;
-        }
-        .c-fab:active { transform: translateX(-50%) scale(0.9) translateZ(0); }
-        .c-fab--active { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
-
+        /* Lightbox */
         .c-lightbox {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.98); backdrop-filter: blur(30px); 
-            z-index: var(--z-lightbox); display: none; align-items: center; justify-content: center; 
-            opacity: 0; transition: opacity 0.4s var(--ease-smooth);
+            position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: var(--z-lightbox);
+            display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s;
         }
         .c-lightbox--active { display: flex; opacity: 1; }
-        .c-lightbox__close { position: absolute; top: var(--space-md); right: var(--space-md); z-index: 10; }
-        .c-lightbox__content { width: 95vw; height: 85vh; position: relative; pointer-events: none; }
-        .c-lightbox__content > * { pointer-events: auto; }
-        
-        .u-hidden { display: none !important; }
-        
-        /* ==========================================================================
-           5. RESPONSIVE DESIGN
-           ========================================================================== */
-        @media (max-width: 1100px) {
-            :root { --sidebar-width: 0px; }
-            .l-sidebar { 
-                position: fixed; top: 0; left: 0; bottom: 0; z-index: var(--z-sidebar);
-                transform: translateX(-100%); width: 100%; border-right: none; 
-            }
-            .l-sidebar--open { transform: translateX(0); box-shadow: none; }
-            .l-sidebar__list { 
-                padding-bottom: calc(var(--header-height) + var(--space-md)); 
-                scroll-snap-type: y proximity;
-                padding-top: var(--space-md);
-            }
-            .c-card { scroll-snap-align: center; }
-            .c-fab { display: flex; }
-            
-            .c-empty__bottom {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-            .c-empty__bottom-text { order: 1; }
-            .c-doodle__arrow {
-                position: static;
-                transform: rotate(-90deg);
-                order: 2;
-                margin-right: 0;
-                margin-top: 1.5rem;
-            }
+        .c-lightbox__close { 
+            position: absolute; top: 2rem; left: 2rem; width: 3.5rem; height: 3.5rem;
+            border-radius: 50%; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
         }
+        .c-lightbox__close:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
+        .c-lightbox__content { width: 90vw; height: 80vh; }
 
-        @media (max-width: 640px) {
-            .c-header__title { font-size: 2.8rem; width: 100%; }
-            .c-header__teaser { margin-left: 0; padding-left: 0; padding-right: 1.25rem; border-left-width: 0; width: 100%; }
-            .c-gallery__controls { grid-template-columns: 2.5rem 1fr 2.5rem; gap: 0.5rem; }
-            .c-btn { width: 100%; }
-            .c-btn--icon { width: 2.5rem; height: 2.5rem; }
-            .c-timeline { --timeline-pad: 2rem; --active-shift: 1rem; gap: 5rem; }
-        }
+        .u-hidden { display: none !important; }
+        .u-fade-in { animation: fadeIn 1s var(--ease-dramatic) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div class="l-app">
-        <div class="c-backdrop js-backdrop"></div>
-        <button class="c-fab js-fab">☰ Explore</button>
-
-        <!-- Sidebar -->
-        <aside class="l-sidebar js-sidebar">
-            <div class="l-sidebar__controls c-input-group">
-                <input type="text" class="c-input c-input--search js-search" placeholder="Search by tag or name...">
-                <div class="c-sort-row">
-                    <span class="c-sort-label">Sort by:</span>
-                    <select class="c-input c-input--select js-sort">
-                        <option value="featured" selected>Featured</option>
-                        <option value="date-desc">Recent</option>
-                        <option value="alpha">A-Z</option>
-                    </select>
+    <div id="app">
+        <!-- Hero Section -->
+        <header class="l-hero l-container">
+            <span class="c-hero__tagline">MSc Computer Science @ ETH Zürich</span>
+            <h1 class="c-hero__title">Hi, I'm Fred.</h1>
+            <div class="c-hero__layout">
+                <div class="c-hero__bio-wrap">
+                    <p class="c-hero__highlight">Apple Summer Intern · Ex. CERN.</p>
+                    <p class="c-hero__bio">
+                        Designing systems that bridge the gap between High-Performance Computing and Machine Learning.
+                    </p>
+                </div>
+                <div class="c-hero__details">
+                    <div class="c-hero__tags">
+                        <span class="c-tag">C++</span>
+                        <span class="c-tag">Python</span>
+                        <span class="c-tag">CUDA</span>
+                        <span class="c-tag">PyTorch</span>
+                        <span class="c-tag">Distributed Systems</span>
+                    </div>
+                    <div class="c-hero__links">
+                        <a href="mailto:fred@example.com" class="c-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>Email</a>
+                        <a href="https://linkedin.com" target="_blank" class="c-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>LinkedIn</a>
+                        <a href="https://github.com" target="_blank" class="c-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>GitHub</a>
+                    </div>
                 </div>
             </div>
-            <div class="l-sidebar__list js-project-list"></div>
-        </aside>
+        </header>
 
-        <!-- Main -->
-        <main class="l-main js-main">
-            <div class="l-main__topbar">
-                <button class="c-home-btn js-reset-view">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                    Home
+        <!-- Project Sections (Dynamically filled by JS) -->
+        <main class="l-container" id="project-sections"></main>
+
+        <!-- Project Overlay -->
+        <div class="c-overlay js-overlay">
+            <div class="c-overlay__bg js-overlay-bg"></div>
+            <div class="c-overlay__header">
+                <button class="c-btn js-overlay-close">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    Close
                 </button>
             </div>
-
-            <div class="c-bg js-bg">
-                <div class="c-bg__gradient"></div>
-                <div class="c-bg__fade js-bg-fade"></div>
-            </div>
-
-            <div class="c-empty js-empty-state">
-                <div class="c-empty__viewport">
-                    <div class="c-empty__avatar"><img src="resources/profile/portrait.webp" alt="Fred"></div>
-                    <h1 class="c-empty__name">Hi 👋, I'm Fred.</h1>
-                    <p class="c-empty__title">MSc Computer Science @ ETH Zürich<br>Apple Summer Intern · Ex. CERN</p>
-                    
-                    <!-- <div class="c-empty__contact">
-                        <a href="mailto:contact@example.com" class="c-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> Email</a>
-                        <a href="https://linkedin.com" target="_blank" class="c-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg> LinkedIn</a>
-                        <a href="https://github.com" target="_blank" class="c-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg> GitHub</a>
-                    </div> -->
+            
+            <div class="c-overlay__content">
+                <h1 class="c-hero__title js-title" style="font-size: clamp(2.5rem, 6vw, 4.5rem);"></h1>
+                <p class="c-hero__bio js-teaser" style="font-size: 1.1rem; max-width: 40rem;"></p>
+                
+                <div class="js-resources-section u-hidden" style="margin-top: 1.5rem; margin-bottom: 3rem;">
+                    <div class="c-hero__links js-resources"></div>
                 </div>
-
-                <div class="c-empty__bottom">
-                    <div class="c-empty__bottom-text">
-                        <svg class="c-doodle__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40" width="80" height="32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M85 20 Q 50 5 15 20" />
-                            <path d="M 25 8 L 14 20 L 28 28" />
-                        </svg>
-                        <span class="c-doodle__text">Select a project to explore my work!</span>
-                        <p class="c-empty__footer">Website made with ❤ by Fred.</p>
+                
+                <div class="c-star">
+                    <div class="c-star-node">
+                        <div class="c-star-node__label">Context</div>
+                        <p class="c-star-node__text js-s"></p>
+                    </div>
+                    <div class="c-star-node">
+                        <div class="c-star-node__label">Objective</div>
+                        <p class="c-star-node__text js-t"></p>
+                    </div>
+                    <div class="c-star-node">
+                        <div class="c-star-node__label">Approach</div>
+                        <p class="c-star-node__text js-a"></p>
+                    </div>
+                    <div class="c-star-node">
+                        <div class="c-star-node__label">Result</div>
+                        <p class="c-star-node__text js-r"></p>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="l-main__content u-hidden js-detail-view">
-                <header class="c-header">
-                    <h1 class="c-header__title js-title"></h1>
-                    <div class="c-tag-group js-tags" style="margin-bottom: var(--space-md);"></div>
-                    <p class="c-header__teaser js-teaser"></p>
-                </header>
-
-                <section>
-                    <div class="c-label">Details</div>
-                    <div class="c-timeline">
-                        <div class="c-timeline__track"><div class="c-timeline__progress js-timeline-progress"></div></div>
-                        
-                        <article class="c-timeline__node js-timeline-node" data-step="01">
-                            <div class="c-timeline__header">
-                                <span class="c-timeline__number">01</span>
-                                <h4 class="c-timeline__label">Situation</h4>
-                            </div>
-                            <p class="c-timeline__text js-s"></p>
-                        </article>
-
-                        <article class="c-timeline__node js-timeline-node" data-step="02">
-                            <div class="c-timeline__header">
-                                <span class="c-timeline__number">02</span>
-                                <h4 class="c-timeline__label">Objective</h4>
-                            </div>
-                            <p class="c-timeline__text js-t"></p>
-                        </article>
-
-                        <article class="c-timeline__node js-timeline-node" data-step="03">
-                            <div class="c-timeline__header">
-                                <span class="c-timeline__number">03</span>
-                                <h4 class="c-timeline__label">Approach</h4>
-                            </div>
-                            <p class="c-timeline__text js-a"></p>
-                        </article>
-
-                        <article class="c-timeline__node js-timeline-node" data-step="04">
-                            <div class="c-timeline__header">
-                                <span class="c-timeline__number">04</span>
-                                <h4 class="c-timeline__label">Result</h4>
-                            </div>
-                            <p class="c-timeline__text js-r"></p>
-                        </article>
-                    </div>
-                </section>
-
-                <section class="js-gallery-section u-hidden">
-                    <div class="c-label">Gallery</div>
-                    <div class="c-gallery">
-                        <div class="c-gallery__frame js-gallery-frame">
-                            <div class="js-gallery-media"></div>
-                        </div>
-                        <div class="c-gallery__controls">
-                            <button class="c-btn c-btn--icon js-gallery-prev"></button>
-                            <div class="c-gallery__center">
-                                <div class="c-gallery__dots js-gallery-dots"></div>
-                                <div class="c-gallery__caption js-gallery-caption"></div>
-                            </div>
-                            <button class="c-btn c-btn--icon js-gallery-next"></button>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="js-resources-section u-hidden">
-                    <div class="c-label">Resources</div>
-                    <div class="c-tag-group js-resources" style="margin-bottom: var(--space-xl); gap: var(--space-md);"></div>
-                </section>
+        <!-- Gallery Overlay -->
+        <div class="c-gallery-overlay js-gallery-overlay">
+            <div class="c-overlay__header">
+                <button class="c-btn js-gallery-close">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    Close
+                </button>
             </div>
-        </main>
+            <div class="c-gallery__frame js-gallery-frame">
+                <div class="js-gallery-media"></div>
+            </div>
+            <div class="c-gallery__footer">
+                <div class="c-gallery__caption js-gallery-caption"></div>
+                <div class="c-gallery__controls">
+                    <button class="c-btn c-btn--icon js-gallery-prev"></button>
+                    <span class="c-gallery__counter js-gallery-counter"></span>
+                    <button class="c-btn c-btn--icon js-gallery-next"></button>
+                </div>
+            </div>
+        </div>
 
         <!-- Lightbox -->
         <div class="c-lightbox js-lightbox">
-            <button class="c-lightbox__close c-btn c-btn--icon js-lightbox-close"></button>
+            <div class="c-overlay__header" style="position: absolute; top: 0; left: 0; right: 0; width: 100%;">
+                <button class="c-btn js-lightbox-close">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    Close
+                </button>
+            </div>
             <div class="c-lightbox__content js-lightbox-content"></div>
         </div>
     </div>
@@ -771,16 +359,18 @@
         const ICONS = {
             LINK: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`,
             FILE: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>`,
+            GALLERY: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>`,
             CHEV_LEFT: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>`,
             CHEV_RIGHT: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>`,
-            CLOSE: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`
+            CLOSE: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`,
+            MAIL: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>`,
+            LINKEDIN: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>`,
+            GITHUB: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>`
         };
 
         const EVENTS = {
-            FILTER_CHANGED: 'FILTER_CHANGED',
             PROJECT_SELECTED: 'PROJECT_SELECTED',
-            RESET_VIEW: 'RESET_VIEW',
-            TOGGLE_SIDEBAR: 'TOGGLE_SIDEBAR',
+            OPEN_GALLERY: 'OPEN_GALLERY',
             OPEN_LIGHTBOX: 'OPEN_LIGHTBOX'
         };
 
@@ -791,230 +381,93 @@
         }
 
         class ProjectStore {
-            constructor(data) { this.projects = data; this.activeId = null; }
-            get(query = '', sort = 'featured') {
-                const q = query.toLowerCase();
-                const filtered = this.projects.filter(p => !p.hidden && (p.title.toLowerCase().includes(q) || p.tags.some(t => t.toLowerCase().includes(q))));
-                return filtered.sort((a, b) => {
-                    if (sort === 'featured') return (b.featured - a.featured) || a.title.localeCompare(b.title);
-                    if (sort === 'alpha') return a.title.localeCompare(b.title);
-                    return new Date(b.date) - new Date(a.date);
-                });
+            constructor(data) {
+                this.projects = data.projects;
+                this.sections = data.sections;
             }
             byId(id) { return this.projects.find(p => p.id === id); }
-            setActive(id) { this.activeId = id; }
-            getActiveId() { return this.activeId; }
-        }
-        
-        class SidebarController {
-            constructor(bus, store) {
-                this.bus = bus;
-                this.store = store;
-                this.sidebar = document.querySelector('.js-sidebar');
-                this.backdrop = document.querySelector('.js-backdrop');
-                this.fab = document.querySelector('.js-fab');
-                this.profileBtn = document.querySelector('.js-reset-view');
-                let isOpen = false;
-
-                // Set initial active state
-                this.profileBtn.classList.add('c-home-btn--active');
-
-                this.fab.addEventListener('click', () => { isOpen = !isOpen; this.bus.emit(EVENTS.TOGGLE_SIDEBAR, isOpen); });
-                this.backdrop.addEventListener('click', () => { isOpen = false; this.bus.emit(EVENTS.TOGGLE_SIDEBAR, false); });
-                this.profileBtn.addEventListener('click', () => { 
-                    isOpen = false; 
-                    this.bus.emit(EVENTS.TOGGLE_SIDEBAR, false); 
-                    this.store.setActive(null);
-                    this.bus.emit(EVENTS.RESET_VIEW); 
-                });
-
-                this.bus.on(EVENTS.RESET_VIEW, () => this.profileBtn.classList.add('c-home-btn--active'));
-                this.bus.on(EVENTS.PROJECT_SELECTED, () => this.profileBtn.classList.remove('c-home-btn--active'));
-
-                this.bus.on(EVENTS.TOGGLE_SIDEBAR, (state) => {
-                    isOpen = state;
-                    this.sidebar.classList.toggle('l-sidebar--open', state);
-                    this.backdrop.classList.toggle('c-backdrop--active', state);
-                    if (state) {
-                        this.fab.classList.add('c-fab--active');
-                        this.fab.innerHTML = "✕ Close";
-                    } else {
-                        this.fab.classList.remove('c-fab--active');
-                        this.fab.innerHTML = "☰ Explore";
-                    }
-                });
-            }
-        }
-
-        class FilterController {
-            constructor(bus) {
-                this.bus = bus;
-                this.input = document.querySelector('.js-search');
-                this.select = document.querySelector('.js-sort');
-                this.input.addEventListener('input', () => this.notify());
-                this.select.addEventListener('change', () => this.notify());
-            }
-            notify() { this.bus.emit(EVENTS.FILTER_CHANGED, { query: this.input.value, sort: this.select.value }); }
         }
 
         class ProjectListController {
-            constructor(store, bus) {
-                this.store = store; this.bus = bus;
-                this.container = document.querySelector('.js-project-list');
-                this.bus.on(EVENTS.FILTER_CHANGED, (p) => this.render(p.query, p.sort));
-                this.bus.on(EVENTS.PROJECT_SELECTED, () => this.render(document.querySelector('.js-search').value, document.querySelector('.js-sort').value));
-                this.bus.on(EVENTS.RESET_VIEW, () => this.render(document.querySelector('.js-search').value, document.querySelector('.js-sort').value));
-
-                let ticking = false;
-                this.container.addEventListener('scroll', () => {
-                    if (!ticking && this.isMobile) {
-                        window.requestAnimationFrame(() => {
-                            this.updateCenterFocus();
-                            ticking = false;
-                        });
-                        ticking = true;
-                    }
-                }, { passive: true });
+            constructor(bus, store) {
+                this.bus = bus;
+                this.store = store;
+                this.container = document.getElementById('project-sections');
+                this.render();
             }
 
-            get isMobile() { return window.innerWidth <= 1100; }
-
-            updateCenterFocus() {
-                const cards = Array.from(this.container.querySelectorAll('.c-card'));
-                if (!cards.length) return;
-
-                const containerRect = this.container.getBoundingClientRect();
-                const centerY = containerRect.top + (containerRect.height / 2);
-
-                // Boundary Biasing: Force focus at start/end of scroll
-                const isAtTop = this.container.scrollTop < 20;
-                const isAtBottom = this.container.scrollHeight - this.container.scrollTop <= this.container.clientHeight + 20;
-
-                let closestCard = null;
-                if (isAtTop) closestCard = cards[0];
-                else if (isAtBottom) closestCard = cards[cards.length - 1];
-                else {
-                    let minDistance = Infinity;
-                    cards.forEach(card => {
-                        const rect = card.getBoundingClientRect();
-                        const distance = Math.abs(centerY - (rect.top + rect.height / 2));
-                        if (distance < minDistance) {
-                            minDistance = distance;
-                            closestCard = card;
-                        }
-                    });
-                }
-
-                cards.forEach(card => card.classList.toggle('c-card--focused', card === closestCard));
-            }
-
-            render(query = '', sort = 'featured') {
-                const projects = this.store.get(query, sort);
-                const activeId = this.store.getActiveId();
-                const today = new Date();
-                const sixMonthsAgo = new Date();
-                sixMonthsAgo.setMonth(today.getMonth() - 6);
-
-                this.container.innerHTML = projects.map(p => {
-                    const bgRes = p.resources.find(r => r.type === 'background');
-                    const bgStyle = bgRes ? `style="background-image: url('${bgRes.uri}')"` : '';
-                    
-                    const pDate = new Date(p.date + "-01");
-                    const isNew = pDate >= sixMonthsAgo;
-                    let badge = '';
-                    if (p.featured) badge = '<div class="c-badge c-badge--featured">Featured</div>';
-                    else if (isNew) badge = '<div class="c-badge c-badge--new">New</div>';
-
-                    return `
-                    <div class="c-card ${p.id === activeId ? 'c-card--active' : ''}" data-id="${p.id}">
-                        ${bgRes ? `<div class="c-card__bg" ${bgStyle}></div>` : ''}
-                        <div class="c-card__content">
-                            <div class="c-card__header">
-                                ${badge}
-                                <h3 class="c-card__title">${p.title}</h3>
-                            </div>
-                            ${p.content && p.content.teaser ? `<p class="c-card__teaser">${p.content.teaser}</p>` : ''}
-                            <div class="c-tag-group">${p.tags.map(t => `<span class="c-tag">${t}</span>`).join('')}</div>
+            render() {
+                this.container.innerHTML = this.store.sections.map((section, idx) => `
+                    <section class="l-section">
+                        <header class="c-section-header">
+                            <h2 class="c-section-header__title">${section.title}</h2>
+                            <span class="c-section-header__index">0${idx + 1}</span>
+                        </header>
+                        <div class="l-grid">
+                            ${section.projects.map(p => this.renderCard(p)).join('')}
                         </div>
-                    </div>
-                `}).join('');
+                    </section>
+                `).join('');
 
                 this.container.querySelectorAll('.c-card').forEach(card => {
                     card.addEventListener('click', () => {
-                        this.store.setActive(card.dataset.id);
                         this.bus.emit(EVENTS.PROJECT_SELECTED, this.store.byId(card.dataset.id));
-                        this.bus.emit(EVENTS.TOGGLE_SIDEBAR, false);
                     });
                 });
+            }
 
-                if (this.isMobile) {
-                    setTimeout(() => this.updateCenterFocus(), 100);
-                }
+            renderCard(p) {
+                const bg = p.resources.find(r => r.type === 'background')?.uri || '';
+                let badge = '';
+                if (p.featured) badge = `<span class="c-badge c-badge--featured">Featured</span>`;
+                else if (p.is_new) badge = `<span class="c-badge c-badge--new">New</span>`;
+
+                return `
+                    <article class="c-card" data-id="${p.id}">
+                        ${bg ? `<div class="c-card__bg" style="background-image: url('${bg}')"></div>` : ''}
+                        <div class="c-card__content">
+                            ${badge}
+                            <div class="c-card__details-wrap">
+                                <h3 class="c-card__title">${p.title}</h3>
+                                <p class="c-card__teaser">${p.content.teaser}</p>
+                                <div class="c-card__tags">
+                                    ${p.tags.slice(0, 3).map(t => `<span class="c-card__tag">${t}</span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                `;
             }
         }
 
         class DetailController {
             constructor(bus) {
                 this.bus = bus;
-                this.main = document.querySelector('.js-main');
-                this.bg = document.querySelector('.js-bg');
-                this.bgFade = document.querySelector('.js-bg-fade');
-                this.empty = document.querySelector('.js-empty-state');
-                this.detail = document.querySelector('.js-detail-view');
-                
+                this.overlay = document.querySelector('.js-overlay');
+                this.overlayBg = document.querySelector('.js-overlay-bg');
+                this.closeBtn = document.querySelector('.js-overlay-close');
                 this.els = {
                     title: document.querySelector('.js-title'),
-                    tags: document.querySelector('.js-tags'),
                     teaser: document.querySelector('.js-teaser'),
                     s: document.querySelector('.js-s'), t: document.querySelector('.js-t'),
                     a: document.querySelector('.js-a'), r: document.querySelector('.js-r'),
                     resources: document.querySelector('.js-resources'),
-                    resSection: document.querySelector('.js-resources-section'),
-                    progress: document.querySelector('.js-timeline-progress')
+                    resSection: document.querySelector('.js-resources-section')
                 };
 
-                // Cache fade settings
-                const rootStyles = getComputedStyle(document.documentElement);
-                this.fadeStart = parseFloat(rootStyles.getPropertyValue('--bg-fade-start')) || 0.0;
-                this.fadeDist = parseFloat(rootStyles.getPropertyValue('--bg-fade-distance')) || 3000;
-
-                // Set initial state directly on elements to avoid inheritance delays
-                this.bgFade.style.opacity = this.fadeStart;
-                this.bg.style.setProperty('--scroll-y', '0px');
-
-                this.bus.on(EVENTS.PROJECT_SELECTED, (p) => this.render(p));
-                this.bus.on(EVENTS.RESET_VIEW, () => {
-                    this.empty.classList.remove('u-hidden');
-                    this.detail.classList.add('u-hidden');
-                    this.bg.classList.remove('c-bg--visible');
-                });
-
-                let ticking = false;
-                this.main.addEventListener('scroll', () => {
-                    if (!ticking) {
-                        window.requestAnimationFrame(() => {
-                            const st = this.main.scrollTop;
-                            this.bgFade.style.opacity = Math.min(1, this.fadeStart + (st / this.fadeDist));
-                            this.bg.style.setProperty('--scroll-y', `${st * -0.15}px`);
-                            this.updateTimelineProgress();
-                            ticking = false;
-                        });
-                        ticking = true;
-                    }
-                }, { passive: true });
+                this.closeBtn.addEventListener('click', () => this.close());
+                this.bus.on(EVENTS.PROJECT_SELECTED, (p) => this.open(p));
+                
+                // Close on ESC
+                window.addEventListener('keydown', (e) => { if (e.key === 'Escape') this.close(); });
             }
 
-            render(p) {
-                // Reset scroll properties BEFORE showing background to prevent first-click snap
-                this.bgFade.style.opacity = this.fadeStart;
-                this.bg.style.setProperty('--scroll-y', '0px');
-                
+            open(p) {
                 const bgRes = p.resources.find(r => r.type === 'background');
-                if (bgRes) { this.bg.style.backgroundImage = `url('${bgRes.uri}')`; this.bg.classList.add('c-bg--visible'); }
-                else this.bg.classList.remove('c-bg--visible');
+                if (bgRes) { this.overlayBg.style.backgroundImage = `url('${bgRes.uri}')`; }
+                else { this.overlayBg.style.backgroundImage = 'none'; }
 
                 this.els.title.textContent = p.title;
-                this.els.tags.innerHTML = p.tags.map(t => `<span class="c-tag">${t}</span>`).join('');
                 this.els.teaser.textContent = p.content.teaser;
                 ['s', 't', 'a', 'r'].forEach(k => {
                     const keyMap = {s: 'situation', t: 'task', a: 'action', r: 'result'};
@@ -1022,80 +475,50 @@
                 });
 
                 const links = p.resources.filter(r => !['gallery', 'background'].includes(r.type));
-                this.els.resources.innerHTML = links.map(r => `<a href="${r.uri}" target="_blank" class="c-btn">${r.type === 'link' ? ICONS.LINK : ICONS.FILE} ${r.name}</a>`).join('');
-                this.els.resSection.classList.toggle('u-hidden', links.length === 0);
-
-                this.empty.classList.add('u-hidden');
-                this.detail.classList.remove('u-hidden');
+                const galleryImages = p.resources.filter(r => r.type === 'gallery');
                 
-                this.main.scrollTo({ top: 0 });
-                this.main.style.setProperty('--scroll-opacity', 0.4);
-                this.main.style.setProperty('--scroll-y', 0);
-                this.els.progress.style.height = '0px';
-                
-                setTimeout(() => {
-                    this.updateTimelineProgress();
-                }, 50);
-            }
+                let resourcesHtml = links.map(r => `
+                    <a href="${r.uri}" target="_blank" class="c-btn">
+                        ${r.type === 'link' ? ICONS.LINK : ICONS.FILE} ${r.name}
+                    </a>
+                `).join('');
 
-            updateTimelineProgress() {
-                const nodes = Array.from(this.detail.querySelectorAll('.js-timeline-node'));
-                if (!nodes.length || this.detail.classList.contains('u-hidden')) return;
-
-                const mainRect = this.main.getBoundingClientRect();
-                const triggerY = mainRect.height * 0.45;
-
-                let activeIdx = -1;
-                nodes.forEach((node, i) => {
-                    const header = node.querySelector('.c-timeline__header');
-                    if (header) {
-                        const headerRect = header.getBoundingClientRect();
-                        const lineY = headerRect.top + (headerRect.height / 2);
-                        
-                        // Reveal node as it approaches the comet (e.g., within 200px of trigger)
-                        if (lineY <= mainRect.height * 0.85) {
-                            node.classList.add('c-timeline__node--visible');
-                        }
-
-                        // Activation logic
-                        if (lineY <= triggerY + 5) {
-                            activeIdx = i;
-                        }
-                    }
-                });
-
-                const track = this.detail.querySelector('.c-timeline__track');
-                const progress = this.detail.querySelector('.js-timeline-progress');
-                if (track && progress) {
-                    const trackRect = track.getBoundingClientRect();
-                    
-                    // Comet trails perfectly down the literal physical track
-                    let currentPos = triggerY - trackRect.top;
-                    let p = Math.max(0, Math.min(trackRect.height, currentPos));
-                    
-                    progress.style.height = `${p}px`;
+                if (galleryImages.length > 0) {
+                    resourcesHtml = `
+                        <button class="c-btn js-trigger-gallery">
+                            ${ICONS.GALLERY} View Gallery
+                        </button>
+                    ` + resourcesHtml;
                 }
 
-                nodes.forEach((node, i) => {
-                    const isActive = i === activeIdx;
-                    const isPast = activeIdx >= 0 && i < activeIdx;
-                    const isFuture = activeIdx === -1 || i > activeIdx;
+                this.els.resources.innerHTML = resourcesHtml;
+                this.els.resSection.classList.toggle('u-hidden', links.length === 0 && galleryImages.length === 0);
 
-                    node.classList.toggle('c-timeline__node--active', isActive);
-                    node.classList.toggle('c-timeline__node--past', isPast);
-                    node.classList.toggle('c-timeline__node--future', isFuture);
-                });
+                const galleryBtn = this.els.resources.querySelector('.js-trigger-gallery');
+                if (galleryBtn) {
+                    galleryBtn.addEventListener('click', () => this.bus.emit(EVENTS.OPEN_GALLERY, p));
+                }
+
+                this.overlay.classList.add('c-overlay--active');
+                document.body.style.overflow = 'hidden';
+                this.overlay.scrollTo(0, 0);
+            }
+
+            close() {
+                this.overlay.classList.remove('c-overlay--active');
+                document.body.style.overflow = '';
             }
         }
 
         class GalleryController {
             constructor(bus) {
                 this.bus = bus;
-                this.section = document.querySelector('.js-gallery-section');
+                this.overlay = document.querySelector('.js-gallery-overlay');
                 this.frame = document.querySelector('.js-gallery-frame');
                 this.media = document.querySelector('.js-gallery-media');
                 this.caption = document.querySelector('.js-gallery-caption');
-                this.dots = document.querySelector('.js-gallery-dots');
+                this.counter = document.querySelector('.js-gallery-counter');
+                this.closeBtn = document.querySelector('.js-gallery-close');
                 this.images = []; this.idx = 0; this.project = null;
 
                 const prevBtn = document.querySelector('.js-gallery-prev');
@@ -1105,55 +528,57 @@
 
                 prevBtn.addEventListener('click', () => this.navigate(-1));
                 nextBtn.addEventListener('click', () => this.navigate(1));
-                this.frame.addEventListener('click', () => this.bus.emit(EVENTS.OPEN_LIGHTBOX, { 
-                    images: this.images, 
-                    idx: this.idx 
-                }));
-                this.bus.on(EVENTS.PROJECT_SELECTED, (p) => this.load(p));
+                this.closeBtn.addEventListener('click', () => this.close());
+                this.frame.addEventListener('click', () => this.bus.emit(EVENTS.OPEN_LIGHTBOX, { images: this.images, idx: this.idx }));
+                this.bus.on(EVENTS.OPEN_GALLERY, (p) => this.load(p));
 
-                this._initSwipe();
-            }
-
-            _initSwipe() {
-                let startX = 0;
-                this.frame.addEventListener('touchstart', (e) => startX = e.touches[0].clientX, { passive: true });
-                this.frame.addEventListener('touchend', (e) => {
-                    const diff = e.changedTouches[0].clientX - startX;
-                    if (Math.abs(diff) > 50) this.navigate(diff > 0 ? -1 : 1);
-                }, { passive: true });
+                window.addEventListener('keydown', (e) => {
+                    if (this.overlay.classList.contains('c-gallery-overlay--active')) {
+                        if (e.key === 'Escape') this.close();
+                        if (e.key === 'ArrowLeft') this.navigate(-1);
+                        if (e.key === 'ArrowRight') this.navigate(1);
+                    }
+                });
             }
 
             load(p) {
                 this.project = p;
                 this.images = p.resources.filter(r => r.type === 'gallery').map(r => r.uri);
                 this.idx = 0;
-                if (this.images.length === 0) { this.section.classList.add('u-hidden'); return; }
-                this.section.classList.remove('u-hidden');
+                this.overlay.classList.add('c-gallery-overlay--active');
                 this.render();
             }
-            navigate(dir) { if (!this.images.length) return; this.idx = (this.idx + dir + this.images.length) % this.images.length; this.render(); }
+
+            navigate(dir) { 
+                if (!this.images.length) return; 
+                this.idx = (this.idx + dir + this.images.length) % this.images.length; 
+                this.render(); 
+            }
+
             render() {
                 const uri = this.images[this.idx];
-                this.media.innerHTML = `<div class="c-gallery__layer"></div>`;
+                this.media.innerHTML = `<div class="u-fade-in" style="display:flex; align-items:center; justify-content:center; height:100%"></div>`;
                 this.injectMedia(this.media.firstElementChild, uri);
                 const res = this.project.resources.find(r => r.uri === uri);
                 this.caption.textContent = res?.caption || "";
-                this.dots.innerHTML = this.images.map((_, i) => `<div class="c-gallery__dot ${i === this.idx ? 'c-gallery__dot--active' : ''}"></div>`).join('');
+                
+                // Update counter
+                const cur = (this.idx + 1).toString().padStart(2, '0');
+                const tot = this.images.length.toString().padStart(2, '0');
+                this.counter.textContent = `${cur} / ${tot}`;
             }
+
             injectMedia(el, uri) {
-                const isVideo = uri.match(/\.(mp4|webm)$/i), isYT = uri.includes('youtube.com') || uri.includes('youtu.be');
-                const loaded = () => el.classList.add('c-gallery__layer--loaded');
-                if (isYT) {
-                    const id = uri.includes('v=') ? uri.split('v=')[1].split('&')[0] : uri.split('/').pop();
-                    el.innerHTML = `<iframe class="c-gallery__media" src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}" allow="autoplay; fullscreen"></iframe>`;
-                    el.querySelector('iframe').onload = loaded;
-                } else if (isVideo) {
+                const isVideo = uri.match(/\.(mp4|webm)$/i);
+                if (isVideo) {
                     el.innerHTML = `<video class="c-gallery__media" src="${uri}" autoplay muted loop playsinline></video>`;
-                    el.querySelector('video').onloadeddata = loaded;
                 } else {
-                    const img = new Image(); img.src = uri;
-                    img.onload = () => { el.style.backgroundImage = `url('${uri}')`; loaded(); };
+                    el.innerHTML = `<img class="c-gallery__media" src="${uri}" alt="Gallery Image">`;
                 }
+            }
+
+            close() {
+                this.overlay.classList.remove('c-gallery-overlay--active');
             }
         }
 
@@ -1162,460 +587,426 @@
                 this.bus = bus;
                 this.el = document.querySelector('.js-lightbox');
                 this.content = document.querySelector('.js-lightbox-content');
-                this.images = [];
-                this.idx = 0;
+                this.images = []; this.idx = 0;
 
                 const closeBtn = document.querySelector('.js-lightbox-close');
-                closeBtn.innerHTML = ICONS.CLOSE;
                 closeBtn.addEventListener('click', () => this.close());
                 
                 this.bus.on(EVENTS.OPEN_LIGHTBOX, (data) => {
-                    this.images = data.images || [data.uri];
-                    this.idx = data.idx || 0;
+                    this.images = data.images; this.idx = data.idx;
                     this.open();
                 });
-
-                this._initSwipe();
-            }
-
-            _initSwipe() {
-                let startX = 0;
-                this.el.addEventListener('touchstart', (e) => startX = e.touches[0].clientX, { passive: true });
-                this.el.addEventListener('touchend', (e) => {
-                    const diff = e.changedTouches[0].clientX - startX;
-                    if (Math.abs(diff) > 50) this.navigate(diff > 0 ? -1 : 1);
-                }, { passive: true });
-            }
-
-            navigate(dir) {
-                if (this.images.length <= 1) return;
-                this.idx = (this.idx + dir + this.images.length) % this.images.length;
-                this.render();
             }
 
             open() {
                 this.render();
-                this.el.style.display = 'flex'; void this.el.offsetWidth; this.el.classList.add('c-lightbox--active');
+                this.el.style.display = 'flex'; void this.el.offsetWidth;
+                this.el.classList.add('c-lightbox--active');
             }
 
             render() {
                 const uri = this.images[this.idx];
-                this.content.innerHTML = '';
-                const node = document.createElement('div'); node.className = 'c-gallery__layer c-gallery__layer--loaded';
-                const isVideo = uri.match(/\.(mp4|webm)$/i), isYT = uri.includes('youtube.com') || uri.includes('youtu.be');
-                if (isYT) {
-                    const id = uri.includes('v=') ? uri.split('v=')[1].split('&')[0] : uri.split('/').pop();
-                    node.innerHTML = `<iframe class="c-gallery__media" src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}" allow="autoplay; fullscreen"></iframe>`;
-                } else if (isVideo) { node.innerHTML = `<video class="c-gallery__media" src="${uri}" autoplay muted loop playsinline></video>`; } 
-                else { node.style.backgroundImage = `url('${uri}')`; }
-                this.content.appendChild(node);
-            }
-
-            close() { this.el.classList.remove('c-lightbox--active'); setTimeout(() => { this.el.style.display = 'none'; }, 400); }
-        }
-
-        class App {
-            constructor(data) {
-                this.bus = new EventBus();
-                this.store = new ProjectStore(data);
-                this.sidebar = new SidebarController(this.bus, this.store);
-                this.filter = new FilterController(this.bus);
-                this.list = new ProjectListController(this.store, this.bus);
-                this.detail = new DetailController(this.bus);
-                this.gallery = new GalleryController(this.bus);
-                this.lightbox = new LightboxController(this.bus);
-                this.list.render(this.filter.input.value, this.filter.select.value);
-                
-                // Silent preloading of backgrounds
-                if (window.requestIdleCallback) {
-                    requestIdleCallback(() => this.preloadBackgrounds());
+                const isVideo = uri.match(/\.(mp4|webm)$/i);
+                if (isVideo) {
+                    this.content.innerHTML = `<video class="c-gallery__media" src="${uri}" autoplay muted loop playsinline></video>`;
                 } else {
-                    setTimeout(() => this.preloadBackgrounds(), 2000);
+                    this.content.innerHTML = `<img class="c-gallery__media" src="${uri}" alt="Lightbox Image">`;
                 }
             }
 
-            preloadBackgrounds() {
-                this.store.projects.forEach(p => {
-                    const bg = p.resources.find(r => r.type === 'background');
-                    if (bg && bg.uri) {
-                        const img = new Image();
-                        img.src = bg.uri;
-                        if (img.decode) {
-                            img.decode().catch(err => console.warn(`Failed to decode preloaded image: ${bg.uri}`, err));
-                        }
-                    }
-                });
+            close() { 
+                this.el.classList.remove('c-lightbox--active'); 
+                setTimeout(() => { this.el.style.display = 'none'; }, 400); 
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const data = [
-  {
-    "id": "clifford-neural-optimization",
-    "title": "Optimizing Clifford Neural Layers",
-    "date": "2025-05",
-    "tags": [
-      "ETH Z\u00fcrich",
-      "High Performance Computing",
-      "Deep Learning",
-      "AVX2",
-      "C++"
-    ],
-    "hidden": false,
-    "featured": false,
-    "content": {
-      "teaser": "Clifford algebra helps neural networks model physical systems, but the math is expensive. We built a high-performance C++ inference engine for Clifford Neural Network layers that runs up to 18\u00d7 faster than the baseline implementation.",
-      "star": {
-        "situation": "Clifford Neural Networks are well suited for problems such as weather prediction and fluid simulation, but their computational cost makes inference slow on standard hardware.",
-        "task": "Speed up inference by replacing the Python implementation with a more efficient C++ version while preserving identical outputs.",
-        "action": "We profiled the code, identified performance bottlenecks, and redesigned the implementation around efficient memory access. We fused loops, improved cache utilization, and used AVX2 vectorization to process multiple values at once.",
-        "result": "The optimized implementation sped up every layer, with the linear layer running 18\u00d7 faster than the baseline."
-      }
+            const data = {
+  "projects": [
+    {
+      "id": "clifford-neural-optimization",
+      "title": "Optimizing Clifford Neural Layers",
+      "date": "2025-05",
+      "tags": [
+        "ETH Z\u00fcrich",
+        "High Performance Computing",
+        "AVX2",
+        "C++"
+      ],
+      "hidden": false,
+      "featured": false,
+      "content": {
+        "teaser": "Clifford algebra helps neural networks model physical systems, but the math is expensive. We built a high-performance C++ inference engine for Clifford Neural Network layers that runs up to 18\u00d7 faster than the baseline implementation.",
+        "star": {
+          "situation": "Clifford Neural Networks are well suited for problems such as weather prediction and fluid simulation, but their computational cost makes inference slow on standard hardware.",
+          "task": "Speed up inference by replacing the Python implementation with a more efficient C++ version while preserving identical outputs.",
+          "action": "We profiled the code, identified performance bottlenecks, and redesigned the implementation around efficient memory access. We fused loops, improved cache utilization, and used AVX2 vectorization to process multiple values at once.",
+          "result": "The optimized implementation sped up every layer, with the linear layer running 18\u00d7 faster than the baseline."
+        }
+      },
+      "resources": [
+        {
+          "name": "Main Banner",
+          "uri": "resources/projects/clifford-asl/clifford-asl-bg.webp",
+          "type": "background"
+        }
+      ],
+      "is_new": false
     },
-    "resources": [
-      {
-        "name": "Main Banner",
-        "uri": "resources/projects/clifford-asl/clifford-asl-bg.webp",
-        "type": "background"
-      }
-    ]
-  },
-  {
-    "id": "cern-traccc-integration",
-    "title": "Accelerating Track Reconstruction",
-    "date": "2024-08",
-    "tags": [
-      "CERN",
-      "C++",
-      "High Performance Computing"
-    ],
-    "hidden": false,
-    "featured": true,
-    "content": {
-      "teaser": "How do you efficiently reconstruct the paths of billions of particles inside the world's largest particle accelerator? CERN's answer is Traccc\u2014an experimental, hardware-accelerated pipeline for heterogeneous architectures. I integrated it into ACTS, their standard tracking software, and benchmarked its reconstruction quality across 50+ physics metrics.",
-      "star": {
-        "situation": "Particle tracking reconstructs the paths of subatomic particles from detector measurements. An experimental GPU-based pipeline, Traccc, promises faster reconstruction, but it could not be evaluated within CERN's standard software framework, ACTS.",
-        "task": "Integrate Traccc into ACTS and produce a rigorous comparison of its reconstruction quality against the established baseline.",
-        "action": "I built low-level C++ interfaces across the full tracking pipeline \u2014 from hit processing and track seeding to Kalman filtering \u2014 handling data conversion at each stage boundary to bridge the two frameworks.",
-        "result": "The benchmark showed Traccc produces physically reasonable track distributions across 50+ metrics \u2014 deviating from the ACTS reference as expected for an early-stage experimental pipeline, but within interpretable bounds. The integration and results were well-received by the ACTS development team."
-      }
+    {
+      "id": "cern-traccc-integration",
+      "title": "Accelerating Track Reconstruction",
+      "date": "2024-08",
+      "tags": [
+        "CERN",
+        "C++",
+        "High Performance Computing"
+      ],
+      "hidden": false,
+      "featured": true,
+      "content": {
+        "teaser": "How do you efficiently reconstruct the paths of billions of particles inside the world's largest particle accelerator? CERN's answer is Traccc \u2014 an experimental, hardware-accelerated pipeline for heterogeneous architectures. I integrated it into ACTS, their standard tracking software, and benchmarked its reconstruction quality across 50+ physics metrics.",
+        "star": {
+          "situation": "Particle tracking reconstructs the paths of subatomic particles from detector measurements. An experimental GPU-based pipeline, Traccc, promises faster reconstruction, but it could not be evaluated within CERN's standard software framework, ACTS.",
+          "task": "Integrate Traccc into ACTS and produce a rigorous comparison of its reconstruction quality against the established baseline.",
+          "action": "I built low-level C++ interfaces across the full tracking pipeline \u2014 from hit processing and track seeding to Kalman filtering \u2014 handling data conversion at each stage boundary to bridge the two frameworks.",
+          "result": "The benchmark showed Traccc produces physically reasonable track distributions across 50+ metrics \u2014 deviating from the ACTS reference as expected for an early-stage experimental pipeline, but within interpretable bounds. The integration and results were well-received by the ACTS development team."
+        }
+      },
+      "resources": [
+        {
+          "name": "Main Banner",
+          "uri": "resources/projects/track-reconstruction/track-reconstruction-bg.webp",
+          "type": "background"
+        },
+        {
+          "name": "Reconstruction Pipeline",
+          "uri": "resources/projects/track-reconstruction/reconstruction-pipeline.svg",
+          "caption": "Stages of the tracking pipeline used to reconstruct particle trajectories from raw detector measurements.",
+          "type": "gallery"
+        },
+        {
+          "name": "Physmon",
+          "uri": "resources/projects/track-reconstruction/physmon.webp",
+          "caption": "Reconstruction quality metrics for the ACTS baseline (blue) and Traccc (orange).",
+          "type": "gallery"
+        },
+        {
+          "name": "Reconstruction Summary Example",
+          "uri": "resources/projects/track-reconstruction/tracksummary.html",
+          "type": "link"
+        }
+      ],
+      "is_new": false
     },
-    "resources": [
-      {
-        "name": "Main Banner",
-        "uri": "resources/projects/track-reconstruction/track-reconstruction-bg.webp",
-        "type": "background"
+    {
+      "id": "cern-detray-visualizer",
+      "title": "Visualizing Detector Geometry",
+      "date": "2023-09",
+      "tags": [
+        "CERN",
+        "C++",
+        "Visualization"
+      ],
+      "hidden": false,
+      "featured": true,
+      "content": {
+        "teaser": "Debugging a physics engine is difficult when all you can see are numbers. I built visualization tools for CERN's next-generation tracking software \u2014 and they immediately caught bugs that numerical output had missed.",
+        "star": {
+          "situation": "CERN is developing Detray, a hardware-accelerated geometry engine for particle tracking. Diagnosing problems in complex detector geometries is hard when debugging relies entirely on numerical output.",
+          "task": "Give the Detray development team a way to inspect detector geometry and particle trajectories visually, directly from the live codebase.",
+          "action": "I developed a C++ plugin that extracted detector geometry and particle trajectories directly from Detray and rendered them as clean 2D SVG visualizations, integrated into the existing framework without modifying core code.",
+          "result": "The tool exposed two critical bugs immediately upon deployment \u2014 flipped sensors and incorrectly sized acceleration grids \u2014 significantly simplifying debugging for the Detray development team."
+        }
       },
-      {
-        "name": "Reconstruction Pipeline",
-        "uri": "resources/projects/track-reconstruction/reconstruction-pipeline.svg",
-        "caption": "Stages of the tracking pipeline used to reconstruct particle trajectories from raw detector measurements.",
-        "type": "gallery"
-      },
-      {
-        "name": "Physmon",
-        "uri": "resources/projects/track-reconstruction/physmon.webp",
-        "caption": "Reconstruction quality metrics for the ACTS baseline (blue) and Traccc (orange).",
-        "type": "gallery"
-      },
-      {
-        "name": "Reconstruction Summary Example",
-        "uri": "resources/projects/track-reconstruction/tracksummary.html",
-        "type": "link"
-      }
-    ]
-  },
-  {
-    "id": "cern-detray-visualizer",
-    "title": "Visualizing Detector Geometry",
-    "date": "2023-09",
-    "tags": [
-      "CERN",
-      "C++",
-      "Visualization"
-    ],
-    "hidden": false,
-    "featured": true,
-    "content": {
-      "teaser": "Debugging a physics engine is difficult when all you can see are numbers. I built visualization tools for CERN's next-generation tracking software \u2014 and they immediately caught bugs that numerical output had missed.",
-      "star": {
-        "situation": "CERN is developing Detray, a hardware-accelerated geometry engine for particle tracking. Diagnosing problems in complex detector geometries is hard when debugging relies entirely on numerical output.",
-        "task": "Give the Detray development team a way to inspect detector geometry and particle trajectories visually, directly from the live codebase.",
-        "action": "I developed a C++ plugin that extracted detector geometry and particle trajectories directly from Detray and rendered them as clean 2D SVG visualizations, integrated into the existing framework without modifying core code.",
-        "result": "The tool exposed two critical bugs immediately upon deployment \u2014 flipped sensors and incorrectly sized acceleration grids \u2014 significantly simplifying debugging for the Detray development team."
-      }
+      "resources": [
+        {
+          "name": "Main Banner",
+          "uri": "resources/projects/detray-visualization/detray-visualization-bg.webp",
+          "type": "background"
+        },
+        {
+          "name": "Live Demo",
+          "uri": "demo.html",
+          "caption": "Interactive diagnostic tool for detector geometry visualization.",
+          "type": "link"
+        }
+      ],
+      "is_new": false
     },
-    "resources": [
-      {
-        "name": "Main Banner",
-        "uri": "resources/projects/detray-visualization/detray-visualization-bg.webp",
-        "type": "background"
+    {
+      "id": "pushup-robot",
+      "title": "The Pushup Robot",
+      "date": "2022-11",
+      "tags": [
+        "Caltech",
+        "Robotics",
+        "ROS2",
+        "RVIZ",
+        "Python"
+      ],
+      "hidden": false,
+      "featured": false,
+      "content": {
+        "teaser": "Palms are sweaty, knees weak, arms are heavy. You're lying on the floor already, wondering: is there a way to get the gains from your pushups without the agony? Meet The Pushup Robot\u00ae. It won't magically transfer the gains to your biceps, but it will crank out the reps while you sip your protein shake in peace. Warranty not included.",
+        "star": {
+          "situation": "Humanoid robots have many redundant joints, making stable motion generation difficult. During a pushup, the hands and feet must stay fixed while the rest of the body moves naturally \u2014 without entering unstable configurations as the arms pass through full extension.",
+          "task": "Generate realistic pushup motions while maintaining stability and respecting the physical constraints of a humanoid robot.",
+          "action": "We implemented a custom inverse-kinematics solver using a weighted pseudoinverse to prevent joint velocities from diverging as the arms pass through singularities. Secondary null-space tasks guided the elbows toward 90\u00b0 for smooth traversal, while cyclic pelvis trajectories drove the overall motion.",
+          "result": "The robot performed stable pushups across classic, asymmetric, and jumping variations \u2014 including full passage through arm singularities that would cause uncontrollable joint velocities in a standard solver."
+        }
       },
-      {
-        "name": "Live Demo",
-        "uri": "demo.html",
-        "caption": "Interactive diagnostic tool for detector geometry visualization.",
-        "type": "link"
-      }
-    ]
-  },
-  {
-    "id": "pushup-robot",
-    "title": "The Pushup Robot",
-    "date": "2022-11",
-    "tags": [
-      "Caltech",
-      "Robotics",
-      "ROS2",
-      "RVIZ",
-      "Python"
-    ],
-    "hidden": false,
-    "featured": false,
-    "content": {
-      "teaser": "Palms are sweaty, knees weak, arms are heavy. You're lying on the floor already, wondering: is there a way to get the gains from your pushups without the agony? Meet The Pushup Robot\u00ae. It won't magically transfer the gains to your biceps, but it will crank out the reps while you sip your protein shake in peace. Warranty not included.",
-      "star": {
-        "situation": "Humanoid robots have many redundant joints, making stable motion generation difficult. During a pushup, the hands and feet must stay fixed while the rest of the body moves naturally \u2014 without entering unstable configurations as the arms pass through full extension.",
-        "task": "Generate realistic pushup motions while maintaining stability and respecting the physical constraints of a humanoid robot.",
-        "action": "We implemented a custom inverse-kinematics solver using a weighted pseudoinverse to prevent joint velocities from diverging as the arms pass through singularities. Secondary null-space tasks guided the elbows toward 90\u00b0 for smooth traversal, while cyclic pelvis trajectories drove the overall motion.",
-        "result": "The robot performed stable pushups across classic, asymmetric, and jumping variations \u2014 including full passage through arm singularities that would cause uncontrollable joint velocities in a standard solver."
-      }
+      "resources": [
+        {
+          "name": "Main Banner",
+          "uri": "resources/projects/pushup-robot/pushup-robot-bg.webp",
+          "type": "background"
+        },
+        {
+          "name": "Classic Pushup",
+          "uri": "resources/projects/pushup-robot/classic.webm",
+          "caption": "A classic pushup.",
+          "type": "gallery"
+        },
+        {
+          "name": "Human Pushup",
+          "uri": "resources/projects/pushup-robot/human.webm",
+          "caption": "A more natural-looking pushup.",
+          "type": "gallery"
+        },
+        {
+          "name": "Jumping Pushup",
+          "uri": "resources/projects/pushup-robot/jumping.webm",
+          "caption": "A jumping pushup!",
+          "type": "gallery"
+        },
+        {
+          "name": "Asymmetric Pushup",
+          "uri": "resources/projects/pushup-robot/asymmetric.webm",
+          "caption": "An asymmetric pushup.",
+          "type": "gallery"
+        },
+        {
+          "name": "Joint Values and Velocities 1",
+          "uri": "resources/projects/pushup-robot/joint-plot1.webp",
+          "caption": "Joint values and velocities for the classic and human-like pushups.",
+          "type": "gallery"
+        },
+        {
+          "name": "Joint Values and Velocities 2",
+          "uri": "resources/projects/pushup-robot/joint-plot2.webp",
+          "caption": "Joint values and velocities for the asymmetric and jumping pushups.",
+          "type": "gallery"
+        }
+      ],
+      "is_new": false
+    }
+  ],
+  "sections": [
+    {
+      "id": "hpc",
+      "title": "Systems & HPC",
+      "projects": [
+        {
+          "id": "cern-traccc-integration",
+          "title": "Accelerating Track Reconstruction",
+          "date": "2024-08",
+          "tags": [
+            "CERN",
+            "C++",
+            "High Performance Computing"
+          ],
+          "hidden": false,
+          "featured": true,
+          "content": {
+            "teaser": "How do you efficiently reconstruct the paths of billions of particles inside the world's largest particle accelerator? CERN's answer is Traccc \u2014 an experimental, hardware-accelerated pipeline for heterogeneous architectures. I integrated it into ACTS, their standard tracking software, and benchmarked its reconstruction quality across 50+ physics metrics.",
+            "star": {
+              "situation": "Particle tracking reconstructs the paths of subatomic particles from detector measurements. An experimental GPU-based pipeline, Traccc, promises faster reconstruction, but it could not be evaluated within CERN's standard software framework, ACTS.",
+              "task": "Integrate Traccc into ACTS and produce a rigorous comparison of its reconstruction quality against the established baseline.",
+              "action": "I built low-level C++ interfaces across the full tracking pipeline \u2014 from hit processing and track seeding to Kalman filtering \u2014 handling data conversion at each stage boundary to bridge the two frameworks.",
+              "result": "The benchmark showed Traccc produces physically reasonable track distributions across 50+ metrics \u2014 deviating from the ACTS reference as expected for an early-stage experimental pipeline, but within interpretable bounds. The integration and results were well-received by the ACTS development team."
+            }
+          },
+          "resources": [
+            {
+              "name": "Main Banner",
+              "uri": "resources/projects/track-reconstruction/track-reconstruction-bg.webp",
+              "type": "background"
+            },
+            {
+              "name": "Reconstruction Pipeline",
+              "uri": "resources/projects/track-reconstruction/reconstruction-pipeline.svg",
+              "caption": "Stages of the tracking pipeline used to reconstruct particle trajectories from raw detector measurements.",
+              "type": "gallery"
+            },
+            {
+              "name": "Physmon",
+              "uri": "resources/projects/track-reconstruction/physmon.webp",
+              "caption": "Reconstruction quality metrics for the ACTS baseline (blue) and Traccc (orange).",
+              "type": "gallery"
+            },
+            {
+              "name": "Reconstruction Summary Example",
+              "uri": "resources/projects/track-reconstruction/tracksummary.html",
+              "type": "link"
+            }
+          ],
+          "is_new": false
+        },
+        {
+          "id": "clifford-neural-optimization",
+          "title": "Optimizing Clifford Neural Layers",
+          "date": "2025-05",
+          "tags": [
+            "ETH Z\u00fcrich",
+            "High Performance Computing",
+            "AVX2",
+            "C++"
+          ],
+          "hidden": false,
+          "featured": false,
+          "content": {
+            "teaser": "Clifford algebra helps neural networks model physical systems, but the math is expensive. We built a high-performance C++ inference engine for Clifford Neural Network layers that runs up to 18\u00d7 faster than the baseline implementation.",
+            "star": {
+              "situation": "Clifford Neural Networks are well suited for problems such as weather prediction and fluid simulation, but their computational cost makes inference slow on standard hardware.",
+              "task": "Speed up inference by replacing the Python implementation with a more efficient C++ version while preserving identical outputs.",
+              "action": "We profiled the code, identified performance bottlenecks, and redesigned the implementation around efficient memory access. We fused loops, improved cache utilization, and used AVX2 vectorization to process multiple values at once.",
+              "result": "The optimized implementation sped up every layer, with the linear layer running 18\u00d7 faster than the baseline."
+            }
+          },
+          "resources": [
+            {
+              "name": "Main Banner",
+              "uri": "resources/projects/clifford-asl/clifford-asl-bg.webp",
+              "type": "background"
+            }
+          ],
+          "is_new": false
+        }
+      ]
     },
-    "resources": [
-      {
-        "name": "Main Banner",
-        "uri": "resources/projects/pushup-robot/pushup-robot-bg.webp",
-        "type": "background"
-      },
-      {
-        "name": "Classic Pushup",
-        "uri": "resources/projects/pushup-robot/classic.webm",
-        "caption": "A classic pushup.",
-        "type": "gallery"
-      },
-      {
-        "name": "Human Pushup",
-        "uri": "resources/projects/pushup-robot/human.webm",
-        "caption": "A more natural-looking pushup.",
-        "type": "gallery"
-      },
-      {
-        "name": "Jumping Pushup",
-        "uri": "resources/projects/pushup-robot/jumping.webm",
-        "caption": "A jumping pushup!",
-        "type": "gallery"
-      },
-      {
-        "name": "Asymmetric Pushup",
-        "uri": "resources/projects/pushup-robot/asymmetric.webm",
-        "caption": "An asymmetric pushup.",
-        "type": "gallery"
-      },
-      {
-        "name": "Joint Values and Velocities 1",
-        "uri": "resources/projects/pushup-robot/joint-plot1.webp",
-        "caption": "Joint values and velocities for the classic and human-like pushups.",
-        "type": "gallery"
-      },
-      {
-        "name": "Joint Values and Velocities 2",
-        "uri": "resources/projects/pushup-robot/joint-plot2.webp",
-        "caption": "Joint values and velocities for the asymmetric and jumping pushups.",
-        "type": "gallery"
-      }
-    ]
-  }
-];
-            window.portfolioApp = new App(data);
-        });
-    </script>
-</body>
-</html>
-ment.addEventListener('DOMContentLoaded', () => {
-            const data = [
-  {
-    "id": "clifford-neural-optimization",
-    "title": "Optimizing Clifford Neural Layers",
-    "date": "2025-05",
-    "tags": [
-      "ETH Z\u00fcrich",
-      "High Performance Computing",
-      "Deep Learning",
-      "AVX2",
-      "C++"
-    ],
-    "hidden": false,
-    "featured": false,
-    "content": {
-      "teaser": "Clifford algebra helps neural networks model physical systems, but the math is expensive. We built a high-performance C++ inference engine for Clifford Neural Network layers that runs up to 18\u00d7 faster than the baseline implementation.",
-      "star": {
-        "situation": "Clifford Neural Networks are well suited for problems such as weather prediction and fluid simulation, but their computational cost makes inference slow on standard hardware.",
-        "task": "Speed up inference by replacing the Python implementation with a more efficient C++ version while preserving identical outputs.",
-        "action": "We profiled the code, identified performance bottlenecks, and redesigned the implementation around efficient memory access. We fused loops, improved cache utilization, and used AVX2 vectorization to process multiple values at once.",
-        "result": "The optimized implementation sped up every layer, with the linear layer running 18\u00d7 faster than the baseline."
-      }
+    {
+      "id": "graphics",
+      "title": "Computer Graphics & Visualization",
+      "projects": [
+        {
+          "id": "cern-detray-visualizer",
+          "title": "Visualizing Detector Geometry",
+          "date": "2023-09",
+          "tags": [
+            "CERN",
+            "C++",
+            "Visualization"
+          ],
+          "hidden": false,
+          "featured": true,
+          "content": {
+            "teaser": "Debugging a physics engine is difficult when all you can see are numbers. I built visualization tools for CERN's next-generation tracking software \u2014 and they immediately caught bugs that numerical output had missed.",
+            "star": {
+              "situation": "CERN is developing Detray, a hardware-accelerated geometry engine for particle tracking. Diagnosing problems in complex detector geometries is hard when debugging relies entirely on numerical output.",
+              "task": "Give the Detray development team a way to inspect detector geometry and particle trajectories visually, directly from the live codebase.",
+              "action": "I developed a C++ plugin that extracted detector geometry and particle trajectories directly from Detray and rendered them as clean 2D SVG visualizations, integrated into the existing framework without modifying core code.",
+              "result": "The tool exposed two critical bugs immediately upon deployment \u2014 flipped sensors and incorrectly sized acceleration grids \u2014 significantly simplifying debugging for the Detray development team."
+            }
+          },
+          "resources": [
+            {
+              "name": "Main Banner",
+              "uri": "resources/projects/detray-visualization/detray-visualization-bg.webp",
+              "type": "background"
+            },
+            {
+              "name": "Live Demo",
+              "uri": "demo.html",
+              "caption": "Interactive diagnostic tool for detector geometry visualization.",
+              "type": "link"
+            }
+          ],
+          "is_new": false
+        }
+      ]
     },
-    "resources": [
-      {
-        "name": "Main Banner",
-        "uri": "resources/projects/clifford-asl/clifford-asl-bg.webp",
-        "type": "background"
-      }
-    ]
-  },
-  {
-    "id": "cern-traccc-integration",
-    "title": "Accelerating Track Reconstruction",
-    "date": "2024-08",
-    "tags": [
-      "CERN",
-      "C++",
-      "High Performance Computing"
-    ],
-    "hidden": false,
-    "featured": true,
-    "content": {
-      "teaser": "How do you efficiently reconstruct the paths of billions of particles inside the world's largest particle accelerator? CERN's answer is Traccc\u2014an experimental, hardware-accelerated pipeline for heterogeneous architectures. I integrated it into ACTS, their standard tracking software, and benchmarked its reconstruction quality across 50+ physics metrics.",
-      "star": {
-        "situation": "Particle tracking reconstructs the paths of subatomic particles from detector measurements. An experimental GPU-based pipeline, Traccc, promises faster reconstruction, but it could not be evaluated within CERN's standard software framework, ACTS.",
-        "task": "Integrate Traccc into ACTS and produce a rigorous comparison of its reconstruction quality against the established baseline.",
-        "action": "I built low-level C++ interfaces across the full tracking pipeline \u2014 from hit processing and track seeding to Kalman filtering \u2014 handling data conversion at each stage boundary to bridge the two frameworks.",
-        "result": "The benchmark showed Traccc produces physically reasonable track distributions across 50+ metrics \u2014 deviating from the ACTS reference as expected for an early-stage experimental pipeline, but within interpretable bounds. The integration and results were well-received by the ACTS development team."
-      }
-    },
-    "resources": [
-      {
-        "name": "Main Banner",
-        "uri": "resources/projects/track-reconstruction/track-reconstruction-bg.webp",
-        "type": "background"
-      },
-      {
-        "name": "Reconstruction Pipeline",
-        "uri": "resources/projects/track-reconstruction/reconstruction-pipeline.svg",
-        "caption": "Stages of the tracking pipeline used to reconstruct particle trajectories from raw detector measurements.",
-        "type": "gallery"
-      },
-      {
-        "name": "Physmon",
-        "uri": "resources/projects/track-reconstruction/physmon.webp",
-        "caption": "Reconstruction quality metrics for the ACTS baseline (blue) and Traccc (orange).",
-        "type": "gallery"
-      },
-      {
-        "name": "Reconstruction Summary Example",
-        "uri": "resources/projects/track-reconstruction/tracksummary.html",
-        "type": "link"
-      }
-    ]
-  },
-  {
-    "id": "cern-detray-visualizer",
-    "title": "Visualizing Detector Geometry",
-    "date": "2023-09",
-    "tags": [
-      "CERN",
-      "C++",
-      "Visualization"
-    ],
-    "hidden": false,
-    "featured": true,
-    "content": {
-      "teaser": "Debugging a physics engine is difficult when all you can see are numbers. I built visualization tools for CERN's next-generation tracking software \u2014 and they immediately caught bugs that numerical output had missed.",
-      "star": {
-        "situation": "CERN is developing Detray, a hardware-accelerated geometry engine for particle tracking. Diagnosing problems in complex detector geometries is hard when debugging relies entirely on numerical output.",
-        "task": "Give the Detray development team a way to inspect detector geometry and particle trajectories visually, directly from the live codebase.",
-        "action": "I developed a C++ plugin that extracted detector geometry and particle trajectories directly from Detray and rendered them as clean 2D SVG visualizations, integrated into the existing framework without modifying core code.",
-        "result": "The tool exposed two critical bugs immediately upon deployment \u2014 flipped sensors and incorrectly sized acceleration grids \u2014 significantly simplifying debugging for the Detray development team."
-      }
-    },
-    "resources": [
-      {
-        "name": "Main Banner",
-        "uri": "resources/projects/detray-visualization/detray-visualization-bg.webp",
-        "type": "background"
-      },
-      {
-        "name": "Live Demo",
-        "uri": "demo.html",
-        "caption": "Interactive diagnostic tool for detector geometry visualization.",
-        "type": "link"
-      }
-    ]
-  },
-  {
-    "id": "pushup-robot",
-    "title": "The Pushup Robot",
-    "date": "2022-11",
-    "tags": [
-      "Caltech",
-      "Robotics",
-      "ROS2",
-      "RVIZ",
-      "Python"
-    ],
-    "hidden": false,
-    "featured": false,
-    "content": {
-      "teaser": "Palms are sweaty, knees weak, arms are heavy. You're lying on the floor already, wondering: is there a way to get the gains from your pushups without the agony? Meet The Pushup Robot\u00ae. It won't magically transfer the gains to your biceps, but it will crank out the reps while you sip your protein shake in peace. Warranty not included.",
-      "star": {
-        "situation": "Humanoid robots have many redundant joints, making stable motion generation difficult. During a pushup, the hands and feet must stay fixed while the rest of the body moves naturally \u2014 without entering unstable configurations as the arms pass through full extension.",
-        "task": "Generate realistic pushup motions while maintaining stability and respecting the physical constraints of a humanoid robot.",
-        "action": "We implemented a custom inverse-kinematics solver using a weighted pseudoinverse to prevent joint velocities from diverging as the arms pass through singularities. Secondary null-space tasks guided the elbows toward 90\u00b0 for smooth traversal, while cyclic pelvis trajectories drove the overall motion.",
-        "result": "The robot performed stable pushups across classic, asymmetric, and jumping variations \u2014 including full passage through arm singularities that would cause uncontrollable joint velocities in a standard solver."
-      }
-    },
-    "resources": [
-      {
-        "name": "Main Banner",
-        "uri": "resources/projects/pushup-robot/pushup-robot-bg.webp",
-        "type": "background"
-      },
-      {
-        "name": "Classic Pushup",
-        "uri": "resources/projects/pushup-robot/classic.webm",
-        "caption": "A classic pushup.",
-        "type": "gallery"
-      },
-      {
-        "name": "Human Pushup",
-        "uri": "resources/projects/pushup-robot/human.webm",
-        "caption": "A more natural-looking pushup.",
-        "type": "gallery"
-      },
-      {
-        "name": "Jumping Pushup",
-        "uri": "resources/projects/pushup-robot/jumping.webm",
-        "caption": "A jumping pushup!",
-        "type": "gallery"
-      },
-      {
-        "name": "Asymmetric Pushup",
-        "uri": "resources/projects/pushup-robot/asymmetric.webm",
-        "caption": "An asymmetric pushup.",
-        "type": "gallery"
-      },
-      {
-        "name": "Joint Values and Velocities 1",
-        "uri": "resources/projects/pushup-robot/joint-plot1.webp",
-        "caption": "Joint values and velocities for the classic and human-like pushups.",
-        "type": "gallery"
-      },
-      {
-        "name": "Joint Values and Velocities 2",
-        "uri": "resources/projects/pushup-robot/joint-plot2.webp",
-        "caption": "Joint values and velocities for the asymmetric and jumping pushups.",
-        "type": "gallery"
-      }
-    ]
-  }
-];
-            window.portfolioApp = new App(data);
-        });
-    </script>
-</body>
-</html>
-SON -->;
-            window.portfolioApp = new App(data);
+    {
+      "id": "ml",
+      "title": "Machine Learning, AI & Robotics",
+      "projects": [
+        {
+          "id": "pushup-robot",
+          "title": "The Pushup Robot",
+          "date": "2022-11",
+          "tags": [
+            "Caltech",
+            "Robotics",
+            "ROS2",
+            "RVIZ",
+            "Python"
+          ],
+          "hidden": false,
+          "featured": false,
+          "content": {
+            "teaser": "Palms are sweaty, knees weak, arms are heavy. You're lying on the floor already, wondering: is there a way to get the gains from your pushups without the agony? Meet The Pushup Robot\u00ae. It won't magically transfer the gains to your biceps, but it will crank out the reps while you sip your protein shake in peace. Warranty not included.",
+            "star": {
+              "situation": "Humanoid robots have many redundant joints, making stable motion generation difficult. During a pushup, the hands and feet must stay fixed while the rest of the body moves naturally \u2014 without entering unstable configurations as the arms pass through full extension.",
+              "task": "Generate realistic pushup motions while maintaining stability and respecting the physical constraints of a humanoid robot.",
+              "action": "We implemented a custom inverse-kinematics solver using a weighted pseudoinverse to prevent joint velocities from diverging as the arms pass through singularities. Secondary null-space tasks guided the elbows toward 90\u00b0 for smooth traversal, while cyclic pelvis trajectories drove the overall motion.",
+              "result": "The robot performed stable pushups across classic, asymmetric, and jumping variations \u2014 including full passage through arm singularities that would cause uncontrollable joint velocities in a standard solver."
+            }
+          },
+          "resources": [
+            {
+              "name": "Main Banner",
+              "uri": "resources/projects/pushup-robot/pushup-robot-bg.webp",
+              "type": "background"
+            },
+            {
+              "name": "Classic Pushup",
+              "uri": "resources/projects/pushup-robot/classic.webm",
+              "caption": "A classic pushup.",
+              "type": "gallery"
+            },
+            {
+              "name": "Human Pushup",
+              "uri": "resources/projects/pushup-robot/human.webm",
+              "caption": "A more natural-looking pushup.",
+              "type": "gallery"
+            },
+            {
+              "name": "Jumping Pushup",
+              "uri": "resources/projects/pushup-robot/jumping.webm",
+              "caption": "A jumping pushup!",
+              "type": "gallery"
+            },
+            {
+              "name": "Asymmetric Pushup",
+              "uri": "resources/projects/pushup-robot/asymmetric.webm",
+              "caption": "An asymmetric pushup.",
+              "type": "gallery"
+            },
+            {
+              "name": "Joint Values and Velocities 1",
+              "uri": "resources/projects/pushup-robot/joint-plot1.webp",
+              "caption": "Joint values and velocities for the classic and human-like pushups.",
+              "type": "gallery"
+            },
+            {
+              "name": "Joint Values and Velocities 2",
+              "uri": "resources/projects/pushup-robot/joint-plot2.webp",
+              "caption": "Joint values and velocities for the asymmetric and jumping pushups.",
+              "type": "gallery"
+            }
+          ],
+          "is_new": false
+        }
+      ]
+    }
+  ]
+};
+            const bus = new EventBus();
+            const store = new ProjectStore(data);
+            new ProjectListController(bus, store);
+            new DetailController(bus);
+            new GalleryController(bus);
+            new LightboxController(bus);
         });
     </script>
 </body>
