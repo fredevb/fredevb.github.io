@@ -3,11 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Fred's Portfolio</title>
+    <title>Frederik Barba's Portfolio</title>
+    <meta name="description" content="Building High-Performance Computing and Machine Learning systems. Making real-world complexity tractable and interpretable.">
+    <link rel="canonical" href="https://fredevb.github.io">
+
+    <!-- OpenGraph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fredevb.github.io">
+    <meta property="og:title" content="Frederik Barba's Portfolio">
+    <meta property="og:description" content="Building High-Performance Computing and Machine Learning systems. Making real-world complexity tractable and interpretable.">
+    <meta property="og:image" content="https://fredevb.github.io/resources/profile/portrait.webp">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://fredevb.github.io">
+    <meta property="twitter:title" content="Frederik Barba's Portfolio">
+    <meta property="twitter:description" content="Building High-Performance Computing and Machine Learning systems. Making real-world complexity tractable and interpretable.">
+    <meta property="twitter:image" content="https://fredevb.github.io/resources/profile/portrait.webp">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="icon" href="resources/profile/portrait.webp">
     
     <style>
@@ -15,14 +31,14 @@
            1. DESIGN TOKENS
            ========================================================================== */
         :root {
-            --color-bg: #050505;
-            --color-surface: #0f0f0f;
-            --color-text: #ffffff;
-            --color-text-muted: rgba(255, 255, 255, 0.7);
-            --color-text-dim: rgba(255, 255, 255, 0.4);
+            --color-bg: #0a0a0a;
+            --color-surface: #141414;
+            --color-text: #f4f4f5;
+            --color-text-muted: rgba(244, 244, 245, 0.7);
+            --color-text-dim: rgba(244, 244, 245, 0.4);
             --color-accent: #ffffff;
             --color-border: rgba(255, 255, 255, 0.1);
-            --color-border-strong: rgba(255, 255, 255, 0.3);
+            --color-border-strong: rgba(255, 255, 255, 0.2);
             
             --font-main: 'Inter', sans-serif;
             --font-display: 'Inter', sans-serif;
@@ -30,8 +46,8 @@
             --space-xs: 0.5rem;
             --space-sm: 1rem;
             --space-md: 2rem;
-            --space-lg: 4rem;
-            --space-xl: 8rem;
+            --space-lg: 3.5rem;
+            --space-xl: 7rem;
             --side-pad: clamp(1.5rem, 5vw, 6rem);
             
             --ease-dramatic: cubic-bezier(0.19, 1, 0.22, 1);
@@ -39,7 +55,7 @@
             --duration-lg: 0.8s;
             
             --z-overlay: 1000;
-            --z-lightbox: 2000;
+            --z-modal: 2000;
         }
 
         /* ==========================================================================
@@ -52,14 +68,15 @@
             background: var(--color-bg); color: var(--color-text); 
             -webkit-font-smoothing: antialiased; line-height: 1.5;
         }
-        h1, h2, h3, h4, p { margin: 0; }
+        h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 800; margin: 0; }
+        p { margin: 0; }
         button { font-family: inherit; border: none; background: none; cursor: pointer; color: inherit; padding: 0; }
-        a { text-decoration: none; color: inherit; }
+        a { text-decoration: none; color: inherit; transition: color var(--duration-md); }
         
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--color-bg); }
-        ::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 2px; }
 
         /* ==========================================================================
            3. LAYOUT COMPONENTS
@@ -67,7 +84,7 @@
         .l-container { max-width: 1400px; margin: 0 auto; padding: 0 var(--side-pad); }
         
         .l-hero { 
-            min-height: 100vh; display: flex; flex-direction: column; justify-content: center; 
+            min-height: 85vh; display: flex; flex-direction: column; justify-content: center; 
             padding-top: var(--space-xl); padding-bottom: var(--space-lg);
         }
 
@@ -78,8 +95,7 @@
             grid-template-columns: repeat(1, 1fr);
             gap: 2rem;
         }
-        @media (min-width: 768px) { .l-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (min-width: 1200px) { .l-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (min-width: 768px) { .l-grid { grid-template-columns: repeat(2, 1fr); gap: 3rem; } }
 
         /* ==========================================================================
            4. UI COMPONENTS
@@ -91,71 +107,94 @@
             color: var(--color-text-dim); font-weight: 700; margin-bottom: var(--space-sm); 
         }
         .c-hero__title { 
-            font-size: clamp(3rem, 10vw, 7rem); font-weight: 900; letter-spacing: -0.05em; 
+            font-size: clamp(3rem, 10vw, 7rem); letter-spacing: -0.05em; 
             line-height: 0.95; margin-bottom: var(--space-md); 
         }
         .c-hero__layout { display: grid; gap: 2rem; border-top: 1px solid var(--color-border); padding-top: 2rem; }
         @media (min-width: 768px) { .c-hero__layout { grid-template-columns: 1.5fr 1fr; } }
         
-        .c-hero__highlight { font-size: 1.2rem; font-weight: 600; color: var(--color-text); margin-bottom: 0.5rem; }
+        .c-hero__highlight { font-size: 1.25rem; font-weight: 600; line-height: 1.4; color: var(--color-text); margin-bottom: 0.75rem; }
         .c-hero__bio { font-size: 1.1rem; color: var(--color-text-muted); line-height: 1.6; max-width: 40rem; }
         
-        .c-hero__details { display: flex; flex-direction: column; gap: 1.5rem; justify-content: space-between; }
+        .c-hero__details { display: flex; flex-direction: column; gap: 1.5rem; }
         .c-hero__tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .c-hero__links { display: flex; flex-wrap: wrap; gap: 1rem; }
+        .c-hero__links { display: flex; flex-wrap: wrap; gap: 1.5rem; }
         
-        .c-tag { font-size: 0.7rem; padding: 0.3rem 0.8rem; border: 1px solid var(--color-border-strong); border-radius: 2rem; color: var(--color-text-muted); }
+        .c-tag { font-size: 0.7rem; padding: 0.4rem 1rem; border: 1px solid var(--color-border-strong); border-radius: 2rem; color: var(--color-text-muted); white-space: nowrap; transition: all var(--duration-md); }
+        .c-tag:hover { border-color: var(--color-text); color: var(--color-text); }
 
         /* Badge */
         .c-badge { 
             font-size: 0.6rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
-            margin-bottom: 0.5rem; display: block;
+            display: block;
         }
         .c-badge--featured { color: #d4af37; }
         .c-badge--new { color: #50c878; }
 
+        .c-card__top { display: flex; align-items: flex-start; width: 100%; margin-bottom: 0.5rem; }
+        .c-card__year { 
+            font-size: 0.6rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--color-text-muted); margin-left: auto;
+        }
+
         /* Section Header */
         .c-section-header { 
-            display: flex; align-items: flex-end; justify-content: space-between; 
-            margin-bottom: var(--space-md); border-bottom: 1px solid var(--color-border);
-            padding-bottom: var(--space-sm);
+            display: flex; flex-direction: column; align-items: flex-start; gap: 3rem;
+            margin-top: var(--space-xl);
+            margin-bottom: var(--space-lg); 
+            border-top: 1px solid var(--color-border);
+            padding-top: 3rem;
         }
-        .c-section-header__title { 
-            font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -0.02em; 
+        .c-section-label { 
+            font-size: 0.7rem; font-family: var(--font-main); color: var(--color-text-dim); 
+            letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700;
         }
-        .c-section-header__index { 
-            font-size: 0.8rem; font-family: monospace; color: var(--color-text-dim); 
-            margin-bottom: 0.4rem;
+
+        /* Filter Bar */
+        .c-filter-bar { display: flex; flex-wrap: wrap; gap: 2rem; }
+        .c-filter-btn { 
+            font-size: 1.1rem; font-family: var(--font-display); color: var(--color-text-dim); 
+            transition: color var(--duration-md); cursor: pointer;
         }
+        .c-filter-btn:hover { color: var(--color-text); }
+        .c-filter-btn--active { color: var(--color-text); }
 
         /* Project Card */
         .c-card {
-            position: relative; aspect-ratio: 4/5; background: var(--color-surface);
+            position: relative; aspect-ratio: 16/10; background: var(--color-surface);
             border: 1px solid var(--color-border); overflow: hidden; cursor: pointer;
-            transition: transform var(--duration-md) var(--ease-dramatic), border-color var(--duration-md);
+            transition: transform 0.5s var(--ease-dramatic), border-color 0.4s, box-shadow 0.5s;
+            z-index: 1;
         }
-        .c-card:hover { transform: translateY(-8px); border-color: var(--color-border-strong); }
+        .c-card:hover { 
+            transform: translateY(-15px) scale(1.03); 
+            border-color: var(--color-text);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.7);
+            z-index: 20;
+        }
         
         .c-card__bg {
             position: absolute; inset: 0; background-size: cover; background-position: center;
-            filter: grayscale(100%) brightness(0.4); transition: transform 1s var(--ease-dramatic), filter 0.6s;
+            filter: grayscale(70%) brightness(0.35); transition: transform 1.2s var(--ease-dramatic), filter 0.8s;
             z-index: 0;
         }
-        .c-card:hover .c-card__bg { transform: scale(1.05); filter: grayscale(0%) brightness(0.7); }
+        .c-card:hover .c-card__bg { transform: scale(1.1); filter: grayscale(0%) brightness(0.6); }
 
         .c-card__content {
-            position: absolute; inset: 0; padding: 2.5rem; display: flex; flex-direction: column;
-            justify-content: flex-start; z-index: 1; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+            position: absolute; inset: 0; padding: 1.25rem; display: flex; flex-direction: column;
+            justify-content: flex-start; z-index: 2; 
+            background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.4) 50%, transparent 100%);
+            pointer-events: none;
         }
         .c-card__details-wrap { margin-top: auto; }
-        .c-card__title { font-size: 1.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 0.75rem; }
+        .c-card__title { font-size: 1.25rem; font-family: var(--font-display); line-height: 1.2; margin-bottom: 0.5rem; font-weight: 800; }
         .c-card__teaser { 
             font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; 
             display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
-        .c-card__tags { display: flex; flex-wrap: nowrap; gap: 0.5rem; overflow: hidden; }
-        .c-card__tag { font-size: 0.65rem; padding: 0.2rem 0.5rem; border: 1px solid rgba(255,255,255,0.2); border-radius: 2px; white-space: nowrap; }
+        .c-card__tags { display: flex; flex-wrap: nowrap; gap: 0.3rem; overflow: hidden; }
+        .c-card__tags .c-tag { font-size: 0.7rem; padding: 0.3rem 0.8rem; }
 
         /* Buttons */
         .c-btn {
@@ -166,6 +205,8 @@
         .c-btn:hover { background: var(--color-text); color: var(--color-bg); }
         .c-btn--icon { padding: 0.8rem; }
         .c-btn svg { width: 1.2rem; height: 1.2rem; }
+        .c-btn--secondary { border: none; color: var(--color-text-dim); }
+        .c-btn--secondary:hover { color: var(--color-text); background: transparent; }
 
         /* Overlay System */
         .c-overlay {
@@ -178,7 +219,7 @@
         .c-overlay__bg {
             position: fixed; inset: 0; z-index: 0; pointer-events: none;
             background-size: cover; background-position: center;
-            opacity: 0.15; filter: grayscale(100%);
+            opacity: 0.1; filter: grayscale(100%);
             -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
             mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
         }
@@ -190,31 +231,41 @@
         }
         .c-overlay__header > * { pointer-events: auto; }
         
-        .c-overlay__content { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 4rem var(--side-pad) 10rem var(--side-pad); }
+        .c-overlay__content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 4rem var(--side-pad) 10rem var(--side-pad); }
 
-        /* STAR Section */
-        .c-star { margin-top: 4rem; display: grid; gap: 3rem; counter-reset: star-counter; }
-        @media (min-width: 768px) { .c-star { grid-template-columns: repeat(2, 1fr); } }
+        .c-overlay__title { 
+            font-size: clamp(2.5rem, 8vw, 5rem); letter-spacing: -0.04em; 
+            line-height: 1; margin-bottom: 1.5rem; font-weight: 800;
+        }
+        .c-overlay__lead { 
+            font-size: 1.25rem; color: var(--color-text); line-height: 1.6; 
+            max-width: 45rem; margin-bottom: 3rem;
+        }
+
+        /* PAI Section */
+        .c-star { margin-top: 4rem; display: flex; flex-direction: column; gap: 3rem; counter-reset: star-counter; }
         
-        .c-star-node { position: relative; padding-left: 2rem; border-left: 1px solid var(--color-border); counter-increment: star-counter; }
+        .c-star-node { position: relative; padding-top: 2rem; border-top: 1px solid var(--color-border); counter-increment: star-counter; }
         .c-star-node__label { 
-            font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.3em; 
-            color: var(--color-text-dim); margin-bottom: 0.5rem; font-weight: 700;
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.3em; 
+            color: var(--color-text-dim); margin-bottom: 1rem; font-weight: 700;
+            display: block;
         }
         .c-star-node__label::before { content: '0' counter(star-counter) ' / '; }
-        .c-star-node__text { font-size: 1.1rem; color: var(--color-text-muted); line-height: 1.6; }
+        .c-star-node__text { font-size: 1.1rem; color: var(--color-text-muted); line-height: 1.7; max-width: 45rem; }
 
         /* Gallery Overlay */
         .c-gallery-overlay {
-            position: fixed; inset: 0; background: #000; z-index: var(--z-lightbox);
-            display: flex; flex-direction: column; transform: translateY(100%);
-            transition: transform var(--duration-lg) var(--ease-dramatic);
+            position: fixed; inset: 0; background: #000; z-index: var(--z-modal);
+            display: flex; flex-direction: column; transform: translateY(110%);
+            visibility: hidden;
+            transition: transform var(--duration-lg) var(--ease-dramatic), visibility var(--duration-lg);
         }
-        .c-gallery-overlay--active { transform: translateY(0); }
+        .c-gallery-overlay--active { transform: translateY(0); visibility: visible; }
         
         .c-gallery__frame { 
             flex: 1; display: flex; align-items: center; justify-content: center;
-            overflow: hidden; position: relative; cursor: zoom-in;
+            overflow: hidden; position: relative;
         }
         .c-gallery__media { max-width: 100%; max-height: 80vh; object-fit: contain; }
         
@@ -227,24 +278,57 @@
             max-width: 40rem; line-height: 1.5;
         }
         .c-gallery__controls { display: flex; align-items: center; gap: 2rem; }
-        .c-gallery__counter { font-size: 0.8rem; font-family: monospace; color: var(--color-text-dim); letter-spacing: 0.1em; }
+        .c-gallery__counter { font-size: 0.8rem; font-family: var(--font-main); color: var(--color-text-dim); letter-spacing: 0.1em; font-weight: 700; }
 
-        /* Lightbox */
-        .c-lightbox {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: var(--z-lightbox);
-            display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s;
+         /* Footer */
+        .c-footer {
+            padding-top: var(--space-xl);
+            padding-bottom: var(--space-lg);
         }
-        .c-lightbox--active { display: flex; opacity: 1; }
-        .c-lightbox__close { 
-            position: absolute; top: 2rem; left: 2rem; width: 3.5rem; height: 3.5rem;
-            border-radius: 50%; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
-            display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2);
-            transition: all 0.3s;
+        .c-footer__layout {
+            display: grid;
+            gap: 4rem;
+            margin-bottom: var(--space-lg);
+            border-top: 1px solid var(--color-border);
+            padding-top: 3rem;
         }
-        .c-lightbox__close:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
-        .c-lightbox__content { width: 90vw; height: 80vh; }
+        @media (min-width: 768px) {
+            .c-footer__layout { grid-template-columns: 1.5fr 1fr; align-items: start; }
+        }
+        
+        .c-footer__tagline { 
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.4em; 
+            color: var(--color-text-dim); font-weight: 700; margin-bottom: var(--space-sm); 
+            display: block;
+        }
+        .c-footer__title { 
+            font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; letter-spacing: -0.04em; 
+            line-height: 1; color: var(--color-text);
+        }
+        
+        .c-footer__info { display: flex; flex-direction: column; gap: 3rem; }
+        
+        .c-footer__group { display: flex; flex-direction: column; gap: 0.75rem; }
+        .c-footer__label { 
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.3em; 
+            color: var(--color-text-dim); margin-bottom: 0.5rem; font-weight: 700;
+        }
+        
+        .c-footer__link { 
+            font-size: 0.9rem; color: var(--color-text-muted); font-weight: 500;
+            transition: color var(--duration-md);
+        }
+        .c-footer__link:hover { color: var(--color-text); }
+        .c-footer__icon-inline { width: 1rem; height: 1rem; flex-shrink: 0; }
+        
+        .c-footer__bottom {
+            padding-top: 2rem; border-top: 1px solid var(--color-border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .c-footer__copyright { font-size: 0.7rem; color: var(--color-text-dim); }
 
         .u-hidden { display: none !important; }
+        .u-flex-align { display: inline-flex; align-items: center; gap: 0.5rem; }
         .u-fade-in { animation: fadeIn 1s var(--ease-dramatic) forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -252,39 +336,65 @@
 <body>
 
     <div id="app">
-        <!-- Hero Section -->
-        <header class="l-hero l-container">
-            <span class="c-hero__tagline">MSc Computer Science @ ETH Zürich</span>
-            <h1 class="c-hero__title">Hi, I'm Fred.</h1>
-            <div class="c-hero__layout">
-                <div class="c-hero__bio-wrap">
-                    <p class="c-hero__highlight">Apple Summer Intern · Ex. CERN</p>
-                    <p class="c-hero__bio">
-                        Designing systems that bridge the gap between High-Performance Computing and Machine Learning.
-                    </p>
-                </div>
-                <div class="c-hero__details">
-                    <div class="c-hero__tags">
-                        <span class="c-tag">HPC</span>
-                        <span class="c-tag">Distributed Systems</span>
-                        <span class="c-tag">C/C++</span>
-                        <span class="c-tag">Deep Learning</span>
-                        <span class="c-tag">PyTorch</span>
+        <div id="main-content">
+            <!-- Hero Section -->
+            <header class="l-hero l-container">
+                <span class="c-hero__tagline">MSc Computer Science @ ETH Zürich</span>
+                <h1 class="c-hero__title">Frederik Barba</h1>
+                <div class="c-hero__layout">
+                    <div class="c-hero__bio-wrap">
+                        <p class="c-hero__highlight">Apple Summer Intern · Ex. CERN</p>
+                        <p class="c-hero__bio">
+                            Building High-Performance Computing and Machine Learning systems. Making real-world complexity tractable and interpretable.
+                        </p>
+                        <div class="c-hero__links" style="margin-top: 2rem;">
+                            <a href="#footer" class="c-footer__link u-flex-align">
+                                Contact
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="c-footer__icon-inline"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                            </a>
+                        </div>
                     </div>
-                    <div class="c-hero__links">
-                        <a href="mailto:fred@example.com" class="c-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>Email</a>
-                        <a href="https://linkedin.com" target="_blank" class="c-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>LinkedIn</a>
-                        <a href="https://github.com" target="_blank" class="c-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>GitHub</a>
+                    <div class="c-hero__details">
+                        <div class="c-hero__tags">
+                            <span class="c-tag">High Performance Computing</span>
+<span class="c-tag">Computer Architecture</span>
+<span class="c-tag">Distributed Systems</span>
+<span class="c-tag">Cloud Computing</span>
+<span class="c-tag">Deep Learning</span>
+<span class="c-tag">Computer Vision/Graphics</span>
+<span class="c-tag">Data Engineering</span>
+<span class="c-tag">Scientific Computing</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </header>
+            </header>
 
-        <!-- Project Sections (Dynamically filled by JS) -->
-        <main class="l-container" id="project-sections"></main>
+            <!-- Project Sections (Dynamically filled by JS) -->
+            <main class="l-container" id="project-sections"></main>
+
+            <!-- Footer -->
+            <footer id="footer" class="c-footer l-container">
+                <div class="c-footer__layout">
+                    <div class="c-footer__main">
+                        <span class="c-footer__tagline">Available for opportunities</span>
+                        <h2 class="c-footer__title">Let's connect!</h2>
+                    </div>
+                    <div class="c-footer__info">
+                        <div class="c-footer__group">
+                            <span class="c-footer__label">Contact</span>
+                            <a href="https://linkedin.com/in/frederik-barba" target="_blank" class="c-footer__link">https://linkedin.com/in/frederik-barba</a>
+                            <a href="https://github.com/fredevb" target="_blank" class="c-footer__link">https://github.com/fredevb</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="c-footer__bottom">
+                    <span class="c-footer__copyright">Website made with ❤ by Frederik Barba.</span>
+                </div>
+            </footer>
+        </div>
 
         <!-- Project Overlay -->
-        <div class="c-overlay js-overlay">
+        <div class="c-overlay js-overlay" role="dialog" aria-modal="true" aria-labelledby="project-overlay-title">
             <div class="c-overlay__bg js-overlay-bg"></div>
             <div class="c-overlay__header">
                 <button class="c-btn js-overlay-close">
@@ -294,36 +404,34 @@
             </div>
             
             <div class="c-overlay__content">
-                <h1 class="c-hero__title js-title" style="font-size: clamp(2.5rem, 6vw, 4.5rem);"></h1>
-                <p class="c-hero__bio js-teaser" style="font-size: 1.1rem; max-width: 40rem;"></p>
+                <div class="c-hero__tagline js-year" style="margin-bottom: 0.5rem;"></div>
+                <h1 class="c-overlay__title js-title" id="project-overlay-title"></h1>
+                <div class="c-hero__tags js-overlay-tags" style="margin-bottom: 2.5rem;"></div>
+                <p class="c-overlay__lead js-teaser"></p>
                 
-                <div class="js-resources-section u-hidden" style="margin-top: 1.5rem; margin-bottom: 3rem;">
+                <div class="js-resources-section u-hidden" style="margin-bottom: 4rem;">
                     <div class="c-hero__links js-resources"></div>
                 </div>
                 
-                <div class="c-star">
-                    <div class="c-star-node">
-                        <div class="c-star-node__label">Context</div>
-                        <p class="c-star-node__text js-s"></p>
-                    </div>
-                    <div class="c-star-node">
-                        <div class="c-star-node__label">Objective</div>
-                        <p class="c-star-node__text js-t"></p>
-                    </div>
-                    <div class="c-star-node">
-                        <div class="c-star-node__label">Approach</div>
+                <section class="c-star" aria-label="Project Details">
+                    <article class="c-star-node">
+                        <h3 class="c-star-node__label">Problem</h3>
+                        <p class="c-star-node__text js-p"></p>
+                    </article>
+                    <article class="c-star-node">
+                        <h3 class="c-star-node__label">Approach</h3>
                         <p class="c-star-node__text js-a"></p>
-                    </div>
-                    <div class="c-star-node">
-                        <div class="c-star-node__label">Result</div>
-                        <p class="c-star-node__text js-r"></p>
-                    </div>
-                </div>
+                    </article>
+                    <article class="c-star-node">
+                        <h3 class="c-star-node__label">Result</h3>
+                        <p class="c-star-node__text js-i"></p>
+                    </article>
+                </section>
             </div>
         </div>
 
         <!-- Gallery Overlay -->
-        <div class="c-gallery-overlay js-gallery-overlay">
+        <div class="c-gallery-overlay js-gallery-overlay" role="dialog" aria-modal="true" aria-label="Project Gallery">
             <div class="c-overlay__header">
                 <button class="c-btn js-gallery-close">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -336,22 +444,13 @@
             <div class="c-gallery__footer">
                 <div class="c-gallery__caption js-gallery-caption"></div>
                 <div class="c-gallery__controls">
-                    <button class="c-btn c-btn--icon js-gallery-prev"></button>
-                    <span class="c-gallery__counter js-gallery-counter"></span>
-                    <button class="c-btn c-btn--icon js-gallery-next"></button>
+                    <button class="c-btn c-btn--icon js-gallery-prev" aria-label="Previous image"></button>
+                    <span class="c-gallery__counter js-gallery-counter" aria-live="polite"></span>
+                    <button class="c-btn c-btn--icon js-gallery-next" aria-label="Next image"></button>
                 </div>
             </div>
         </div>
 
-        <!-- Lightbox -->
-        <div class="c-lightbox js-lightbox">
-            <div class="c-overlay__header" style="position: absolute; top: 0; left: 0; right: 0; width: 100%;">
-                <button class="c-btn js-lightbox-close">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    Close
-                </button>
-            </div>
-            <div class="c-lightbox__content js-lightbox-content"></div>
         </div>
     </div>
 
@@ -370,14 +469,59 @@
 
         const EVENTS = {
             PROJECT_SELECTED: 'PROJECT_SELECTED',
-            OPEN_GALLERY: 'OPEN_GALLERY',
-            OPEN_LIGHTBOX: 'OPEN_LIGHTBOX'
+            OPEN_GALLERY: 'OPEN_GALLERY'
         };
 
         class EventBus {
             constructor() { this.listeners = {}; }
             on(evt, callback) { (this.listeners[evt] = this.listeners[evt] || []).push(callback); }
             emit(evt, data) { (this.listeners[evt] || []).forEach(cb => cb(data)); }
+        }
+
+        class FocusTrap {
+            constructor(element) {
+                this.element = element;
+                this.focusableEls = [];
+                this.firstFocusable = null;
+                this.lastFocusable = null;
+                this.returnEl = null;
+
+                this.element.addEventListener('keydown', (e) => {
+                    if (e.key !== 'Tab') return;
+                    if (e.shiftKey) {
+                        if (document.activeElement === this.firstFocusable) {
+                            e.preventDefault();
+                            this.lastFocusable.focus();
+                        }
+                    } else {
+                        if (document.activeElement === this.lastFocusable) {
+                            e.preventDefault();
+                            this.firstFocusable.focus();
+                        }
+                    }
+                });
+            }
+
+            activate() {
+                this.returnEl = document.activeElement;
+                this.updateFocusable();
+                if (this.firstFocusable) {
+                    setTimeout(() => this.firstFocusable.focus(), 100);
+                }
+                document.getElementById('main-content').setAttribute('aria-hidden', 'true');
+            }
+
+            deactivate() {
+                document.getElementById('main-content').removeAttribute('aria-hidden');
+                if (this.returnEl) this.returnEl.focus();
+            }
+
+            updateFocusable() {
+                this.focusableEls = Array.from(this.element.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+                                        .filter(el => !el.closest('.u-hidden'));
+                this.firstFocusable = this.focusableEls[0];
+                this.lastFocusable = this.focusableEls[this.focusableEls.length - 1];
+            }
         }
 
         class ProjectStore {
@@ -393,27 +537,80 @@
                 this.bus = bus;
                 this.store = store;
                 this.container = document.getElementById('project-sections');
+                this.activeFilter = 'all';
+                this.visibleCount = 4;
                 this.render();
             }
 
             render() {
-                this.container.innerHTML = this.store.sections.map((section, idx) => `
+                const projects = this.getFilteredProjects();
+                const visible = projects.slice(0, this.visibleCount);
+                const hasMore = projects.length > this.visibleCount;
+
+                this.container.innerHTML = `
                     <section class="l-section">
                         <header class="c-section-header">
-                            <h2 class="c-section-header__title">${section.title}</h2>
-                            <span class="c-section-header__index">0${idx + 1}</span>
+                            <div class="c-section-label">Projects / 01</div>
+                            <nav class="c-filter-bar">
+                                <button class="c-filter-btn ${this.activeFilter === 'all' ? 'c-filter-btn--active' : ''}" data-id="all">All</button>
+                                ${this.store.sections.map(s => `
+                                    <button class="c-filter-btn ${this.activeFilter === s.id ? 'c-filter-btn--active' : ''}" data-id="${s.id}">${s.title}</button>
+                                `).join('')}
+                            </nav>
                         </header>
-                        <div class="l-grid">
-                            ${section.projects.map(p => this.renderCard(p)).join('')}
+                        <div class="l-grid js-project-grid">
+                            ${visible.map(p => this.renderCard(p)).join('')}
                         </div>
+                        ${hasMore ? `
+                            <div style="display: flex; justify-content: center; margin-top: 4rem;">
+                                <button class="c-btn js-show-more">
+                                    Show More
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 1.1rem; height: 1.1rem;"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                                </button>
+                            </div>
+                        ` : ''}
                     </section>
-                `).join('');
+                `;
+
+                this.setupEventListeners();
+            }
+
+            getFilteredProjects() {
+                if (this.activeFilter === 'all') {
+                    // Deduplicate projects across sections
+                    const seen = new Set();
+                    return this.store.projects.filter(p => {
+                        if (seen.has(p.id)) return false;
+                        seen.add(p.id);
+                        return true;
+                    });
+                }
+                const section = this.store.sections.find(s => s.id === this.activeFilter);
+                return section ? section.projects : [];
+            }
+
+            setupEventListeners() {
+                this.container.querySelectorAll('.c-filter-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.activeFilter = btn.dataset.id;
+                        this.visibleCount = 4;
+                        this.render();
+                    });
+                });
 
                 this.container.querySelectorAll('.c-card').forEach(card => {
                     card.addEventListener('click', () => {
                         this.bus.emit(EVENTS.PROJECT_SELECTED, this.store.byId(card.dataset.id));
                     });
                 });
+
+                const showMoreBtn = this.container.querySelector('.js-show-more');
+                if (showMoreBtn) {
+                    showMoreBtn.addEventListener('click', () => {
+                        this.visibleCount += 4;
+                        this.render();
+                    });
+                }
             }
 
             renderCard(p) {
@@ -423,15 +620,18 @@
                 else if (p.is_new) badge = `<span class="c-badge c-badge--new">New</span>`;
 
                 return `
-                    <article class="c-card" data-id="${p.id}">
+                    <article class="c-card u-fade-in" data-id="${p.id}" tabindex="0" role="button" aria-label="View project: ${p.title}">
                         ${bg ? `<div class="c-card__bg" style="background-image: url('${bg}')"></div>` : ''}
                         <div class="c-card__content">
-                            ${badge}
+                            <div class="c-card__top">
+                                ${badge}
+                                <span class="c-card__year">${p.year}</span>
+                            </div>
                             <div class="c-card__details-wrap">
                                 <h3 class="c-card__title">${p.title}</h3>
                                 <p class="c-card__teaser">${p.content.teaser}</p>
                                 <div class="c-card__tags">
-                                    ${p.tags.slice(0, 3).map(t => `<span class="c-card__tag">${t}</span>`).join('')}
+                                    ${p.tags.map(t => `<span class="c-tag">${t}</span>`).join('')}
                                 </div>
                             </div>
                         </div>
@@ -446,11 +646,15 @@
                 this.overlay = document.querySelector('.js-overlay');
                 this.overlayBg = document.querySelector('.js-overlay-bg');
                 this.closeBtn = document.querySelector('.js-overlay-close');
+                this.trap = new FocusTrap(this.overlay);
                 this.els = {
+                    year: document.querySelector('.js-year'),
                     title: document.querySelector('.js-title'),
+                    tags: document.querySelector('.js-overlay-tags'),
                     teaser: document.querySelector('.js-teaser'),
-                    s: document.querySelector('.js-s'), t: document.querySelector('.js-t'),
-                    a: document.querySelector('.js-a'), r: document.querySelector('.js-r'),
+                    p: document.querySelector('.js-p'), 
+                    a: document.querySelector('.js-a'), 
+                    i: document.querySelector('.js-i'),
                     resources: document.querySelector('.js-resources'),
                     resSection: document.querySelector('.js-resources-section')
                 };
@@ -459,19 +663,22 @@
                 this.bus.on(EVENTS.PROJECT_SELECTED, (p) => this.open(p));
                 
                 // Close on ESC
-                window.addEventListener('keydown', (e) => { if (e.key === 'Escape') this.close(); });
+                window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && this.overlay.classList.contains('c-overlay--active')) this.close(); });
             }
 
             open(p) {
+                window.history.pushState(null, '', '#' + p.id);
                 const bgRes = p.resources.find(r => r.type === 'background');
                 if (bgRes) { this.overlayBg.style.backgroundImage = `url('${bgRes.uri}')`; }
                 else { this.overlayBg.style.backgroundImage = 'none'; }
 
+                this.els.year.textContent = p.year;
                 this.els.title.textContent = p.title;
+                this.els.tags.innerHTML = p.tags.map(t => `<span class="c-tag">${t}</span>`).join('');
                 this.els.teaser.textContent = p.content.teaser;
-                ['s', 't', 'a', 'r'].forEach(k => {
-                    const keyMap = {s: 'situation', t: 'task', a: 'action', r: 'result'};
-                    this.els[k].textContent = p.content.star[keyMap[k]];
+                ['p', 'a', 'i'].forEach(k => {
+                    const keyMap = {p: 'problem', a: 'approach', i: 'impact'};
+                    this.els[k].textContent = p.content.pai[keyMap[k]];
                 });
 
                 const links = p.resources.filter(r => !['gallery', 'background'].includes(r.type));
@@ -486,7 +693,7 @@
                 if (galleryImages.length > 0) {
                     resourcesHtml = `
                         <button class="c-btn js-trigger-gallery">
-                            ${ICONS.GALLERY} View Gallery
+                            ${ICONS.GALLERY} View Media
                         </button>
                     ` + resourcesHtml;
                 }
@@ -502,11 +709,14 @@
                 this.overlay.classList.add('c-overlay--active');
                 document.body.style.overflow = 'hidden';
                 this.overlay.scrollTo(0, 0);
+                this.trap.activate();
             }
 
             close() {
+                window.history.pushState(null, '', window.location.pathname + window.location.search);
                 this.overlay.classList.remove('c-overlay--active');
                 document.body.style.overflow = '';
+                this.trap.deactivate();
             }
         }
 
@@ -518,7 +728,9 @@
                 this.media = document.querySelector('.js-gallery-media');
                 this.caption = document.querySelector('.js-gallery-caption');
                 this.counter = document.querySelector('.js-gallery-counter');
+                this.controls = document.querySelector('.c-gallery__controls');
                 this.closeBtn = document.querySelector('.js-gallery-close');
+                this.trap = new FocusTrap(this.overlay);
                 this.images = []; this.idx = 0; this.project = null;
 
                 const prevBtn = document.querySelector('.js-gallery-prev');
@@ -529,7 +741,6 @@
                 prevBtn.addEventListener('click', () => this.navigate(-1));
                 nextBtn.addEventListener('click', () => this.navigate(1));
                 this.closeBtn.addEventListener('click', () => this.close());
-                this.frame.addEventListener('click', () => this.bus.emit(EVENTS.OPEN_LIGHTBOX, { images: this.images, idx: this.idx }));
                 this.bus.on(EVENTS.OPEN_GALLERY, (p) => this.load(p));
 
                 window.addEventListener('keydown', (e) => {
@@ -547,6 +758,7 @@
                 this.idx = 0;
                 this.overlay.classList.add('c-gallery-overlay--active');
                 this.render();
+                this.trap.activate();
             }
 
             navigate(dir) { 
@@ -562,10 +774,15 @@
                 const res = this.project.resources.find(r => r.uri === uri);
                 this.caption.textContent = res?.caption || "";
                 
-                // Update counter
-                const cur = (this.idx + 1).toString().padStart(2, '0');
-                const tot = this.images.length.toString().padStart(2, '0');
-                this.counter.textContent = `${cur} / ${tot}`;
+                // Update counter and toggle controls
+                const showControls = this.images.length > 1;
+                this.controls.classList.toggle('u-hidden', !showControls);
+
+                if (showControls) {
+                    const cur = (this.idx + 1).toString().padStart(2, '0');
+                    const tot = this.images.length.toString().padStart(2, '0');
+                    this.counter.textContent = `${cur} / ${tot}`;
+                }
             }
 
             injectMedia(el, uri) {
@@ -579,44 +796,7 @@
 
             close() {
                 this.overlay.classList.remove('c-gallery-overlay--active');
-            }
-        }
-
-        class LightboxController {
-            constructor(bus) {
-                this.bus = bus;
-                this.el = document.querySelector('.js-lightbox');
-                this.content = document.querySelector('.js-lightbox-content');
-                this.images = []; this.idx = 0;
-
-                const closeBtn = document.querySelector('.js-lightbox-close');
-                closeBtn.addEventListener('click', () => this.close());
-                
-                this.bus.on(EVENTS.OPEN_LIGHTBOX, (data) => {
-                    this.images = data.images; this.idx = data.idx;
-                    this.open();
-                });
-            }
-
-            open() {
-                this.render();
-                this.el.style.display = 'flex'; void this.el.offsetWidth;
-                this.el.classList.add('c-lightbox--active');
-            }
-
-            render() {
-                const uri = this.images[this.idx];
-                const isVideo = uri.match(/\.(mp4|webm)$/i);
-                if (isVideo) {
-                    this.content.innerHTML = `<video class="c-gallery__media" src="${uri}" autoplay muted loop playsinline></video>`;
-                } else {
-                    this.content.innerHTML = `<img class="c-gallery__media" src="${uri}" alt="Lightbox Image">`;
-                }
-            }
-
-            close() { 
-                this.el.classList.remove('c-lightbox--active'); 
-                setTimeout(() => { this.el.style.display = 'none'; }, 400); 
+                this.trap.deactivate();
             }
         }
 
@@ -624,39 +804,9 @@
             const data = {
   "projects": [
     {
-      "id": "clifford-neural-optimization",
-      "title": "Optimizing Clifford Neural Layers",
-      "date": "2025-05",
-      "tags": [
-        "ETH Z\u00fcrich",
-        "High Performance Computing",
-        "AVX2",
-        "C++"
-      ],
-      "hidden": false,
-      "featured": false,
-      "content": {
-        "teaser": "Clifford algebra helps neural networks model physical systems, but the math is expensive. We built a high-performance C++ inference engine for Clifford Neural Network layers that runs up to 18\u00d7 faster than the baseline implementation.",
-        "star": {
-          "situation": "Clifford Neural Networks are well suited for problems such as weather prediction and fluid simulation, but their computational cost makes inference slow on standard hardware.",
-          "task": "Speed up inference by replacing the Python implementation with a more efficient C++ version while preserving identical outputs.",
-          "action": "We profiled the code, identified performance bottlenecks, and redesigned the implementation around efficient memory access. We fused loops, improved cache utilization, and used AVX2 vectorization to process multiple values at once.",
-          "result": "The optimized implementation sped up every layer, with the linear layer running 18\u00d7 faster than the baseline."
-        }
-      },
-      "resources": [
-        {
-          "name": "Main Banner",
-          "uri": "resources/projects/clifford-asl/clifford-asl-bg.webp",
-          "type": "background"
-        }
-      ],
-      "is_new": false
-    },
-    {
       "id": "cern-traccc-integration",
       "title": "Accelerating Track Reconstruction",
-      "date": "2024-08",
+      "year": "2024",
       "tags": [
         "CERN",
         "C++",
@@ -665,12 +815,11 @@
       "hidden": false,
       "featured": true,
       "content": {
-        "teaser": "How do you efficiently reconstruct the paths of billions of particles inside the world's largest particle accelerator? CERN's answer is Traccc \u2014 an experimental, hardware-accelerated pipeline for heterogeneous architectures. I integrated it into ACTS, their standard tracking software, and benchmarked its reconstruction quality across 50+ physics metrics.",
-        "star": {
-          "situation": "Particle tracking reconstructs the paths of subatomic particles from detector measurements. An experimental GPU-based pipeline, Traccc, promises faster reconstruction, but it could not be evaluated within CERN's standard software framework, ACTS.",
-          "task": "Integrate Traccc into ACTS and produce a rigorous comparison of its reconstruction quality against the established baseline.",
-          "action": "I built low-level C++ interfaces across the full tracking pipeline \u2014 from hit processing and track seeding to Kalman filtering \u2014 handling data conversion at each stage boundary to bridge the two frameworks.",
-          "result": "The benchmark showed Traccc produces physically reasonable track distributions across 50+ metrics \u2014 deviating from the ACTS reference as expected for an early-stage experimental pipeline, but within interpretable bounds. The integration and results were well-received by the ACTS development team."
+        "teaser": "How do you reconstruct the paths of billions of particles inside the world's largest accelerator? I integrated Traccc \u2014 CERN's experimental GPU-accelerated tracking pipeline \u2014 into ACTS, their standard reconstruction framework, and produced the first systematic comparison across 50+ physics metrics.",
+        "pai": {
+          "problem": "Particle tracking reconstructs subatomic trajectories from raw detector hits. Traccc is an experimental GPU pipeline designed to eventually replace ACTS on heterogeneous hardware \u2014 but without an integration, its reconstruction quality had never been evaluated against the established baseline.",
+          "approach": "I built C++ interfaces across every stage of the tracking pipeline \u2014 hit clustering, track seeding, and Kalman filtering. The two frameworks use fundamentally different data models, requiring non-trivial conversion logic at each stage to guarantee equivalent inputs and comparable outputs.",
+          "impact": "The benchmark revealed systematic deviations from the ACTS baseline across all 50+ metrics, reflecting algorithmic differences between the two frameworks. The results establish a concrete, quantified baseline for future Traccc development, while the integration unlocks the full ACTS ecosystem \u2014 simulations, detector geometry tools, and more \u2014 making future comparisons straightforward to run."
         }
       },
       "resources": [
@@ -681,14 +830,8 @@
         },
         {
           "name": "Reconstruction Pipeline",
-          "uri": "resources/projects/track-reconstruction/reconstruction-pipeline.svg",
+          "uri": "resources/projects/track-reconstruction/reconstruction-pipeline.webp",
           "caption": "Stages of the tracking pipeline used to reconstruct particle trajectories from raw detector measurements.",
-          "type": "gallery"
-        },
-        {
-          "name": "Physmon",
-          "uri": "resources/projects/track-reconstruction/physmon.webp",
-          "caption": "Reconstruction quality metrics for the ACTS baseline (blue) and Traccc (orange).",
           "type": "gallery"
         },
         {
@@ -702,7 +845,7 @@
     {
       "id": "cern-detray-visualizer",
       "title": "Visualizing Detector Geometry",
-      "date": "2023-09",
+      "year": "2023",
       "tags": [
         "CERN",
         "C++",
@@ -712,11 +855,10 @@
       "featured": true,
       "content": {
         "teaser": "Debugging a physics engine is difficult when all you can see are numbers. I built visualization tools for CERN's next-generation tracking software \u2014 and they immediately caught bugs that numerical output had missed.",
-        "star": {
-          "situation": "CERN is developing Detray, a hardware-accelerated geometry engine for particle tracking. Diagnosing problems in complex detector geometries is hard when debugging relies entirely on numerical output.",
-          "task": "Give the Detray development team a way to inspect detector geometry and particle trajectories visually, directly from the live codebase.",
-          "action": "I developed a C++ plugin that extracted detector geometry and particle trajectories directly from Detray and rendered them as clean 2D SVG visualizations, integrated into the existing framework without modifying core code.",
-          "result": "The tool exposed two critical bugs immediately upon deployment \u2014 flipped sensors and incorrectly sized acceleration grids \u2014 significantly simplifying debugging for the Detray development team."
+        "pai": {
+          "problem": "CERN is developing Detray, a hardware-accelerated geometry engine for particle tracking. Diagnosing problems in complex detector geometries is hard when debugging relies entirely on numerical output.",
+          "approach": "I developed a C++ plugin that extracted detector geometry and particle trajectories directly from Detray and rendered them as 2D SVG visualizations \u2014 integrated as a non-invasive extension, without touching core framework code.",
+          "impact": "The tool exposed two critical bugs immediately upon deployment \u2014 flipped sensors and incorrectly sized acceleration grids \u2014 that numerical output had failed to catch."
         }
       },
       "resources": [
@@ -735,9 +877,132 @@
       "is_new": false
     },
     {
+      "id": "openevolve-cluster-scheduler",
+      "title": "OpenEvolve LLM Cluster Scheduler",
+      "year": "2026",
+      "tags": [
+        "ETH Z\u00fcrich",
+        "Cloud Computing",
+        "LLM",
+        "Python"
+      ],
+      "hidden": false,
+      "featured": false,
+      "content": {
+        "teaser": "Can a language model learn to schedule cloud workloads? I built an AI-driven scheduler where an LLM iteratively writes and refines executable scheduling code \u2014 automatically discovering resource allocation strategies that match our best hand-crafted policies.",
+        "pai": {
+          "problem": "Cloud schedulers must balance workloads with very different CPU, memory, and parallelization requirements \u2014 while latency-sensitive services like Memcached demand strict performance guarantees (p95 < 1 ms). Hand-crafting policies that satisfy both is slow and brittle.",
+          "approach": "I used OpenEvolve to drive an evolutionary loop where Llama 3 iteratively generates executable Python scheduling code. At each iteration, policies were deployed and evaluated on a live cluster. We designed a hierarchical fitness function that rewarded throughput while applying a piecewise SLO penalty \u2014 avoiding the gradient cliff of a binary pass/fail latency check. After each run, granular execution feedback (job timelines, core utilization, per-job durations, and latency statistics) was passed back to the model, enabling it to reason about hardware contention rather than guess blindly.",
+          "impact": "Over 20 iterations, the system converged on a policy that reduced makespan by 23% \u2014 from 316 to 258 seconds \u2014 while maintaining a p95 latency of 0.61 ms, well within the 1 ms SLO. The AI-generated policy matched our best hand-crafted solution, while fully automating the optimization process."
+        }
+      },
+      "resources": [
+        {
+          "name": "Main Banner",
+          "uri": "resources/projects/openevolve/openevolve-bg.webp",
+          "type": "background"
+        }
+      ],
+      "is_new": true
+    },
+    {
+      "id": "bsgp",
+      "title": "Bulk Space Gradient Projection",
+      "year": "2025",
+      "tags": [
+        "ETH Z\u00fcrich",
+        "Deep Learning",
+        "Mathematical Optimization",
+        "PyTorch"
+      ],
+      "hidden": false,
+      "featured": false,
+      "content": {
+        "teaser": "When a neural network learns something new, it tends to destroy what it already knew. We designed Bulk Space Gradient Projection (BSGP) \u2014 a continual learning algorithm that sidesteps this by keeping gradient updates away from the directions that matter most to prior tasks.",
+        "pai": {
+          "problem": "Neural networks suffer from catastrophic forgetting when trained sequentially \u2014 each new task overwrites knowledge from previous ones. Existing methods either require storing past data or scale poorly with the number of tasks.",
+          "approach": "We developed BSGP, which projects gradient updates onto the low-curvature bulk space of the loss landscape \u2014 directions that cause minimal interference with prior tasks. After each task, the dominant Hessian eigenvectors are computed and accumulated using Gram-Schmidt orthogonalization, ensuring new tasks don't overwrite previously protected directions. An L2 regularization term keeps weights close to prior optima, stabilizing the subspace approximation over time.",
+          "impact": "BSGP achieved 92.23% accuracy on Permuted MNIST \u2014 beating EWC (89.81%) and OGD (88.31%), and matching A-GEM's forgetting resistance without storing any past data. Against OGD, the closest related method, BSGP uses 10\u00d7 less memory per task. A subspace overlap analysis further showed that regularization stabilizes the dominant subspace over time \u2014 offering a geometric explanation for why it improves performance."
+        }
+      },
+      "resources": [
+        {
+          "name": "Main Banner",
+          "uri": "resources/projects/bsgp/bsgp-bg.webp",
+          "type": "background"
+        }
+      ],
+      "is_new": false
+    },
+    {
+      "id": "clifford-neural-optimization",
+      "title": "Optimizing Clifford Neural Layers",
+      "year": "2025",
+      "tags": [
+        "ETH Z\u00fcrich",
+        "High Performance Computing",
+        "AVX2",
+        "C++"
+      ],
+      "hidden": false,
+      "featured": false,
+      "content": {
+        "teaser": "Clifford Neural Networks model physical systems like fluid dynamics and weather prediction \u2014 but the math is expensive. We reimplemented the inference engine in C++ and used roofline analysis to select the right optimization per layer, achieving up to 18\u00d7 speedup over the baseline.",
+        "pai": {
+          "problem": "Clifford Neural Networks offer strong performance on PDE surrogate modeling, but their multivector operations are computationally demanding \u2014 too slow for time-critical inference on standard hardware.",
+          "approach": "We profiled hardware limits on an Intel Cascade Lake CPU using likwid-bench and manual FLOP counting, mapping each layer to a roofline model to classify it as compute-bound or memory-bound. For compute-bound linear layers, we applied AVX2 SIMD vectorization and loop unrolling. For memory-bound layers, we eliminated redundant high-dimensional projections, used strided memory access to remove reshape overhead, and applied loop fusion to improve cache locality.",
+          "impact": "Linear layers achieved 18\u00d7 speedup with AVX2 vectorization. Non-linear and group norm layers achieved 5\u00d7 speedup through algorithmic simplification and cache optimization \u2014 applying AVX2 to these layers increased data movement and reduced performance, consistent with their roofline classification as memory-bound."
+        }
+      },
+      "resources": [
+        {
+          "name": "Main Banner",
+          "uri": "resources/projects/clifford-asl/clifford-asl-bg.webp",
+          "type": "background"
+        }
+      ],
+      "is_new": false
+    },
+    {
+      "id": "rppg",
+      "title": "Camera-Based Vital Sign Monitoring",
+      "year": "2023",
+      "tags": [
+        "Deep Learning",
+        "Computer Vision",
+        "Signal Processing",
+        "PyTorch",
+        "Python"
+      ],
+      "hidden": false,
+      "featured": false,
+      "content": {
+        "teaser": "Every heartbeat slightly changes the color of your skin \u2014 too subtle to see, but not too subtle to measure. I engineered a contactless heart rate estimation pipeline, benchmarking classical signal processing against deep learning under real-world stress and motion.",
+        "pai": {
+          "problem": "Remote photoplethysmography (rPPG) achieves high accuracy on stationary subjects but degrades sharply under motion, occlusion, and facial articulation. The UBFC-Phys dataset captures subjects under active speech and physical stress \u2014 one of the most challenging rPPG benchmarks, where published classical methods consistently exceed 13 BPM MAE.",
+          "approach": "I built a facial-tracking pipeline on top of MediaPipe, using Delaunay triangulation on facial landmarks to define stable skin regions that track with head movement and exclude low-signal areas like eyes and mouth. I extracted per-region RGB signals over time and benchmarked a classical ICA baseline against a ResNet-18 and an RNN I implemented from scratch \u2014 a many-to-one architecture that processes subdivided temporal windows to capture sequential dependencies between heartbeats.",
+          "impact": "ResNet-18 reduced mean absolute error by over 30% against the ICA baseline \u2014 10.63 vs 15.34 BPM MAE. The gap persists under occlusion, lighting variation, and active motion."
+        }
+      },
+      "resources": [
+        {
+          "name": "Main Banner",
+          "uri": "resources/projects/rppg/rppg-bg.webp",
+          "type": "background"
+        },
+        {
+          "name": "Signal",
+          "uri": "resources/projects/rppg/extracted-data.webp",
+          "caption": "Top: RGB signal from a single facial region. Bottom: signals from multiple regions processed into a spatiotemporal representation for heart rate estimation. The green bands indicate the heartbeat.",
+          "type": "gallery"
+        }
+      ],
+      "is_new": false
+    },
+    {
       "id": "pushup-robot",
       "title": "The Pushup Robot",
-      "date": "2022-11",
+      "year": "2022",
       "tags": [
         "Caltech",
         "Robotics",
@@ -749,11 +1014,10 @@
       "featured": false,
       "content": {
         "teaser": "Palms are sweaty, knees weak, arms are heavy. You're lying on the floor already, wondering: is there a way to get the gains from your pushups without the agony? Meet The Pushup Robot\u00ae. It won't magically transfer the gains to your biceps, but it will crank out the reps while you sip your protein shake in peace. Warranty not included.",
-        "star": {
-          "situation": "Humanoid robots have many redundant joints, making stable motion generation difficult. During a pushup, the hands and feet must stay fixed while the rest of the body moves naturally \u2014 without entering unstable configurations as the arms pass through full extension.",
-          "task": "Generate realistic pushup motions while maintaining stability and respecting the physical constraints of a humanoid robot.",
-          "action": "We implemented a custom inverse-kinematics solver using a weighted pseudoinverse to prevent joint velocities from diverging as the arms pass through singularities. Secondary null-space tasks guided the elbows toward 90\u00b0 for smooth traversal, while cyclic pelvis trajectories drove the overall motion.",
-          "result": "The robot performed stable pushups across classic, asymmetric, and jumping variations \u2014 including full passage through arm singularities that would cause uncontrollable joint velocities in a standard solver."
+        "pai": {
+          "problem": "Humanoid robots have many redundant joints, making stable motion generation difficult. During a pushup, the hands and feet must stay fixed while the rest of the body moves naturally \u2014 without entering unstable configurations as the arms pass through full extension. The challenge was to generate realistic pushup motions while maintaining stability and respecting the physical constraints of a humanoid robot.",
+          "approach": "We implemented a custom inverse-kinematics solver using a weighted pseudoinverse to prevent joint velocities from diverging as the arms pass through singularities. Secondary null-space tasks guided the elbows toward 90\u00b0 for smooth traversal, while cyclic pelvis trajectories drove the overall motion.",
+          "impact": "The robot performed stable pushups across classic, asymmetric, and jumping variations \u2014 including full passage through arm singularities that would cause uncontrollable joint velocities in a standard solver."
         }
       },
       "resources": [
@@ -805,12 +1069,12 @@
   "sections": [
     {
       "id": "hpc",
-      "title": "Systems & HPC",
+      "title": "Systems & High Performance Computing",
       "projects": [
         {
           "id": "cern-traccc-integration",
           "title": "Accelerating Track Reconstruction",
-          "date": "2024-08",
+          "year": "2024",
           "tags": [
             "CERN",
             "C++",
@@ -819,12 +1083,11 @@
           "hidden": false,
           "featured": true,
           "content": {
-            "teaser": "How do you efficiently reconstruct the paths of billions of particles inside the world's largest particle accelerator? CERN's answer is Traccc \u2014 an experimental, hardware-accelerated pipeline for heterogeneous architectures. I integrated it into ACTS, their standard tracking software, and benchmarked its reconstruction quality across 50+ physics metrics.",
-            "star": {
-              "situation": "Particle tracking reconstructs the paths of subatomic particles from detector measurements. An experimental GPU-based pipeline, Traccc, promises faster reconstruction, but it could not be evaluated within CERN's standard software framework, ACTS.",
-              "task": "Integrate Traccc into ACTS and produce a rigorous comparison of its reconstruction quality against the established baseline.",
-              "action": "I built low-level C++ interfaces across the full tracking pipeline \u2014 from hit processing and track seeding to Kalman filtering \u2014 handling data conversion at each stage boundary to bridge the two frameworks.",
-              "result": "The benchmark showed Traccc produces physically reasonable track distributions across 50+ metrics \u2014 deviating from the ACTS reference as expected for an early-stage experimental pipeline, but within interpretable bounds. The integration and results were well-received by the ACTS development team."
+            "teaser": "How do you reconstruct the paths of billions of particles inside the world's largest accelerator? I integrated Traccc \u2014 CERN's experimental GPU-accelerated tracking pipeline \u2014 into ACTS, their standard reconstruction framework, and produced the first systematic comparison across 50+ physics metrics.",
+            "pai": {
+              "problem": "Particle tracking reconstructs subatomic trajectories from raw detector hits. Traccc is an experimental GPU pipeline designed to eventually replace ACTS on heterogeneous hardware \u2014 but without an integration, its reconstruction quality had never been evaluated against the established baseline.",
+              "approach": "I built C++ interfaces across every stage of the tracking pipeline \u2014 hit clustering, track seeding, and Kalman filtering. The two frameworks use fundamentally different data models, requiring non-trivial conversion logic at each stage to guarantee equivalent inputs and comparable outputs.",
+              "impact": "The benchmark revealed systematic deviations from the ACTS baseline across all 50+ metrics, reflecting algorithmic differences between the two frameworks. The results establish a concrete, quantified baseline for future Traccc development, while the integration unlocks the full ACTS ecosystem \u2014 simulations, detector geometry tools, and more \u2014 making future comparisons straightforward to run."
             }
           },
           "resources": [
@@ -835,14 +1098,8 @@
             },
             {
               "name": "Reconstruction Pipeline",
-              "uri": "resources/projects/track-reconstruction/reconstruction-pipeline.svg",
+              "uri": "resources/projects/track-reconstruction/reconstruction-pipeline.webp",
               "caption": "Stages of the tracking pipeline used to reconstruct particle trajectories from raw detector measurements.",
-              "type": "gallery"
-            },
-            {
-              "name": "Physmon",
-              "uri": "resources/projects/track-reconstruction/physmon.webp",
-              "caption": "Reconstruction quality metrics for the ACTS baseline (blue) and Traccc (orange).",
               "type": "gallery"
             },
             {
@@ -854,9 +1111,38 @@
           "is_new": false
         },
         {
+          "id": "openevolve-cluster-scheduler",
+          "title": "OpenEvolve LLM Cluster Scheduler",
+          "year": "2026",
+          "tags": [
+            "ETH Z\u00fcrich",
+            "Cloud Computing",
+            "LLM",
+            "Python"
+          ],
+          "hidden": false,
+          "featured": false,
+          "content": {
+            "teaser": "Can a language model learn to schedule cloud workloads? I built an AI-driven scheduler where an LLM iteratively writes and refines executable scheduling code \u2014 automatically discovering resource allocation strategies that match our best hand-crafted policies.",
+            "pai": {
+              "problem": "Cloud schedulers must balance workloads with very different CPU, memory, and parallelization requirements \u2014 while latency-sensitive services like Memcached demand strict performance guarantees (p95 < 1 ms). Hand-crafting policies that satisfy both is slow and brittle.",
+              "approach": "I used OpenEvolve to drive an evolutionary loop where Llama 3 iteratively generates executable Python scheduling code. At each iteration, policies were deployed and evaluated on a live cluster. We designed a hierarchical fitness function that rewarded throughput while applying a piecewise SLO penalty \u2014 avoiding the gradient cliff of a binary pass/fail latency check. After each run, granular execution feedback (job timelines, core utilization, per-job durations, and latency statistics) was passed back to the model, enabling it to reason about hardware contention rather than guess blindly.",
+              "impact": "Over 20 iterations, the system converged on a policy that reduced makespan by 23% \u2014 from 316 to 258 seconds \u2014 while maintaining a p95 latency of 0.61 ms, well within the 1 ms SLO. The AI-generated policy matched our best hand-crafted solution, while fully automating the optimization process."
+            }
+          },
+          "resources": [
+            {
+              "name": "Main Banner",
+              "uri": "resources/projects/openevolve/openevolve-bg.webp",
+              "type": "background"
+            }
+          ],
+          "is_new": true
+        },
+        {
           "id": "clifford-neural-optimization",
           "title": "Optimizing Clifford Neural Layers",
-          "date": "2025-05",
+          "year": "2025",
           "tags": [
             "ETH Z\u00fcrich",
             "High Performance Computing",
@@ -866,12 +1152,11 @@
           "hidden": false,
           "featured": false,
           "content": {
-            "teaser": "Clifford algebra helps neural networks model physical systems, but the math is expensive. We built a high-performance C++ inference engine for Clifford Neural Network layers that runs up to 18\u00d7 faster than the baseline implementation.",
-            "star": {
-              "situation": "Clifford Neural Networks are well suited for problems such as weather prediction and fluid simulation, but their computational cost makes inference slow on standard hardware.",
-              "task": "Speed up inference by replacing the Python implementation with a more efficient C++ version while preserving identical outputs.",
-              "action": "We profiled the code, identified performance bottlenecks, and redesigned the implementation around efficient memory access. We fused loops, improved cache utilization, and used AVX2 vectorization to process multiple values at once.",
-              "result": "The optimized implementation sped up every layer, with the linear layer running 18\u00d7 faster than the baseline."
+            "teaser": "Clifford Neural Networks model physical systems like fluid dynamics and weather prediction \u2014 but the math is expensive. We reimplemented the inference engine in C++ and used roofline analysis to select the right optimization per layer, achieving up to 18\u00d7 speedup over the baseline.",
+            "pai": {
+              "problem": "Clifford Neural Networks offer strong performance on PDE surrogate modeling, but their multivector operations are computationally demanding \u2014 too slow for time-critical inference on standard hardware.",
+              "approach": "We profiled hardware limits on an Intel Cascade Lake CPU using likwid-bench and manual FLOP counting, mapping each layer to a roofline model to classify it as compute-bound or memory-bound. For compute-bound linear layers, we applied AVX2 SIMD vectorization and loop unrolling. For memory-bound layers, we eliminated redundant high-dimensional projections, used strided memory access to remove reshape overhead, and applied loop fusion to improve cache locality.",
+              "impact": "Linear layers achieved 18\u00d7 speedup with AVX2 vectorization. Non-linear and group norm layers achieved 5\u00d7 speedup through algorithmic simplification and cache optimization \u2014 applying AVX2 to these layers increased data movement and reduced performance, consistent with their roofline classification as memory-bound."
             }
           },
           "resources": [
@@ -892,7 +1177,7 @@
         {
           "id": "cern-detray-visualizer",
           "title": "Visualizing Detector Geometry",
-          "date": "2023-09",
+          "year": "2023",
           "tags": [
             "CERN",
             "C++",
@@ -902,11 +1187,10 @@
           "featured": true,
           "content": {
             "teaser": "Debugging a physics engine is difficult when all you can see are numbers. I built visualization tools for CERN's next-generation tracking software \u2014 and they immediately caught bugs that numerical output had missed.",
-            "star": {
-              "situation": "CERN is developing Detray, a hardware-accelerated geometry engine for particle tracking. Diagnosing problems in complex detector geometries is hard when debugging relies entirely on numerical output.",
-              "task": "Give the Detray development team a way to inspect detector geometry and particle trajectories visually, directly from the live codebase.",
-              "action": "I developed a C++ plugin that extracted detector geometry and particle trajectories directly from Detray and rendered them as clean 2D SVG visualizations, integrated into the existing framework without modifying core code.",
-              "result": "The tool exposed two critical bugs immediately upon deployment \u2014 flipped sensors and incorrectly sized acceleration grids \u2014 significantly simplifying debugging for the Detray development team."
+            "pai": {
+              "problem": "CERN is developing Detray, a hardware-accelerated geometry engine for particle tracking. Diagnosing problems in complex detector geometries is hard when debugging relies entirely on numerical output.",
+              "approach": "I developed a C++ plugin that extracted detector geometry and particle trajectories directly from Detray and rendered them as 2D SVG visualizations \u2014 integrated as a non-invasive extension, without touching core framework code.",
+              "impact": "The tool exposed two critical bugs immediately upon deployment \u2014 flipped sensors and incorrectly sized acceleration grids \u2014 that numerical output had failed to catch."
             }
           },
           "resources": [
@@ -928,12 +1212,77 @@
     },
     {
       "id": "ml",
-      "title": "Machine Learning, AI & Robotics",
+      "title": "Machine Learning & Robotics",
       "projects": [
+        {
+          "id": "bsgp",
+          "title": "Bulk Space Gradient Projection",
+          "year": "2025",
+          "tags": [
+            "ETH Z\u00fcrich",
+            "Deep Learning",
+            "Mathematical Optimization",
+            "PyTorch"
+          ],
+          "hidden": false,
+          "featured": false,
+          "content": {
+            "teaser": "When a neural network learns something new, it tends to destroy what it already knew. We designed Bulk Space Gradient Projection (BSGP) \u2014 a continual learning algorithm that sidesteps this by keeping gradient updates away from the directions that matter most to prior tasks.",
+            "pai": {
+              "problem": "Neural networks suffer from catastrophic forgetting when trained sequentially \u2014 each new task overwrites knowledge from previous ones. Existing methods either require storing past data or scale poorly with the number of tasks.",
+              "approach": "We developed BSGP, which projects gradient updates onto the low-curvature bulk space of the loss landscape \u2014 directions that cause minimal interference with prior tasks. After each task, the dominant Hessian eigenvectors are computed and accumulated using Gram-Schmidt orthogonalization, ensuring new tasks don't overwrite previously protected directions. An L2 regularization term keeps weights close to prior optima, stabilizing the subspace approximation over time.",
+              "impact": "BSGP achieved 92.23% accuracy on Permuted MNIST \u2014 beating EWC (89.81%) and OGD (88.31%), and matching A-GEM's forgetting resistance without storing any past data. Against OGD, the closest related method, BSGP uses 10\u00d7 less memory per task. A subspace overlap analysis further showed that regularization stabilizes the dominant subspace over time \u2014 offering a geometric explanation for why it improves performance."
+            }
+          },
+          "resources": [
+            {
+              "name": "Main Banner",
+              "uri": "resources/projects/bsgp/bsgp-bg.webp",
+              "type": "background"
+            }
+          ],
+          "is_new": false
+        },
+        {
+          "id": "rppg",
+          "title": "Camera-Based Vital Sign Monitoring",
+          "year": "2023",
+          "tags": [
+            "Deep Learning",
+            "Computer Vision",
+            "Signal Processing",
+            "PyTorch",
+            "Python"
+          ],
+          "hidden": false,
+          "featured": false,
+          "content": {
+            "teaser": "Every heartbeat slightly changes the color of your skin \u2014 too subtle to see, but not too subtle to measure. I engineered a contactless heart rate estimation pipeline, benchmarking classical signal processing against deep learning under real-world stress and motion.",
+            "pai": {
+              "problem": "Remote photoplethysmography (rPPG) achieves high accuracy on stationary subjects but degrades sharply under motion, occlusion, and facial articulation. The UBFC-Phys dataset captures subjects under active speech and physical stress \u2014 one of the most challenging rPPG benchmarks, where published classical methods consistently exceed 13 BPM MAE.",
+              "approach": "I built a facial-tracking pipeline on top of MediaPipe, using Delaunay triangulation on facial landmarks to define stable skin regions that track with head movement and exclude low-signal areas like eyes and mouth. I extracted per-region RGB signals over time and benchmarked a classical ICA baseline against a ResNet-18 and an RNN I implemented from scratch \u2014 a many-to-one architecture that processes subdivided temporal windows to capture sequential dependencies between heartbeats.",
+              "impact": "ResNet-18 reduced mean absolute error by over 30% against the ICA baseline \u2014 10.63 vs 15.34 BPM MAE. The gap persists under occlusion, lighting variation, and active motion."
+            }
+          },
+          "resources": [
+            {
+              "name": "Main Banner",
+              "uri": "resources/projects/rppg/rppg-bg.webp",
+              "type": "background"
+            },
+            {
+              "name": "Signal",
+              "uri": "resources/projects/rppg/extracted-data.webp",
+              "caption": "Top: RGB signal from a single facial region. Bottom: signals from multiple regions processed into a spatiotemporal representation for heart rate estimation. The green bands indicate the heartbeat.",
+              "type": "gallery"
+            }
+          ],
+          "is_new": false
+        },
         {
           "id": "pushup-robot",
           "title": "The Pushup Robot",
-          "date": "2022-11",
+          "year": "2022",
           "tags": [
             "Caltech",
             "Robotics",
@@ -945,11 +1294,10 @@
           "featured": false,
           "content": {
             "teaser": "Palms are sweaty, knees weak, arms are heavy. You're lying on the floor already, wondering: is there a way to get the gains from your pushups without the agony? Meet The Pushup Robot\u00ae. It won't magically transfer the gains to your biceps, but it will crank out the reps while you sip your protein shake in peace. Warranty not included.",
-            "star": {
-              "situation": "Humanoid robots have many redundant joints, making stable motion generation difficult. During a pushup, the hands and feet must stay fixed while the rest of the body moves naturally \u2014 without entering unstable configurations as the arms pass through full extension.",
-              "task": "Generate realistic pushup motions while maintaining stability and respecting the physical constraints of a humanoid robot.",
-              "action": "We implemented a custom inverse-kinematics solver using a weighted pseudoinverse to prevent joint velocities from diverging as the arms pass through singularities. Secondary null-space tasks guided the elbows toward 90\u00b0 for smooth traversal, while cyclic pelvis trajectories drove the overall motion.",
-              "result": "The robot performed stable pushups across classic, asymmetric, and jumping variations \u2014 including full passage through arm singularities that would cause uncontrollable joint velocities in a standard solver."
+            "pai": {
+              "problem": "Humanoid robots have many redundant joints, making stable motion generation difficult. During a pushup, the hands and feet must stay fixed while the rest of the body moves naturally \u2014 without entering unstable configurations as the arms pass through full extension. The challenge was to generate realistic pushup motions while maintaining stability and respecting the physical constraints of a humanoid robot.",
+              "approach": "We implemented a custom inverse-kinematics solver using a weighted pseudoinverse to prevent joint velocities from diverging as the arms pass through singularities. Secondary null-space tasks guided the elbows toward 90\u00b0 for smooth traversal, while cyclic pelvis trajectories drove the overall motion.",
+              "impact": "The robot performed stable pushups across classic, asymmetric, and jumping variations \u2014 including full passage through arm singularities that would cause uncontrollable joint velocities in a standard solver."
             }
           },
           "resources": [
@@ -1006,7 +1354,15 @@
             new ProjectListController(bus, store);
             new DetailController(bus);
             new GalleryController(bus);
-            new LightboxController(bus);
+
+            // Handle Deep Linking
+            if (window.location.hash) {
+                const projectId = window.location.hash.substring(1);
+                const project = store.byId(projectId);
+                if (project) {
+                    bus.emit(EVENTS.PROJECT_SELECTED, project);
+                }
+            }
         });
     </script>
 </body>
