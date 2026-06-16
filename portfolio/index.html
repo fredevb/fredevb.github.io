@@ -139,33 +139,72 @@
 
         /* Section Header */
         .c-section-header { 
-            display: flex; flex-direction: column; align-items: flex-start; gap: 3rem;
+            display: flex; flex-direction: column; align-items: flex-start; gap: 1.5rem;
             margin-top: var(--space-xl);
             margin-bottom: var(--space-lg); 
             border-top: 1px solid var(--color-border);
             padding-top: 3rem;
         }
+        @media (min-width: 768px) { .c-section-header { gap: 3rem; } }
         .c-section-label { 
             font-size: 0.7rem; font-family: var(--font-main); color: var(--color-text-dim); 
             letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700;
         }
 
         /* Filter Bar */
-        .c-filter-bar { display: flex; flex-wrap: wrap; gap: 2rem; }
-        .c-filter-btn { 
-            font-size: 1.1rem; font-family: var(--font-display); color: var(--color-text-dim); 
-            transition: color var(--duration-md); cursor: pointer;
+        .c-filter-bar { 
+            display: flex; 
+            flex-wrap: nowrap; 
+            gap: 0.75rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            /* Bleed effect: allow scrolling into the page margins */
+            width: calc(100% + (var(--side-pad) * 2));
+            margin-left: calc(var(--side-pad) * -1);
+            padding: 0 var(--side-pad) 1.5rem var(--side-pad);
+            margin-bottom: -1.5rem;
         }
-        .c-filter-btn:hover { color: var(--color-text); }
-        .c-filter-btn--active { color: var(--color-text); }
+        /* Hide scrollbar for clean aesthetic */
+        .c-filter-bar::-webkit-scrollbar { display: none; }
+        .c-filter-bar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .c-filter-btn { 
+            font-size: 0.65rem; 
+            font-family: var(--font-main); 
+            color: var(--color-text-dim); 
+            letter-spacing: 0.2em; 
+            text-transform: uppercase; 
+            font-weight: 700;
+            white-space: nowrap;
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            border: 1px solid var(--color-border);
+            transition: all var(--duration-md);
+        }
+        @media (min-width: 768px) { 
+            .c-filter-btn { font-size: 0.7rem; padding: 0.7rem 1.5rem; } 
+            .c-filter-bar { flex-wrap: wrap; width: 100%; margin-left: 0; padding: 0; margin-bottom: 0; overflow: visible; }
+        }
+
+        .c-filter-btn:hover { border-color: var(--color-text-muted); color: var(--color-text); }
+        .c-filter-btn--active { 
+            color: var(--color-bg) !important; 
+            background: var(--color-text);
+            border-color: var(--color-text);
+        }
 
         /* Project Card */
         .c-card {
-            position: relative; aspect-ratio: 16/10; background: var(--color-surface);
+            position: relative; 
+            min-height: 280px;
+            background: var(--color-surface);
             border: 1px solid var(--color-border); overflow: hidden; cursor: pointer;
             transition: transform 0.5s var(--ease-dramatic), border-color 0.4s, box-shadow 0.5s;
             z-index: 1;
+            display: flex; flex-direction: column;
         }
+        @media (min-width: 480px) { .c-card { aspect-ratio: 16/10; min-height: auto; } }
+
         .c-card:hover { 
             transform: translateY(-15px) scale(1.03); 
             border-color: var(--color-text);
@@ -181,20 +220,22 @@
         .c-card:hover .c-card__bg { transform: scale(1.1); filter: grayscale(0%) brightness(0.6); }
 
         .c-card__content {
-            position: absolute; inset: 0; padding: 1.25rem; display: flex; flex-direction: column;
+            position: absolute; inset: 0; padding: 1.5rem; display: flex; flex-direction: column;
             justify-content: flex-start; z-index: 2; 
-            background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.4) 50%, transparent 100%);
+            background: linear-gradient(to top, rgba(10,10,10,0.98) 0%, rgba(10,10,10,0.4) 60%, transparent 100%);
             pointer-events: none;
         }
         .c-card__details-wrap { margin-top: auto; }
-        .c-card__title { font-size: 1.25rem; font-family: var(--font-display); line-height: 1.2; margin-bottom: 0.5rem; font-weight: 800; }
+        .c-card__title { font-size: 1.35rem; font-family: var(--font-display); line-height: 1.1; margin-bottom: 0.75rem; font-weight: 800; }
         .c-card__teaser { 
             font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; 
-            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-            margin-bottom: 0.75rem;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+            margin-bottom: 1rem;
         }
-        .c-card__tags { display: flex; flex-wrap: nowrap; gap: 0.3rem; overflow: hidden; }
-        .c-card__tags .c-tag { font-size: 0.7rem; padding: 0.3rem 0.8rem; }
+        @media (min-width: 768px) { .c-card__teaser { -webkit-line-clamp: 3; } }
+        
+        .c-card__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; overflow: hidden; }
+        .c-card__tags .c-tag { font-size: 0.65rem; padding: 0.25rem 0.75rem; border-color: rgba(255,255,255,0.15); }
 
         /* Buttons */
         .c-btn {
@@ -211,10 +252,11 @@
         /* Overlay System */
         .c-overlay {
             position: fixed; inset: 0; background: var(--color-bg); z-index: var(--z-overlay);
-            display: flex; flex-direction: column; transform: translateY(100%);
-            transition: transform var(--duration-lg) var(--ease-dramatic); overflow-y: auto;
+            display: flex; flex-direction: column; transform: translateY(105%);
+            transition: transform var(--duration-lg) var(--ease-dramatic), visibility var(--duration-lg); 
+            overflow-y: auto; visibility: hidden; pointer-events: none;
         }
-        .c-overlay--active { transform: translateY(0); }
+        .c-overlay--active { transform: translateY(0); visibility: visible; pointer-events: auto; }
         
         .c-overlay__bg {
             position: fixed; inset: 0; z-index: 0; pointer-events: none;
@@ -258,10 +300,10 @@
         .c-gallery-overlay {
             position: fixed; inset: 0; background: #000; z-index: var(--z-modal);
             display: flex; flex-direction: column; transform: translateY(110%);
-            visibility: hidden;
+            visibility: hidden; pointer-events: none;
             transition: transform var(--duration-lg) var(--ease-dramatic), visibility var(--duration-lg);
         }
-        .c-gallery-overlay--active { transform: translateY(0); visibility: visible; }
+        .c-gallery-overlay--active { transform: translateY(0); visibility: visible; pointer-events: auto; }
         
         .c-gallery__frame { 
             flex: 1; display: flex; align-items: center; justify-content: center;
@@ -335,7 +377,7 @@
 </head>
 <body>
 
-    <div id="app">
+    <div id="app" style="overflow-x: hidden;">
         <div id="main-content">
             <!-- Hero Section -->
             <header class="l-hero l-container">
