@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Frederik Barba's Portfolio</title>
-    <meta name="description" content="Building High-Performance Computing and Machine Learning systems. Making real-world complexity tractable and interpretable.">
+    <meta name="description" content="Building High-Performance Computing and ML systems that bring structure and speed to real-world complexity.">
     <link rel="canonical" href="https://fredevb.github.io">
 
     <!-- OpenGraph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fredevb.github.io">
     <meta property="og:title" content="Frederik Barba's Portfolio">
-    <meta property="og:description" content="Building High-Performance Computing and Machine Learning systems. Making real-world complexity tractable and interpretable.">
+    <meta property="og:description" content="Building High-Performance Computing and ML systems that bring structure and speed to real-world complexity.">
     <meta property="og:image" content="https://fredevb.github.io/resources/profile/portrait.webp">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://fredevb.github.io">
     <meta property="twitter:title" content="Frederik Barba's Portfolio">
-    <meta property="twitter:description" content="Building High-Performance Computing and Machine Learning systems. Making real-world complexity tractable and interpretable.">
+    <meta property="twitter:description" content="Building High-Performance Computing and ML systems that bring structure and speed to real-world complexity.">
     <meta property="twitter:image" content="https://fredevb.github.io/resources/profile/portrait.webp">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -234,7 +234,7 @@
         }
         @media (min-width: 768px) { .c-card__teaser { -webkit-line-clamp: 3; } }
         
-        .c-card__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; overflow: hidden; }
+        .c-card__tags { display: flex; flex-wrap: nowrap; gap: 0.4rem; overflow: hidden; }
         .c-card__tags .c-tag { font-size: 0.65rem; padding: 0.25rem 0.75rem; border-color: rgba(255,255,255,0.15); }
 
         /* Buttons */
@@ -387,9 +387,13 @@
                     <div class="c-hero__bio-wrap">
                         <p class="c-hero__highlight">Apple Summer Intern · Ex. CERN</p>
                         <p class="c-hero__bio">
-                            Building High-Performance Computing and Machine Learning systems. Making real-world complexity tractable and interpretable.
+                            Building High-Performance Computing and ML systems that bring structure and speed to real-world complexity.
                         </p>
                         <div class="c-hero__links" style="margin-top: 2rem;">
+                            <a href="resources/profile/resume.pdf" target="_blank" class="c-footer__link u-flex-align">
+                                Resume
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="c-footer__icon-inline"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                            </a>
                             <a href="#footer" class="c-footer__link u-flex-align">
                                 Contact
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="c-footer__icon-inline"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
@@ -399,13 +403,9 @@
                     <div class="c-hero__details">
                         <div class="c-hero__tags">
                             <span class="c-tag">High Performance Computing</span>
+<span class="c-tag">Machine Learning</span>
 <span class="c-tag">Computer Architecture</span>
 <span class="c-tag">Distributed Systems</span>
-<span class="c-tag">Cloud Computing</span>
-<span class="c-tag">Deep Learning</span>
-<span class="c-tag">Computer Vision/Graphics</span>
-<span class="c-tag">Data Engineering</span>
-<span class="c-tag">Scientific Computing</span>
                         </div>
                     </div>
                 </div>
@@ -581,7 +581,38 @@
                 this.container = document.getElementById('project-sections');
                 this.activeFilter = 'all';
                 this.visibleCount = 4;
+                
+                this.initStatic();
                 this.render();
+            }
+
+            initStatic() {
+                this.container.innerHTML = `
+                    <section class="l-section">
+                        <header class="c-section-header">
+                            <div class="c-section-label">Projects / 01</div>
+                            <nav class="c-filter-bar js-filter-bar">
+                                <button class="c-filter-btn c-filter-btn--active" data-id="all">All</button>
+                                ${this.store.sections.map(s => `
+                                    <button class="c-filter-btn" data-id="${s.id}">${s.title}</button>
+                                `).join('')}
+                            </nav>
+                        </header>
+                        <div class="l-grid js-project-grid"></div>
+                        <div class="js-show-more-container" style="display: flex; justify-content: center; margin-top: 4rem;"></div>
+                    </section>
+                `;
+
+                this.container.querySelectorAll('.c-filter-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.container.querySelectorAll('.c-filter-btn').forEach(b => b.classList.remove('c-filter-btn--active'));
+                        btn.classList.add('c-filter-btn--active');
+                        
+                        this.activeFilter = btn.dataset.id;
+                        this.visibleCount = 4;
+                        this.render();
+                    });
+                });
             }
 
             render() {
@@ -589,32 +620,30 @@
                 const visible = projects.slice(0, this.visibleCount);
                 const hasMore = projects.length > this.visibleCount;
 
-                this.container.innerHTML = `
-                    <section class="l-section">
-                        <header class="c-section-header">
-                            <div class="c-section-label">Projects / 01</div>
-                            <nav class="c-filter-bar">
-                                <button class="c-filter-btn ${this.activeFilter === 'all' ? 'c-filter-btn--active' : ''}" data-id="all">All</button>
-                                ${this.store.sections.map(s => `
-                                    <button class="c-filter-btn ${this.activeFilter === s.id ? 'c-filter-btn--active' : ''}" data-id="${s.id}">${s.title}</button>
-                                `).join('')}
-                            </nav>
-                        </header>
-                        <div class="l-grid js-project-grid">
-                            ${visible.map(p => this.renderCard(p)).join('')}
-                        </div>
-                        ${hasMore ? `
-                            <div style="display: flex; justify-content: center; margin-top: 4rem;">
-                                <button class="c-btn js-show-more">
-                                    Show More
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 1.1rem; height: 1.1rem;"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
-                                </button>
-                            </div>
-                        ` : ''}
-                    </section>
-                `;
+                const grid = this.container.querySelector('.js-project-grid');
+                grid.innerHTML = visible.map(p => this.renderCard(p)).join('');
 
-                this.setupEventListeners();
+                const moreContainer = this.container.querySelector('.js-show-more-container');
+                if (hasMore) {
+                    moreContainer.innerHTML = `
+                        <button class="c-btn js-show-more">
+                            Show More
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 1.1rem; height: 1.1rem;"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                        </button>
+                    `;
+                    moreContainer.querySelector('.js-show-more').addEventListener('click', () => {
+                        this.visibleCount += 4;
+                        this.render();
+                    });
+                } else {
+                    moreContainer.innerHTML = '';
+                }
+
+                this.container.querySelectorAll('.c-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        this.bus.emit(EVENTS.PROJECT_SELECTED, this.store.byId(card.dataset.id));
+                    });
+                });
             }
 
             getFilteredProjects() {
@@ -629,30 +658,6 @@
                 }
                 const section = this.store.sections.find(s => s.id === this.activeFilter);
                 return section ? section.projects : [];
-            }
-
-            setupEventListeners() {
-                this.container.querySelectorAll('.c-filter-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        this.activeFilter = btn.dataset.id;
-                        this.visibleCount = 4;
-                        this.render();
-                    });
-                });
-
-                this.container.querySelectorAll('.c-card').forEach(card => {
-                    card.addEventListener('click', () => {
-                        this.bus.emit(EVENTS.PROJECT_SELECTED, this.store.byId(card.dataset.id));
-                    });
-                });
-
-                const showMoreBtn = this.container.querySelector('.js-show-more');
-                if (showMoreBtn) {
-                    showMoreBtn.addEventListener('click', () => {
-                        this.visibleCount += 4;
-                        this.render();
-                    });
-                }
             }
 
             renderCard(p) {
@@ -925,6 +930,7 @@
       "tags": [
         "ETH Z\u00fcrich",
         "Cloud Computing",
+        "ML Systems",
         "LLM",
         "Python"
       ],
@@ -983,6 +989,7 @@
       "tags": [
         "ETH Z\u00fcrich",
         "High Performance Computing",
+        "ML Systems",
         "AVX2",
         "C++"
       ],
@@ -991,7 +998,7 @@
       "content": {
         "teaser": "Clifford Neural Networks model physical systems like fluid dynamics and weather prediction \u2014 but the math is expensive. We reimplemented the inference engine in C++ and used roofline analysis to select the right optimization per layer, achieving up to 18\u00d7 speedup over the baseline.",
         "pai": {
-          "problem": "Clifford Neural Networks offer strong performance on PDE surrogate modeling, but their multivector operations are computationally demanding \u2014 too slow for time-critical inference on standard hardware.",
+          "problem": "Clifford Neural Networks offer strong performance on PDE surrogate modeling, but their multivector operations are computationally demanding, making them slow for time-critical inference on standard hardware.",
           "approach": "We profiled hardware limits on an Intel Cascade Lake CPU using likwid-bench and manual FLOP counting, mapping each layer to a roofline model to classify it as compute-bound or memory-bound. For compute-bound linear layers, we applied AVX2 SIMD vectorization and loop unrolling. For memory-bound layers, we eliminated redundant high-dimensional projections, used strided memory access to remove reshape overhead, and applied loop fusion to improve cache locality.",
           "impact": "Linear layers achieved 18\u00d7 speedup with AVX2 vectorization. Non-linear and group norm layers achieved 5\u00d7 speedup through algorithmic simplification and cache optimization \u2014 applying AVX2 to these layers increased data movement and reduced performance, consistent with their roofline classification as memory-bound."
         }
@@ -1055,7 +1062,7 @@
       "hidden": false,
       "featured": false,
       "content": {
-        "teaser": "Palms are sweaty, knees weak, arms are heavy. You're lying on the floor already, wondering: is there a way to get the gains from your pushups without the agony? Meet The Pushup Robot\u00ae. It won't magically transfer the gains to your biceps, but it will crank out the reps while you sip your protein shake in peace. Warranty not included.",
+        "teaser": "Palms are sweaty, knees weak, arms are heavy. You're lying on the floor already, wondering: is there a way to get the gains from your pushups without the agony? Meet The Pushup Robot\u00ae. It won't magically transfer the gains to your biceps, but it will crank out the reps while you sip your protein shake in peace.",
         "pai": {
           "problem": "Humanoid robots have many redundant joints, making stable motion generation difficult. During a pushup, the hands and feet must stay fixed while the rest of the body moves naturally \u2014 without entering unstable configurations as the arms pass through full extension. The challenge was to generate realistic pushup motions while maintaining stability and respecting the physical constraints of a humanoid robot.",
           "approach": "We implemented a custom inverse-kinematics solver using a weighted pseudoinverse to prevent joint velocities from diverging as the arms pass through singularities. Secondary null-space tasks guided the elbows toward 90\u00b0 for smooth traversal, while cyclic pelvis trajectories drove the overall motion.",
@@ -1159,6 +1166,7 @@
           "tags": [
             "ETH Z\u00fcrich",
             "Cloud Computing",
+            "ML Systems",
             "LLM",
             "Python"
           ],
@@ -1188,6 +1196,7 @@
           "tags": [
             "ETH Z\u00fcrich",
             "High Performance Computing",
+            "ML Systems",
             "AVX2",
             "C++"
           ],
@@ -1196,7 +1205,7 @@
           "content": {
             "teaser": "Clifford Neural Networks model physical systems like fluid dynamics and weather prediction \u2014 but the math is expensive. We reimplemented the inference engine in C++ and used roofline analysis to select the right optimization per layer, achieving up to 18\u00d7 speedup over the baseline.",
             "pai": {
-              "problem": "Clifford Neural Networks offer strong performance on PDE surrogate modeling, but their multivector operations are computationally demanding \u2014 too slow for time-critical inference on standard hardware.",
+              "problem": "Clifford Neural Networks offer strong performance on PDE surrogate modeling, but their multivector operations are computationally demanding, making them slow for time-critical inference on standard hardware.",
               "approach": "We profiled hardware limits on an Intel Cascade Lake CPU using likwid-bench and manual FLOP counting, mapping each layer to a roofline model to classify it as compute-bound or memory-bound. For compute-bound linear layers, we applied AVX2 SIMD vectorization and loop unrolling. For memory-bound layers, we eliminated redundant high-dimensional projections, used strided memory access to remove reshape overhead, and applied loop fusion to improve cache locality.",
               "impact": "Linear layers achieved 18\u00d7 speedup with AVX2 vectorization. Non-linear and group norm layers achieved 5\u00d7 speedup through algorithmic simplification and cache optimization \u2014 applying AVX2 to these layers increased data movement and reduced performance, consistent with their roofline classification as memory-bound."
             }
@@ -1335,7 +1344,7 @@
           "hidden": false,
           "featured": false,
           "content": {
-            "teaser": "Palms are sweaty, knees weak, arms are heavy. You're lying on the floor already, wondering: is there a way to get the gains from your pushups without the agony? Meet The Pushup Robot\u00ae. It won't magically transfer the gains to your biceps, but it will crank out the reps while you sip your protein shake in peace. Warranty not included.",
+            "teaser": "Palms are sweaty, knees weak, arms are heavy. You're lying on the floor already, wondering: is there a way to get the gains from your pushups without the agony? Meet The Pushup Robot\u00ae. It won't magically transfer the gains to your biceps, but it will crank out the reps while you sip your protein shake in peace.",
             "pai": {
               "problem": "Humanoid robots have many redundant joints, making stable motion generation difficult. During a pushup, the hands and feet must stay fixed while the rest of the body moves naturally \u2014 without entering unstable configurations as the arms pass through full extension. The challenge was to generate realistic pushup motions while maintaining stability and respecting the physical constraints of a humanoid robot.",
               "approach": "We implemented a custom inverse-kinematics solver using a weighted pseudoinverse to prevent joint velocities from diverging as the arms pass through singularities. Secondary null-space tasks guided the elbows toward 90\u00b0 for smooth traversal, while cyclic pelvis trajectories drove the overall motion.",
